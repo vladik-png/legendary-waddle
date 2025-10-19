@@ -1,15 +1,24 @@
-package HANDLERS
+package __handlers__
 
-type Guest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
+import (
+	"encoding/json"
+	"leafy/api"
+	"net/http"
+)
 
-type CurrentUser struct {
-	UID      uint   `json:"user_id"`
-	Username string `json:"username"`
-}
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	var guest api.Guest
 
-func Authenticate(guest Guest) CurrentUser {
+	if err := json.NewDecoder(r.Body).Decode(&guest); err != nil {
+		return
+	}
 
+	user, err := api.Login(guest)
+
+	if err != nil {
+		return
+	}
+
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(user)
 }

@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, Text } from "react-native";
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 
@@ -12,9 +12,13 @@ export default function LeafyText(
   }
 ) {
 
-  if (rect && rect.x == "centered")
-    rect.x = (screenW - rect.w) / 2;
-
+  if (rect && rect.x == "centered" && rect.w) {
+    if (typeof rect.w == "string" && rect.w.includes("%")) {
+      rect.x = (screenW - (parseFloat(rect.w) * (screenW / 100.0))) / 2;
+    } else {
+      rect.x = (screenW - rect.w) / 2;
+    }
+  }
 
   const viewStyle = rect ? {
     position: "absolute",
@@ -30,9 +34,9 @@ export default function LeafyText(
   }];
 
   return (
-    <View style={viewStyle}>
+    <Pressable style={viewStyle} onPress={onPress}>
       <Text onPress={onPress} style={finalStyle}>{text}</Text>
-    </View>
+    </Pressable>
   );
 };
 

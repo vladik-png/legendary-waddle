@@ -1,7 +1,37 @@
 package main
 
-import DB_CONN "leafy/db_conn"
+import (
+	"leafy/__handlers__"
+	db_conn "leafy/db_conn"
+	"net/http"
+)
+
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func attach_api_handlers() {
+	/*------------Registration handlers--------------------------*/
+	http.Handle("/register_new_user", corsMiddleware(http.HandlerFunc(__handlers__.RegistrationHandler)))
+
+	/*------------Login handlers--------------------------*/
+	http.Handle("/login", corsMiddleware(http.HandlerFunc(__handlers__.LoginHandler)))
+}
 
 func main() {
-	DB_CONN.Conn.ConnectToDB()
+	db_conn.Conn.ConnectToDB()
+	attach_api_handlers()
+	http.ListenAndServe(":8080", nil)
 }

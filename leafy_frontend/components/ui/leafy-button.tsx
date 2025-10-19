@@ -17,8 +17,13 @@ export default function LeafyButton(
     }
   }
 
-  if (rect && rect.x == "centered")
-    rect.x = (screenW - rect.w) / 2;
+  if (rect && rect.x == "centered" && rect.w) {
+    if (typeof rect.w == "string" && rect.w.includes("%")) {
+      rect.x = (screenW - (parseFloat(rect.w) * (screenW / 100.0))) / 2;
+    } else {
+      rect.x = (screenW - rect.w) / 2;
+    }
+  }
 
   const finalStyle = rect
     ? [styles.leafyButton, {
