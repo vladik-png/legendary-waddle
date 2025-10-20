@@ -4,10 +4,12 @@ const { width: screenW, height: screenH } = Dimensions.get("window");
 
 export default function LeafyIconButton(
   { text = "",
+    textAlign = "",
     onPress = () => { },
     rect = undefined,
     color = "",
-    source = ""
+    source = "",
+    style = {}
   }
 ) {
 
@@ -25,7 +27,7 @@ export default function LeafyIconButton(
     }
   }
 
-  if (rect.img) {
+  if (rect?.img) {
     rect.img.style = {
       position: "absolute",
       left: rect.img.x,
@@ -48,7 +50,7 @@ export default function LeafyIconButton(
       top: rect.y,
       width: rect.w,
       height: rect.h,
-    }] : buttonStyle;
+    }, style] : buttonStyle;
   //const finalStyle = buttonStyle;
 
   const images = {
@@ -57,9 +59,9 @@ export default function LeafyIconButton(
   };
   return (
     //<View style={position}>
-    <Pressable style={finalStyle} onPress={onPress}>
-      <Image source={images[source]} style={rect.img.style}></Image>
-      <Text style={styles.buttonTextBlack}>{text}</Text>
+    <Pressable style={[finalStyle, { alignItems: textAlign }]} onPress={onPress}>
+      <Image source={images[source]} style={rect?.img?.style}></Image>
+      <Text style={[styles.buttonTextBlack, { textAlign }]}>{text}</Text>
     </Pressable >
     //</View>
   );

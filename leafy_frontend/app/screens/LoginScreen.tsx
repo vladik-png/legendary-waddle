@@ -19,12 +19,12 @@ export default function LoginScreen({ navigation }: any) {
           rect={{ x: "centered", y: 92, w: "100%", h: 32 }} />
 
         <LeafyText fontSize={16} align="center" text="Input your registered account!"
-          rect={{ x: "centered", y: 136, w: "100%", h: 18 }} />
+          rect={{ x: "centered", y: 136, w: "100%", h: 24 }} />
 
         <View style={styles.darkRect}>
           <LeafyInput text="Email" placeholder="Enter your email address"
             value={email} onChangeText={setEmail}
-            rect={{ x: "centered", y: 78, w: "90%", h: 56 }} />
+            rect={{ x: "centered", y: 78, w: "90%", h: 52 }} />
 
           <LeafyContinueButton text="Continue with Email" color="white"
             onPress={() => LoginRequest({ email })}
@@ -33,7 +33,7 @@ export default function LoginScreen({ navigation }: any) {
           <LeafyText fontSize={14} align="center" text="Or continue with"
             rect={{ x: "centered", y: 260, w: "100%", h: 15 }} />
 
-          <LeafyIconButton text="Sign In with Google" source="google"
+          <LeafyIconButton text="Sign In with Google" textAlign="center" source="google"
             rect={{
               x: "centered", y: 304, w: "90%", h: 56,
               img: {
@@ -42,7 +42,7 @@ export default function LoginScreen({ navigation }: any) {
               }
             }} color="dark" />
 
-          <LeafyIconButton text="Sign In with Apple" source="apple"
+          <LeafyIconButton text="Sign In with Apple" textAlign="center" source="apple"
             rect={{
               x: "centered", y: 375, w: "90%", h: 56,
               img: {

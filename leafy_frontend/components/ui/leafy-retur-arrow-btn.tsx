@@ -19,8 +19,8 @@ export default function LeafyReturnArrowButton(
       position: "absolute",
       left: rect.x,
       top: rect.y,
-      width: rect.w,
-      height: rect.h,
+      width: 48,
+      height: 48,
     }] : buttonStyle;
 
   const images = {
@@ -35,8 +35,11 @@ export default function LeafyReturnArrowButton(
 
 const styles = StyleSheet.create({
   leafyButton: {
-    backgroundColor: "transparent",
+    backgroundColor: "#2A2937",
     alignItems: "center",
+    height: 48,
+    width: 48,
+    borderRadius: 24,
     justifyContent: "center"
   },
 });

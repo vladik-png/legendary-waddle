@@ -12,21 +12,28 @@ export default function LeafyInput(
     maxLenght = 100
   }) {
 
+  if (rect && rect.w && typeof rect.w == "string" && rect.w.includes("%")) {
+    rect.w = parseFloat(rect.w) * (screenW / 100.0);
+  }
+  if (rect && rect.h && typeof rect.h == "string" && rect.h.includes("%")) {
+    rect.h = parseFloat(rect.h) * (screenH / 100.0);
+  }
+
+  if (rect && rect.y && typeof rect.y == "string" && rect.y.includes("%")) {
+    rect.y = parseFloat(rect.y) * (screenH / 100.0);
+  }
+  if (rect && rect.x && typeof rect.x == "string" && rect.x.includes("%")) {
+    rect.x = parseFloat(rect.x) * (screenW / 100.0);
+  }
+
+  let transform = [];
   if (rect && rect.x === "centered" && rect.w) {
-    if (typeof rect.w == "string" && rect.w.includes("%")) {
-      rect.w = parseFloat(rect.w) * (screenW / 100.0);
-      rect.x = (screenW - rect.w) / 2;
-    } else {
-      rect.x = (screenW - rect.w) / 2;
-    }
+    rect.x = "50%";
+    transform.push({ translateX: -(rect.w / 2) });
   }
   if (rect && rect.y === "centered" && rect.h) {
-    if (typeof rect.h == "string" && rect.h.includes("%")) {
-      rect.h = parseFloat(rect.h) * (screenH / 100.0);
-      rect.y = (screenH - rect.h) / 2.0;
-    } else {
-      rect.y = (screenH - rect.h) / 2.0;
-    }
+    rect.y = "50%";
+    transform.push({ translateY: -(rect.h / 2) });
   }
 
   const finalStyle = rect ?
@@ -35,8 +42,9 @@ export default function LeafyInput(
       left: rect.x,
       top: rect.y - 14,
       width: rect.w,
-      height: rect.h
-    } : undefined;
+      height: rect.h,
+      transform
+    } : styles.defaultInput;
 
   return (
     <View style={finalStyle}>
@@ -63,5 +71,7 @@ const styles = StyleSheet.create({
     color: "rgba(255, 255, 255, 0.6)",
     fontFamily: "Inter",
     fontSize: 14,
+    marginBottom: 3,
+    marginLeft: 3,
   },
 });

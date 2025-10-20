@@ -18,35 +18,35 @@ export default function RegistrationScreen({ navigation }: any) {
     <View style={styles.container}>
       <View style={styles.main}>
 
-        <LeafyReturnArrowButton rect={{ x: "5%", y: 50, w: 25, h: 25 }}
+        <LeafyReturnArrowButton rect={{ x: "8%", y: 50, w: 25, h: 25 }}
           onPress={() => navigation.navigate("Login")} />
 
         <LeafyText fontSize={25} text="Create account"
-          rect={{ x: "5%", y: 92, w: 330, h: 32 }} />
+          rect={{ x: "5%", y: "13%", w: 330, h: 32 }} />
 
         <LeafyInput text="First Name" placeholder="Type your First Name"
           value={firstName} onChangeText={setFirstName}
-          rect={{ x: "5%", y: 165, w: "44%", h: 56 }} />
+          rect={{ x: "5%", y: "20%", w: "44%", h: 52 }} />
 
         <LeafyInput text="Last Name" placeholder="Type your Last Name"
           value={lastName} onChangeText={setLastName}
-          rect={{ x: "51%", y: 165, w: "44%", h: 56 }} />
+          rect={{ x: "51%", y: "20%", w: "44%", h: 52 }} />
 
         <LeafyInput text="Username" placeholder="Type your username"
           value={username} onChangeText={setUsername}
-          rect={{ x: "5%", y: 264, w: "90%", h: 56 }} />
+          rect={{ x: "5%", y: 264, w: "90%", h: 52 }} />
 
         <LeafyInput text="Email" placeholder="Type your email"
           value={email} onChangeText={setEmail}
-          rect={{ x: "5%", y: 363, w: "90%", h: 56 }} />
+          rect={{ x: "5%", y: 363, w: "90%", h: 52 }} />
 
         <LeafyInput text="Password" placeholder="Type your password"
           value={password} onChangeText={setPassword}
-          rect={{ x: "5%", y: 462, w: "90%", h: 56 }} />
+          rect={{ x: "5%", y: 462, w: "90%", h: 52 }} />
 
         <LeafyInput text="Confirm password" placeholder="Type your password"
           value={confirmPassword} onChangeText={setConfirmPassword}
-          rect={{ x: "5%", y: 561, w: "90%", h: 56 }} />
+          rect={{ x: "5%", y: 561, w: "90%", h: 52 }} />
 
         <LeafyContinueButton text="Sign Up" color="white"
           onPress={() => RegistrationRequest({ firstName, lastName, email, password, confirmPassword })}
