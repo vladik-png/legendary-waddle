@@ -28,6 +28,9 @@ func attach_api_handlers() {
 
 	/*------------Login handlers--------------------------*/
 	http.Handle("/login", corsMiddleware(http.HandlerFunc(__handlers__.LoginHandler)))
+
+	/*------------Email verification handlers--------------------------*/
+	http.Handle("/email_verification", corsMiddleware(http.HandlerFunc(__handlers__.EmailVerificationHandler)))
 }
 
 func main() {

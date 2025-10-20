@@ -1,21 +1,10 @@
-import LeafyText from "@/components/ui/leafy-text";
-import { Dimensions, Pressable, StyleSheet } from "react-native";
+import React from "react";
+import { Dimensions, Modal, StyleSheet, View } from "react-native";
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 
-export default function LeafyButton(
-  { text = "",
-    onPress = () => { },
-    rect = undefined,
-    color = "",
-  }
-) {
+export default function LeafyModal({ onClose, visible, rect = {}, navigation, children }: any) {
 
-  if (color) {
-    if (color == "dark") {
-      color = "rgba(24, 23, 37, 0.5)"
-    }
-  }
 
   if (rect && rect.w && typeof rect.w == "string" && rect.w.includes("%")) {
     rect.w = parseFloat(rect.w) * (screenW / 100.0);
@@ -41,40 +30,39 @@ export default function LeafyButton(
     rect.y = "50%";
     transform.push({ translateY: -(rect.h / 2) });
   }
-  const finalStyle = rect
-    ? [styles.leafyButton, {
+  let finalStyle = rect ? [
+    styles.defaultModal, {
       position: "absolute",
       left: rect.x,
       top: rect.y,
       width: rect.w,
       height: rect.h,
       transform
-    }] : styles.leafyButton;
+    }
+  ] : styles.defaultModal;
 
   return (
-    <Pressable style={finalStyle} onPress={onPress}>
-      <LeafyText align="center" style={{ color }} text={text} />
-    </Pressable>
-  );
+    <Modal transparent visible={visible}>
+      <View style={styles.overlay}>
+        <View style={finalStyle}>
+          {children}
+        </View>
+      </View>
+    </Modal >);
 };
 
 const styles = StyleSheet.create({
-  leafyButton: {
-    backgroundColor: "#BFFF00",
-    borderRadius: 15,
-    borderWidth: 2,
-    borderColor: "white",
+  overlay: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    justifyContent: "center"
   },
-  darkButton: {
-    backgroundColor: "rgba(24, 23, 37, 0.5)",
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  buttonTextBlack: {
-    fontSize: 18,
-    color: "black",
-  },
+  defaultModal: {
+    backgroundColor: "#181725",
+    borderRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+  }
 });

@@ -1,5 +1,5 @@
 import { RegistrationRequest } from "@/api/registrationPageApi";
-import LeafyButton from "@/components/ui/leafy-button";
+import LeafyContinueButton from "@/components/ui/leafy-continue-button";
 import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
 import LeafyText from "@/components/ui/leafy-text";
 import LeafyInput from "@/components/ui/leafy-text-input";
@@ -9,6 +9,7 @@ import { StyleSheet, View } from "react-native";
 export default function RegistrationScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -17,7 +18,7 @@ export default function RegistrationScreen({ navigation }: any) {
     <View style={styles.container}>
       <View style={styles.main}>
 
-        <LeafyReturnArrowButton rect={{ x: 24, y: 40, w: 25, h: 25 }}
+        <LeafyReturnArrowButton rect={{ x: "5%", y: 50, w: 25, h: 25 }}
           onPress={() => navigation.navigate("Login")} />
 
         <LeafyText fontSize={25} text="Create account"
@@ -31,8 +32,8 @@ export default function RegistrationScreen({ navigation }: any) {
           value={lastName} onChangeText={setLastName}
           rect={{ x: "51%", y: 165, w: "44%", h: 56 }} />
 
-        <LeafyInput text="Username" placeholder="Type your email"
-          value={email} onChangeText={setEmail}
+        <LeafyInput text="Username" placeholder="Type your username"
+          value={username} onChangeText={setUsername}
           rect={{ x: "5%", y: 264, w: "90%", h: 56 }} />
 
         <LeafyInput text="Email" placeholder="Type your email"
@@ -47,7 +48,7 @@ export default function RegistrationScreen({ navigation }: any) {
           value={confirmPassword} onChangeText={setConfirmPassword}
           rect={{ x: "5%", y: 561, w: "90%", h: 56 }} />
 
-        <LeafyButton text="Sign Up" color="black"
+        <LeafyContinueButton text="Sign Up" color="white"
           onPress={() => RegistrationRequest({ firstName, lastName, email, password, confirmPassword })}
           rect={{ x: "5%", y: 660, w: "90%", h: 56 }} />
 
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 0,
     position: "relative",
-    backgroundColor: "#005C4D",
+    backgroundColor: "#181725",
   },
   main: {
     width: "100%",
