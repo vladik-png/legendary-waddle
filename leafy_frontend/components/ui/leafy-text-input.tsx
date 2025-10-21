@@ -40,11 +40,17 @@ export default function LeafyInput(
     {
       position: "absolute",
       left: rect.x,
-      top: rect.y - 14,
+      top: rect.y,
       width: rect.w,
       height: rect.h,
-      transform
-    } : styles.defaultInput;
+      borderRadius: 25,
+      borderWidth: 1,
+      borderColor: "rgba(255,255,255,0.2)",
+      backgroundColor: "rgba(24, 23, 37, 0.5)",
+      paddingHorizontal: 10,
+      justifyContent: "center",
+      transform,
+    } : {};
 
   return (
     <View style={finalStyle}>
@@ -58,14 +64,10 @@ export default function LeafyInput(
 
 const styles = StyleSheet.create({
   defaultInput: {
-    borderRadius: 25,
-    height: 56,
+    flex: 1,
     fontSize: 16,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "rgba(255,255, 255, 0.2)",
-    backgroundColor: "rgba(24, 23, 37, 0.5)",
-    color: "rgba(255, 255, 255, 0.4)",
+    color: "rgba(255,255,255,0.4)",
+    padding: 0,
   },
   whiteText: {
     color: "rgba(255, 255, 255, 0.6)",

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"leafy/__handlers__"
 	db_conn "leafy/db_conn"
 	"net/http"
@@ -36,5 +37,6 @@ func attach_api_handlers() {
 func main() {
 	db_conn.Conn.ConnectToDB()
 	attach_api_handlers()
-	http.ListenAndServe(":8080", nil)
+	fmt.Print("Hello world")
+	http.ListenAndServe("0.0.0.0:8080", nil)
 }

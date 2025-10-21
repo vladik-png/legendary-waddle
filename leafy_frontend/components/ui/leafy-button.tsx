@@ -8,6 +8,7 @@ export default function LeafyButton(
     onPress = () => { },
     rect = undefined,
     color = "",
+    style = {},
   }
 ) {
 
@@ -49,11 +50,11 @@ export default function LeafyButton(
       width: rect.w,
       height: rect.h,
       transform
-    }] : styles.leafyButton;
+    }, style] : styles.leafyButton;
 
   return (
     <Pressable style={finalStyle} onPress={onPress}>
-      <LeafyText align="center" style={{ color }} text={text} />
+      <LeafyText align="center" style={style?.color} text={text} />
     </Pressable>
   );
 };
@@ -61,7 +62,7 @@ export default function LeafyButton(
 const styles = StyleSheet.create({
   leafyButton: {
     backgroundColor: "#BFFF00",
-    borderRadius: 15,
+    borderRadius: 25,
     borderWidth: 2,
     borderColor: "white",
     alignItems: "center",
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   },
   darkButton: {
     backgroundColor: "rgba(24, 23, 37, 0.5)",
-    borderRadius: 15,
+    borderRadius: 25,
     alignItems: "center",
     justifyContent: "center"
   },

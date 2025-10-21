@@ -1,10 +1,11 @@
-export function LoginRequest({ username, password }) {
-  fetch(`http://192.168.0.197:8080/login`, {
+export function LoginRequest({ email }) {
+  fetch(`http://3.65.34.230:8080/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      username,
-      password,
+      email,
+      username: "",
+      password: "",
     })
   })
     .then(res => {
