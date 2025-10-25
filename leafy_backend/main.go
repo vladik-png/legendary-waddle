@@ -5,6 +5,8 @@ import (
 	"leafy/__handlers__"
 	db_conn "leafy/db_conn"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func corsMiddleware(next http.Handler) http.Handler {
@@ -37,6 +39,17 @@ func attach_api_handlers() {
 func main() {
 	db_conn.Conn.ConnectToDB()
 	attach_api_handlers()
-	fmt.Print("Hello world")
-	http.ListenAndServe("0.0.0.0:8080", nil)
+
+	hash := "$2a$10$ps3gmtnIOrIHwf7MyPLwCeiZDzv/Z04WjYw/ppO7ebjw2.X4lLXaO"
+	password := "nnnnn" // заміни, якщо треба
+
+	err := bcrypt.CompareHashAndPassword([]byte(password), []byte(hash))
+	if err != nil {
+		fmt.Println("❌ Wrong password:", err)
+	} else {
+		fmt.Println("✅ Password correct!")
+	}
+
+	fmt.Println("Hello world")
+	http.ListenAndServe(":8080", nil)
 }

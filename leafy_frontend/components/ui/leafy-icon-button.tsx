@@ -1,4 +1,7 @@
-import { Dimensions, Image, Pressable, StyleSheet, Text } from "react-native";
+import { Dimensions, Image, Pressable, Text } from "react-native";
+
+//styles import
+import { buttonStyle } from "@/components/styles/buttonStyle";
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 
@@ -13,10 +16,10 @@ export default function LeafyIconButton(
   }
 ) {
 
-  let buttonStyle = styles.leafyButton;
+  let finalButtonStyle = buttonStyle.limeButton;
 
   if (color && color == "dark")
-    buttonStyle = styles.darkButton;
+    finalButtonStyle = buttonStyle.darkButton;
 
 
   if (rect && rect.x == "centered" && rect.w) {
@@ -35,58 +38,28 @@ export default function LeafyIconButton(
     }
   }
 
-  /*const position = rect ? {
-    position: "absolute",
-    left: rect.x,
-    top: rect.y,
-    width: rect.w,
-    height: rect.h,
-  } : null;*/
-
   const finalStyle = rect
-    ? [buttonStyle, {
+    ? [finalButtonStyle, {
       position: "absolute",
       left: rect.x,
       top: rect.y,
       width: rect.w,
       height: rect.h,
-    }, style] : buttonStyle;
+    }, style] : finalButtonStyle;
   //const finalStyle = buttonStyle;
 
   const images = {
     google: require('@/assets/images/Google.png'),
     apple: require('@/assets/images/Apple_Inc.png'),
+    home: require('@/assets/images/HomeBtn.png'),
+    compass: require('@/assets/images/Compass.png'),
   };
   return (
     //<View style={position}>
     <Pressable style={[finalStyle, { alignItems: textAlign }]} onPress={onPress}>
       <Image source={images[source]} style={rect?.img?.style}></Image>
-      <Text style={[styles.buttonTextBlack, { textAlign }]}>{text}</Text>
+      <Text style={[color === "dark" ? buttonStyle.buttonTextWhite : buttonStyle.buttonTextBlack, { textAlign }]}>{text}</Text>
     </Pressable >
     //</View>
   );
 };
-
-const styles = StyleSheet.create({
-  leafyButton: {
-    backgroundColor: "#BFFF00",
-    borderRadius: 15,
-    borderWidth: 2,
-    borderColor: "white",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  darkButton: {
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: "white",
-    backgroundColor: "rgba(24, 23, 37, 0.5)",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  buttonTextBlack: {
-    fontSize: 16,
-    textAlign: "center",
-    color: "white",
-  },
-});

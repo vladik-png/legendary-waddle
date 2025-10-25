@@ -27,7 +27,7 @@ const hints = [{
 export default function LeafyCarousel({
   rect = {}, navigation }: any) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const flatListRef = useRef<FlatList>(null);
+  const flatListRef = useRef<FlatList<any>>(null);
 
   const onViewRef = React.useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) setCurrentIndex(viewableItems[0].index);
@@ -36,12 +36,14 @@ export default function LeafyCarousel({
   const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 });
 
   const goNext = () => {
+    const nextIndex = Math.min(currentIndex + 1, hints.length + 1);
     if (currentIndex === hints.length - 1) {
       navigation.navigate("Login");
-    } else {
-      const nextIndex = Math.min(currentIndex + 1, hints.length - 1);
-      flatListRef.current?.scrollToIndex({ index: nextIndex });
+      return;
     }
+
+    flatListRef.current?.scrollToIndex({ index: currentIndex, animated: true, viewPosition: 0.5 });
+    setCurrentIndex(nextIndex);
   };
 
   if (rect && rect.x == "centered")
@@ -62,6 +64,7 @@ export default function LeafyCarousel({
         source={hints[currentIndex].img}
         style={{ width: "100%", height: 380, resizeMode: "contain", margin: 0, padding: 0 }} />
       <FlatList
+        ref={flatListRef}
         data={hints}
         horizontal
         pagingEnabled
@@ -79,9 +82,9 @@ export default function LeafyCarousel({
                 />
               ))}
             </View>
-            <Text style={styles.hintTextHeader}>{item.header}</Text>
-            <Text style={styles.hintTextContent}>{item.content}</Text>
-            <LeafyContinueButton onPress={goNext} text={item.btnText} style={{
+            <Text style={styles.hintTextHeader}>{hints[currentIndex].header}</Text>
+            <Text style={styles.hintTextContent}>{hints[currentIndex].content}</Text>
+            <LeafyContinueButton onPress={goNext} text={hints[currentIndex].btnText} style={{
               width: 200,
               height: 56,
               marginTop: 50,

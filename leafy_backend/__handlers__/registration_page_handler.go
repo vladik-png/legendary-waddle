@@ -19,7 +19,7 @@ func RegistrationHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("New user: " + currUser.FirstName + "successfuly registered")
+	fmt.Println("New user: " + currUser.FirstName + " successfuly registered")
 
 	w.Header().Set("Content-type", "application/json")
 	json.NewEncoder(w).Encode(currUser)

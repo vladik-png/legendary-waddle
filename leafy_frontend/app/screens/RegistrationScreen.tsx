@@ -49,7 +49,7 @@ export default function RegistrationScreen({ navigation }: any) {
           rect={{ x: "5%", y: 561, w: "90%", h: 52 }} />
 
         <LeafyContinueButton text="Sign Up" color="white"
-          onPress={() => RegistrationRequest({ firstName, lastName, email, password, confirmPassword })}
+          onPress={() => RegistrationRequest({ firstName, lastName, username, email, password })}
           rect={{ x: "5%", y: 660, w: "90%", h: 56 }} />
 
         <LeafyText fontSize={14} align="center" text="Already have an account ? Login"

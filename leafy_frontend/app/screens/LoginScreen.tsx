@@ -22,20 +22,23 @@ export default function LoginScreen({ navigation }: any) {
           rect={{ x: "centered", y: 136, w: "100%", h: 24 }} />
 
         <View style={styles.darkRect}>
+
           <LeafyInput text="Email" placeholder="Enter your email address"
             value={email} onChangeText={setEmail}
-            rect={{ x: "centered", y: 78, w: "90%", h: 52 }} />
+            rect={{ x: "5%", y: "8%", w: "90%", h: 52 }} />
+
+          <LeafyInput text="Password" placeholder="Enter your password"
+            value={password} onChangeText={setPassword}
+            rect={{ x: "5%", y: "18%", w: "90%", h: 52 }} />
 
           <LeafyContinueButton text="Continue with Email" color="white"
-            onPress={() => LoginRequest({ email })}
-            rect={{ x: "centered", y: 166, w: "90%", h: 56 }} />
+            onPress={() => LoginRequest({ email, password, navigation })}
+            rect={{ x: "5%", y: 250, w: "90%", h: 56 }} />
 
-          <LeafyText fontSize={14} align="center" text="Or continue with"
-            rect={{ x: "centered", y: 260, w: "100%", h: 15 }} />
 
           <LeafyIconButton text="Sign In with Google" textAlign="center" source="google"
             rect={{
-              x: "centered", y: 304, w: "90%", h: 56,
+              x: "centered", y: 379, w: "90%", h: 56,
               img: {
                 x: 50,
                 y: 13,
@@ -44,7 +47,7 @@ export default function LoginScreen({ navigation }: any) {
 
           <LeafyIconButton text="Sign In with Apple" textAlign="center" source="apple"
             rect={{
-              x: "centered", y: 375, w: "90%", h: 56,
+              x: "centered", y: 450, w: "90%", h: 56,
               img: {
                 x: 50,
                 y: 13,
@@ -53,7 +56,7 @@ export default function LoginScreen({ navigation }: any) {
 
           <LeafyText fontSize={14} align="center"
             text="Dont have an account ? Sign up here"
-            rect={{ x: "centered", y: 510, w: 234, h: 18 }}
+            rect={{ x: "centered", y: 530, w: 234, h: 18 }}
             onPress={() => navigation.navigate("Registration")} />
         </View>
 

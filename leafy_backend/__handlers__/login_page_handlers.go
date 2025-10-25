@@ -2,23 +2,31 @@ package __handlers__
 
 import (
 	"encoding/json"
+	"fmt"
+	"leafy/__http__"
 	"leafy/api"
 	"net/http"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("LoginHandled call")
 	var guest api.Guest
 
 	if err := json.NewDecoder(r.Body).Decode(&guest); err != nil {
+		__http__.SendError(w, __http__.ErrBadRequest)
 		return
 	}
 
-	user, err := api.Login(guest)
+	user, httpErr := api.Login(guest)
 
-	if err != nil {
+	if httpErr != __http__.OK {
+		__http__.SendError(w, httpErr)
 		return
 	}
 
-	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(user)
+	data := map[string]interface{}{
+		"user": user,
+	}
+
+	__http__.SendSuccess(w, data)
 }

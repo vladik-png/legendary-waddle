@@ -13,18 +13,18 @@ type NewUser struct {
 	LastName  string `json:"lastName"`
 	Email     string `json:"email"`
 	Username  string `json:"username"`
-	Password  string `json:"password_hash"`
+	Password  string `json:"password"`
 }
 
 func Registration(newUser NewUser) (CurrentUser, error) {
-	fmt.Println("Trying to register new user")
+	fmt.Println("Trying to register new user: password: " + newUser.Password)
 
 	hashedPsssword, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return CurrentUser{}, errors.New("Cannot insert new user into DB")
 	}
 	_, err = db_conn.Conn.DB.Exec("INSERT INTO users(first_name, last_name, email, username, password_hash) VALUES($1, $2, $3, $4, $5)",
-		newUser.FirstName, newUser.LastName, newUser.Email, newUser.Username, hashedPsssword)
+		newUser.FirstName, newUser.LastName, newUser.Email, newUser.Username, string(hashedPsssword))
 
 	if err != nil {
 		return CurrentUser{}, errors.New("Cannot insert new user into DB")

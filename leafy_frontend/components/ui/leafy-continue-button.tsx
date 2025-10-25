@@ -1,5 +1,8 @@
 import LeafyText from "@/components/ui/leafy-text";
-import { Dimensions, Pressable, StyleSheet } from "react-native";
+import { Dimensions, Pressable } from "react-native";
+
+//styles import
+import { buttonStyle } from "../styles/buttonStyle";
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 
@@ -45,17 +48,17 @@ export default function LeafyContinueButton(
   let finalStyle;
 
   if (style) {
-    finalStyle = [styles.leafyButton, style];
+    finalStyle = [buttonStyle.continueButton, style];
   } else {
     finalStyle = rect
-      ? [styles.leafyButton, {
+      ? [buttonStyle.continueButton, {
         position: "absolute",
         left: rect.x,
         top: rect.y,
         width: rect.w,
         height: rect.h,
         transform
-      }] : styles.leafyButton;
+      }] : buttonStyle.continueButton;
   }
 
   return (
@@ -64,26 +67,3 @@ export default function LeafyContinueButton(
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  leafyButton: {
-    backgroundColor: "#005C4D",
-    borderColor: "rgba(255, 255, 255, 0.7)",
-    borderWidth: 1,
-    borderRadius: 25,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  darkButton: {
-    borderColor: "rgba(255, 255, 255, 0.4)",
-    borderWidth: 1,
-    backgroundColor: "rgba(24, 23, 37, 0.5)",
-    borderRadius: 25,
-    alignItems: "center",
-  },
-  buttonTextBlack: {
-    fontSize: 18,
-    color: "white",
-    fontFamily: "Inter"
-  },
-});
