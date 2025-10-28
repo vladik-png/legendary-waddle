@@ -1,11 +1,11 @@
-import { Dimensions, Pressable, StyleSheet, Text } from "react-native";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 
 export default function LeafyText(
   { text = "",
     rect = undefined,
-    fontSize = 16,
+    fontSize = 12,
     onPress = undefined,
     align = "",
     style = {}
@@ -46,14 +46,16 @@ export default function LeafyText(
     transform
   } : undefined;
 
-  const finalStyle = [defStyles.defaultText, style, {
+  const finalStyle = [defStyles.defaultText, {
     textAlign: align ? align : "left",
     fontSize
-  }];
+  }, style];
 
   return (
-    <Pressable style={viewStyle} onPress={onPress}>
-      <Text onPress={onPress} style={finalStyle}>{text}</Text>
+    <Pressable onPress={onPress}>
+      <View style={viewStyle}>
+        <Text onPress={onPress} style={finalStyle}>{text}</Text>
+      </View>
     </Pressable>
   );
 };

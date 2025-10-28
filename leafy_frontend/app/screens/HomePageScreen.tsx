@@ -1,25 +1,32 @@
 import BottomBar from "@/app/screens/bars/bottomBar";
 import { backgroundStyle } from "@/components/styles/backgroundStyle";
+import { inputStyle } from "@/components/styles/inputStyle";
+import { textStyle } from "@/components/styles/textStyles";
+import { viewStyle } from "@/components/styles/viewStyle";
+import FilmCardList from "@/components/ui/leafy-film-list";
+import GenresList from "@/components/ui/leafy-genres-list";
 import React from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
+
 
 export default function HomePageScreen({ navigation }: any) {
   return (
-    <View style={[backgroundStyle.darkBlueBackground, { width: "100%", height: "100%" }]}>
-      <View style={{ backgroundColor: "rgba(44, 43, 56, 0.6)", left: "0%", top: "0%", height: "10%", width: "100%" }}>
-        <View style={{ backgroundColor: "white", height: "40", width: "40", left: "30", top: "30", borderRadius: 20 }}>
-          <Image style={{ width: "100%", height: "100%" }} />
+    <View style={[backgroundStyle.darkBlueBackground, { flex: 1, position: "relative" }]}>
+      <TextInput style={inputStyle.homePageSearchInputStyle} />
+      <ScrollView style={{ backgroundColor: "transparent", flex: 1 }}>
+        <View style={viewStyle.homePageQuoteView}>
+          <Text style={textStyle.homePageQuoteText}>Never rat on your friends and always
+            keep your mouth shut
+          </Text>
+          <Text style={textStyle.homePageQuoteOriginText}>
+            Goodfellas ~ 1990
+          </Text>
         </View>
-      </View>
+        <Text style={textStyle.homePageTrandingText}>Tranding</Text>
+        <GenresList />
+        <FilmCardList />
+      </ScrollView>
       <BottomBar />
-    </View>
+    </View >
   );
 }
-
-const styles = StyleSheet.create({
-  mainStyle: {
-    height: "100%",
-    width: "100%",
-    backgroundColor: "#005C4D",
-  }
-});

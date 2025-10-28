@@ -24,6 +24,11 @@ const hints = [{
 },
 ];
 
+const bntWidth = screenW * 0.5;
+const bntHeight = screenH * 0.07;
+const hintTextHeaderFontSize = 27 * (screenW / 400);
+const hintTextContentFontSize = 18 * (screenW / 400);
+
 export default function LeafyCarousel({
   rect = {}, navigation }: any) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -62,7 +67,7 @@ export default function LeafyCarousel({
     <View style={finalStyle}>
       <Image
         source={hints[currentIndex].img}
-        style={{ width: "100%", height: 380, resizeMode: "contain", margin: 0, padding: 0 }} />
+        style={{ width: "100%", height: "40%", resizeMode: "contain", marginBottom: "0%", padding: 0 }} />
       <FlatList
         ref={flatListRef}
         data={hints}
@@ -85,9 +90,10 @@ export default function LeafyCarousel({
             <Text style={styles.hintTextHeader}>{hints[currentIndex].header}</Text>
             <Text style={styles.hintTextContent}>{hints[currentIndex].content}</Text>
             <LeafyContinueButton onPress={goNext} text={hints[currentIndex].btnText} style={{
-              width: 200,
-              height: 56,
-              marginTop: 50,
+              width: bntWidth,
+              height: bntHeight,
+              position: "absolute",
+              bottom: "10%"
             }} />
           </View>
         )}
@@ -112,13 +118,13 @@ const styles = StyleSheet.create({
   },
   hintTextHeader: {
     color: "white",
-    fontSize: 25,
+    fontSize: hintTextHeaderFontSize,
     textAlign: "center",
     margin: 10,
   },
   hintTextContent: {
     color: "white",
-    fontSize: 16,
+    fontSize: hintTextContentFontSize,
     textAlign: "center",
     marginTop: 20,
   },

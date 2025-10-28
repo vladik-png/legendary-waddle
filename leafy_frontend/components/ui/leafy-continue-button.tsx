@@ -63,7 +63,7 @@ export default function LeafyContinueButton(
 
   return (
     <Pressable style={finalStyle} onPress={onPress}>
-      <LeafyText align="center" style={{ color }} text={text} onPress={onPress} />
+      <LeafyText align="center" style={[color, { fontSize: 16 }]} text={text} onPress={onPress} />
     </Pressable>
   );
 };

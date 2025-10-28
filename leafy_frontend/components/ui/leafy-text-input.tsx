@@ -6,7 +6,8 @@ import { inputStyle } from "@/components/styles/inputStyle";
 const { width: screenW, height: screenH } = Dimensions.get("window");
 
 export default function LeafyInput(
-  { text = "",
+  {
+    text = "",
     placeholder = "",
     rect = undefined,
     value = undefined,

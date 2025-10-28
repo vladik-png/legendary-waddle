@@ -16,7 +16,7 @@ export default function LoginScreen({ navigation }: any) {
       <View style={styles.main}>
 
         <LeafyText fontSize={28} align="center" text="Hi, Welcome Back!"
-          rect={{ x: "centered", y: 92, w: "100%", h: 32 }} />
+          rect={{ x: "centered", y: "10%", w: "100%", h: 32 }} />
 
         <LeafyText fontSize={16} align="center" text="Input your registered account!"
           rect={{ x: "centered", y: 136, w: "100%", h: 24 }} />

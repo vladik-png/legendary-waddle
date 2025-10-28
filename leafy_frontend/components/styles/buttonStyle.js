@@ -4,6 +4,13 @@ export const buttonStyle = {
     borderRadius: 0,
     borderColor: "transparent"
   },
+  bottomBarHomeButton: {
+    backgroundColor: "#005C4D",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderColor: "transparent"
+  },
   limeButton: {
     backgroundColor: "#BFFF00",
     borderRadius: 25,

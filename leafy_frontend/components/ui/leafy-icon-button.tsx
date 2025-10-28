@@ -53,6 +53,7 @@ export default function LeafyIconButton(
     apple: require('@/assets/images/Apple_Inc.png'),
     home: require('@/assets/images/HomeBtn.png'),
     compass: require('@/assets/images/Compass.png'),
+    profile: require('@/assets/images/Profile.png'),
   };
   return (
     //<View style={position}>
