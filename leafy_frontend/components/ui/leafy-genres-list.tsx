@@ -1,9 +1,7 @@
-import { getMovieGenres } from "@/api/omdbApi";
+import { getFilmGenres } from "@/api/omdbApi";
 import { genreStyle } from "@/components/styles/genreStyle";
 import React, { useEffect, useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
-
-const rootIconFoler = "";
 
 let genresInfo = {
   "Action": {
@@ -90,7 +88,7 @@ export default function GenresList({ setSelectedGenre }: { setSelectedGenre: (ic
 
   useEffect(() => {
     async function loadMovies() {
-      const data = await getMovieGenres();
+      const data = await getFilmGenres();
       if (!data) return;
 
       setGenres(data);

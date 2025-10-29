@@ -1,8 +1,9 @@
+import { API_URL } from "@/api/API_CONFIG";
 import { CURRENT_USER } from "@/api/currentUser";
 
 export async function LoginRequest({ email, password, navigation }: any) {
   try {
-    const res = await fetch(`http://3.77.77.51:8080/login`, {
+    const res = await fetch(`${API_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

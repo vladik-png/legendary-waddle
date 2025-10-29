@@ -2,13 +2,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import CreatePasswordScreen from "../screens/CreatePasswordScreen";
 import EmailVerifyingScreen from "../screens/EmailVerifyingScreen";
+import Error500Screen from "../screens/error/500";
+import FilmDetailScreen from "../screens/FilmDetailScreen";
 import ForgotPasswordScreen1 from "../screens/ForgotPasswordScreen1";
 import HomePageScreen from "../screens/HomePageScreen";
 import LoginScreen from "../screens/LoginScreen";
 import OnboardingScreen from "../screens/OnboardingScreen";
 import RegistrationScreen from "../screens/RegistrationScreen";
 import SettingScreen from "../screens/SettingScreen";
-import Error500Screen from "../screens/error/500";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function LeafyNavigator() {
       <Stack.Screen name="HomePageScreen" component={HomePageScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Registration" component={RegistrationScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Error500Screen" component={Error500Screen} options={{ headerShown: false }} />
+      <Stack.Screen name="FilmDetailScreen" component={FilmDetailScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

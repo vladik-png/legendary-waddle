@@ -1,8 +1,9 @@
-import { getMoviesByGenre, getPopularMovies } from "@/api/omdbApi";
+import { getFilmsByGenre, getPopularFilms } from "@/api/omdbApi";
 import { filmCardStyle } from "@/components/styles/filmCardStyle";
 import LeafyText from "@/components/ui/leafy-text";
 import React, { useEffect, useState } from "react";
-import { Image, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
 interface Genre {
   id: number;
@@ -12,22 +13,23 @@ interface Genre {
 interface Movie {
   id: number;
   title: string;
+  vote_average: Float;
   poster_path: string;
 }
 
-export default function FilmCardList(selectedGenre: any) {
-  const [movies, setMovies] = useState<Movie[]>([]);
+let prevGenreID: number = 0;
 
-  console.log("Genre rec: ", selectedGenre || "empty")
+export default function FilmCardList({ selectedGenre, navigation }: any) {
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     async function loadMovies() {
       let data;
-      if (selectedGenre["selectedGenre"]) {
+      if (selectedGenre["selectedGenre"] && selectedGenre["selectedGenre"] != prevGenreID) {
         console.log("getMoviesByGenre");
-        data = await getMoviesByGenre(selectedGenre["selectedGenre"]);
+        data = await getFilmsByGenre(prevGenreID = selectedGenre["selectedGenre"]);
       } else {
-        data = await getPopularMovies();
+        data = await getPopularFilms();
       }
       if (!data) {
         console.log("data is null")
@@ -42,14 +44,18 @@ export default function FilmCardList(selectedGenre: any) {
   return (
     <View style={{ position: "relative", backgroundColor: "transparent" }}>
       {movies.map((movie, index) => (
-        <View key={index} style={[filmCardStyle.backgroundStyle, { marginBottom: 9 }]}>
+        <Pressable key={index} style={[filmCardStyle.backgroundStyle, { marginBottom: 9 }]} onPress={() => {
+          const id = movie.id;
+          console.log("FilmID pre: ", id);
+          navigation.navigate("FilmDetailScreen", { currentFilmID: id });
+        }}>
           <LeafyText text={movie.title} style={filmCardStyle.filmTitleStyle} />
           <LeafyText text={`IMDb: ${movie.vote_average.toFixed(1)}`} style={filmCardStyle.IMDbTextStyle} />
           <Image
-            source={{ uri: movie.poster_path ? ("https://image.tmdb.org/t/p/w500" + movie.poster_path) : "https://via.placeholder.com/300" }}
+            source={{ uri: "https://image.tmdb.org/t/p/w500" + movie.poster_path }}
             style={filmCardStyle.filmPosterStyle}
           />
-        </View>
+        </Pressable>
       ))}
     </View>
   );

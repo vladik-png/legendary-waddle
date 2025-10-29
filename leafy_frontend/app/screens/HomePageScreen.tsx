@@ -27,7 +27,7 @@ export default function HomePageScreen({ navigation }: any) {
         <Text style={[textStyle.homePageTrandingText, { top: "3%" }]}>Genres</Text>
         <GenresList setSelectedGenre={setSelectedGenre} />
         <Text style={[textStyle.homePageTrandingText, { top: "3.7%" }]}>Trending</Text>
-        <FilmCardList selectedGenre={selectedGenre} />
+        <FilmCardList navigation={navigation} selectedGenre={selectedGenre} />
       </ScrollView>
       <BottomBar />
     </View >

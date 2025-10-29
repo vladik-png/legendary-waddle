@@ -1,7 +1,8 @@
+import { API_URL } from "@/api/API_CONFIG";
 
 export function RegistrationRequest({ firstName, lastName, username, email, password, confirmPassword }: any) {
   if (password === confirmPassword) {
-    fetch(`http://3.77.77.51:8080/register_new_user`, {
+    fetch(`${API_URL}/register_new_user`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

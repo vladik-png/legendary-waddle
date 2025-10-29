@@ -35,9 +35,10 @@ func attach_api_handlers() {
 
 	/*-----------------------------------------------------------------*/
 	/*------------TMDb handlers--------------------------*/
-	http.Handle("/home_page/popular_movies", corsMiddleware(http.HandlerFunc(__handlers__.PopularFilmsHandler)))
-	http.Handle("/movies/all_genres", corsMiddleware(http.HandlerFunc(__handlers__.FilmGenresHandler)))
-	http.Handle("/movies/by_genre", corsMiddleware(http.HandlerFunc(__handlers__.FilmByGenreHandler)))
+	http.Handle("/home_page/popular_films", corsMiddleware(http.HandlerFunc(__handlers__.PopularFilmsHandler)))
+	http.Handle("/film/all_genres", corsMiddleware(http.HandlerFunc(__handlers__.FilmGenresHandler)))
+	http.Handle("/film/by_genre", corsMiddleware(http.HandlerFunc(__handlers__.FilmByGenreHandler)))
+	http.Handle("/film/detailed", corsMiddleware(http.HandlerFunc(__handlers__.FilmDetailsHandler)))
 }
 
 func main() {

@@ -51,3 +51,16 @@ func FilmGenresHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 	json.NewEncoder(w).Encode(data)
 }
+
+func FilmDetailsHandler(w http.ResponseWriter, r *http.Request) {
+	flimID := r.URL.Query().Get("filmID")
+	data, err := api.GetFilmDetails(filmID)
+
+	if err != nil {
+		http.Error(w, "Failed to fetch details", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(data)
+}
