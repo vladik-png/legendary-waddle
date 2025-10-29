@@ -8,7 +8,7 @@ export default function BottomBar() {
   const navigation = useNavigation();
 
   return (
-    <View style={[{ backgroundColor: "rgba(44, 43, 56, 1)", height: "8%", width: "100%", position: "absolute", bottom: 0 }]} >
+    <View style={[{ backgroundColor: "rgba(44, 43, 56, 1)", height: 64, width: "100%", position: "absolute", bottom: 0 }]} >
       <LeafyIconButton source="profile" rect={{
         x: "10%", y: 0, w: 70, h: "100%",
         img: {

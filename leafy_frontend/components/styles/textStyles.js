@@ -3,8 +3,7 @@ export const textStyle = {
     color: "white",
     fontFamily: "Arial",
     fontSize: 18,
-    left: "2%",
-    margin: "3%",
+    left: "5%",
   },
   homePageQuoteText: {
     fontSize: 18,

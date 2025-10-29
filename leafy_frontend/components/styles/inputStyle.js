@@ -21,12 +21,14 @@ export const inputStyle = {
     paddingLeft: 10,
     color: "white",
     backgroundColor: "rgba(44, 43, 56, 0.9)",
-    width: "80%",
-    height: "5%",
+    width: "90%",
+    height: "1.6%",
     borderRadius: 10,
+    borderColor: "rgba(34, 33, 46, 1)",
+    borderWidth: 2,
     position: "absolute",
-    left: "10%",
-    top: "5%",
+    left: "5%",
+    top: "2.4%",
     zIndex: 1,
   }
 };

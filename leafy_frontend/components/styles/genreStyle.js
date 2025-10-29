@@ -1,15 +1,18 @@
 export const genreStyle = {
   genreListContainer: {
+    top: "3.5%",
     height: 60,
-    zIndex: 2
+    alignSelf: "left",
   },
   genreListItem: {
     height: 32,
     width: 58,
     borderRadius: 22,
+    marginLeft: 6,
+    marginRight: 6,
   },
   genreListItemText: {
     color: "white",
-    fontSize: 14,
+    fontSize: 12,
   }
 };

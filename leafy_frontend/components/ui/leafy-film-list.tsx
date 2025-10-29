@@ -1,44 +1,52 @@
-import { getMovieDetails, getMoviewByTitle } from "@/api/omdbApi";
+import { getMoviesByGenre, getPopularMovies } from "@/api/omdbApi";
 import { filmCardStyle } from "@/components/styles/filmCardStyle";
 import LeafyText from "@/components/ui/leafy-text";
 import React, { useEffect, useState } from "react";
 import { Image, View } from "react-native";
 
-export default function FilmCardList({ navigation }: any) {
-  let [movies, setMovies] = useState<any[]>([]);
+interface Genre {
+  id: number;
+  name: string;
+}
+
+interface Movie {
+  id: number;
+  title: string;
+  poster_path: string;
+}
+
+export default function FilmCardList(selectedGenre: any) {
+  const [movies, setMovies] = useState<Movie[]>([]);
+
+  console.log("Genre rec: ", selectedGenre || "empty")
 
   useEffect(() => {
     async function loadMovies() {
-      const data = await getMoviewByTitle('Batman');
-      if (!data) return;
+      let data;
+      if (selectedGenre["selectedGenre"]) {
+        console.log("getMoviesByGenre");
+        data = await getMoviesByGenre(selectedGenre["selectedGenre"]);
+      } else {
+        data = await getPopularMovies();
+      }
+      if (!data) {
+        console.log("data is null")
+        return;
+      }
 
-      const detailedMovies = await Promise.all(
-        data.map(
-          async (m: any) => {
-            const details = await getMovieDetails(m.imdbID);
-            return {
-              ...m,
-              imdbRating: details.imdbRating,
-              Director: details.Director,
-            };
-          }
-        )
-      );
-
-      setMovies(detailedMovies);
+      setMovies(data);
     }
     loadMovies();
-  }, []);
+  }, [selectedGenre]);
 
   return (
-    <View style={{ paddingBottom: "10%", position: "relative" }}>
+    <View style={{ position: "relative", backgroundColor: "transparent" }}>
       {movies.map((movie, index) => (
-        <View key={movie.imdbID || index} style={[filmCardStyle.backgroundStyle, { marginBottom: 9 }]}>
-          <LeafyText text={movie.Title} style={filmCardStyle.filmTitleStyle} />
-          <LeafyText text={movie.Director} style={filmCardStyle.filmDirectorStyle} />
-          <LeafyText text={`IMDb: ${movie.imdbRating}`} style={filmCardStyle.IMDbTextStyle} />
+        <View key={index} style={[filmCardStyle.backgroundStyle, { marginBottom: 9 }]}>
+          <LeafyText text={movie.title} style={filmCardStyle.filmTitleStyle} />
+          <LeafyText text={`IMDb: ${movie.vote_average.toFixed(1)}`} style={filmCardStyle.IMDbTextStyle} />
           <Image
-            source={{ uri: movie.Poster }}
+            source={{ uri: movie.poster_path ? ("https://image.tmdb.org/t/p/w500" + movie.poster_path) : "https://via.placeholder.com/300" }}
             style={filmCardStyle.filmPosterStyle}
           />
         </View>

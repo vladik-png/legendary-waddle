@@ -1,5 +1,5 @@
 
-export function RegistrationRequest({ firstName, lastName, username, email, password }) {
+export function RegistrationRequest({ firstName, lastName, username, email, password, confirmPassword }: any) {
   if (password === confirmPassword) {
     fetch(`http://3.77.77.51:8080/register_new_user`, {
       method: "POST",
@@ -14,7 +14,6 @@ export function RegistrationRequest({ firstName, lastName, username, email, pass
     })
       .then(res => {
         console.log("Status:", res.status);
-        //return res.json();
       })
   }
 }

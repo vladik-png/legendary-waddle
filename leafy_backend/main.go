@@ -5,8 +5,6 @@ import (
 	"leafy/__handlers__"
 	db_conn "leafy/db_conn"
 	"net/http"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 func corsMiddleware(next http.Handler) http.Handler {
@@ -34,22 +32,18 @@ func attach_api_handlers() {
 
 	/*------------Email verification handlers--------------------------*/
 	http.Handle("/email_verification", corsMiddleware(http.HandlerFunc(__handlers__.EmailVerificationHandler)))
+
+	/*-----------------------------------------------------------------*/
+	/*------------TMDb handlers--------------------------*/
+	http.Handle("/home_page/popular_movies", corsMiddleware(http.HandlerFunc(__handlers__.PopularFilmsHandler)))
+	http.Handle("/movies/all_genres", corsMiddleware(http.HandlerFunc(__handlers__.FilmGenresHandler)))
+	http.Handle("/movies/by_genre", corsMiddleware(http.HandlerFunc(__handlers__.FilmByGenreHandler)))
 }
 
 func main() {
 	db_conn.Conn.ConnectToDB()
 	attach_api_handlers()
 
-	hash := "$2a$10$ps3gmtnIOrIHwf7MyPLwCeiZDzv/Z04WjYw/ppO7ebjw2.X4lLXaO"
-	password := "nnnnn" // заміни, якщо треба
-
-	err := bcrypt.CompareHashAndPassword([]byte(password), []byte(hash))
-	if err != nil {
-		fmt.Println("❌ Wrong password:", err)
-	} else {
-		fmt.Println("✅ Password correct!")
-	}
-
-	fmt.Println("Hello world")
+	fmt.Println("-=-=-=-=- Server START -=-=-=-=-=-")
 	http.ListenAndServe(":8080", nil)
 }
