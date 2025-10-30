@@ -25,9 +25,10 @@ export default function FilmCardList({ selectedGenre, navigation }: any) {
   useEffect(() => {
     async function loadMovies() {
       let data;
-      if (selectedGenre["selectedGenre"] && selectedGenre["selectedGenre"] != prevGenreID) {
+      if (selectedGenre["selectedGenre"] && Number(selectedGenre["selectedGenre"]) !== prevGenreID) {
         console.log("getMoviesByGenre");
-        data = await getFilmsByGenre(prevGenreID = selectedGenre["selectedGenre"]);
+        prevGenreID = selectedGenre["selectedGenre"]
+        data = await getFilmsByGenre(prevGenreID);
       } else {
         data = await getPopularFilms();
       }
@@ -47,7 +48,7 @@ export default function FilmCardList({ selectedGenre, navigation }: any) {
         <Pressable key={index} style={[filmCardStyle.backgroundStyle, { marginBottom: 9 }]} onPress={() => {
           const id = movie.id;
           console.log("FilmID pre: ", id);
-          navigation.navigate("FilmDetailScreen", { currentFilmID: id });
+          navigation.navigate("FilmDetailScreen", { currentFilmID: id, navigation });
         }}>
           <LeafyText text={movie.title} style={filmCardStyle.filmTitleStyle} />
           <LeafyText text={`IMDb: ${movie.vote_average.toFixed(1)}`} style={filmCardStyle.IMDbTextStyle} />

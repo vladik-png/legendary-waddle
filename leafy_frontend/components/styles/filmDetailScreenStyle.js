@@ -1,67 +1,77 @@
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-
 wp(10);
 
 export const filmDetailScreenStyle = {
+  yellow14: {
+    fontFamily: "sans-serif-condensed",
+    fontSize: 14,
+    color: "#FED330",
+  },
+  white14: {
+    fontFamily: "sans-serif-condensed",
+    fontSize: 14,
+    color: "white",
+  },
+  yellow18: {
+    fontFamily: "sans-serif-condensed",
+    fontSize: 18,
+    color: "#FED330",
+  },
+  white18: {
+    fontFamily: "sans-serif-condensed",
+    fontSize: 18,
+    color: "white",
+  },
   mainScrollView: {
     height: "100%",
     width: "100%",
     backgroundColor: "#181725",
+    paddingTop: "10%",
   },
   filmBasicInfo: {
     view: {
-      left: wp("5%"),
-      top: hp("5%"),
+      left: wp("6%"),
+      top: "25%",
       width: "90%",
-      height: 190,
+      height: 200,
       padding: 0,
     },
     posterView: {
       top: 0,
-      width: "38%",
-      height: 190,
+      width: "40%",
+      height: 220,
       backgroundColor: "white",
     },
     infoView: {
       view: {
         position: "absolute",
         top: 0,
-        left: "42%",
+        left: "46%",
         width: "55%",
-        height: 168,
+        height: 200,
       },
       title: {
+        fontFamily: "sans-serif-condensed",
         fontSize: 18,
         color: "white",
         maxWidth: "100%",
       },
       yearView: {
         flexDirection: "row",
-        yearYellow: {
-          fontSize: 14,
-          color: "#FED330",
-          maxWidth: "100%",
-        },
-        yearWhite: {
-          fontSize: 14,
-          color: "white",
-          maxWidth: "100%",
-        }
       },
       directorView: {
         flexDirection: "row",
         maxWidth: "100%",
-        directorYellow: {
-          fontSize: 14,
-          color: "#FED330",
-        },
-        directorWhite: {
-          fontSize: 14,
-          color: "white",
-        }
+      },
+      starsView: {
+        flexDirection: "column",
+        maxWidth: "100%",
+      },
+      stars: {
+        marginLeft: 15,
       },
       imdbText: {
-        top: 150,
+        top: 25,
         backgroundColor: "#FED53A",
         fontSize: 12,
         height: 18,
@@ -72,5 +82,29 @@ export const filmDetailScreenStyle = {
         paddingTop: 1,
       },
     },
+    genreCellView: {
+      position: "absolute",
+      top: hp("36%"),
+      left: "2%",
+      height: 28,
+      alignSelf: "left",
+    },
+    genreCell: {
+      height: 26,
+      borderRadius: 22,
+      alignSelf: "flex-start",
+      paddingLeft: 6,
+      paddingRight: 6,
+      marginLeft: 6,
+      marginRight: 6,
+      borderWidth: 1,
+      borderColor: "white",
+    },
+    genreCellText: {
+      marginTop: 3,
+      fontFamily: "sans-serif-condensed",
+      color: "white",
+      fontSize: 12,
+    }
   },
 };
