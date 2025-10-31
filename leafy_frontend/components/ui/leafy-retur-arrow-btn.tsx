@@ -58,11 +58,13 @@ export default function LeafyReturnArrowButton(
 
 const styles = StyleSheet.create({
   leafyButton: {
-    backgroundColor: "#2A2937",
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
     alignItems: "center",
     height: 48,
     width: 48,
     borderRadius: 24,
-    justifyContent: "center"
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.2)"
   },
 });

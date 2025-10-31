@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"leafy/api"
 	"net/http"
+	"strconv"
 )
 
 type GenreRequest struct {
@@ -31,10 +32,10 @@ func FilmByGenreHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := api.GetHomePageFilmsByGenre(genreID)
 
-	if data == nil {
-		fmt.Println("data == nil in FilmByGenreHandler")
-		return
-	}
+	/*if data == nil {
+	        fmt.Println("data == nil in FilmByGenreHandler")
+	        return
+	}*/
 
 	w.Header().Set("Content-type", "application/json")
 	json.NewEncoder(w).Encode(data)
@@ -53,7 +54,7 @@ func FilmGenresHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func FilmDetailsHandler(w http.ResponseWriter, r *http.Request) {
-	flimID := r.URL.Query().Get("filmID")
+	filmID, _ := strconv.Atoi(r.URL.Query().Get("filmID"))
 	data, err := api.GetFilmDetails(filmID)
 
 	if err != nil {

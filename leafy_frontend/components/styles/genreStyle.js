@@ -1,99 +1,130 @@
 export const genreStyle = {
-  genreListContainer: {
-    top: "3.5%",
-    height: 60,
+  genreCellView: {
+    marginTop: "5%",
+    height: 48,
+    width: "100%",
+    padding: 2,
     alignSelf: "left",
+    backgroundColor: "rgba(255, 255, 255, 0.01)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 30,
   },
-  genreListItem: {
-    height: 32,
-    width: 58,
-    borderRadius: 22,
+  genreCell: {
+    height: 28,
+    borderRadius: 8,
+    alignSelf: "flex-start",
+    paddingLeft: 6,
+    paddingRight: 6,
     marginLeft: 6,
     marginRight: 6,
+    borderWidth: 1,
   },
-  genreListItemText: {
+  genreCellText: {
+    marginTop: 2,
+    fontFamily: "sans-serif-condensed",
     color: "white",
-    fontSize: 12,
+    fontSize: 14,
   }
 };
 
 export const genresInfo = {
   "Action": {
     icon: require("@/assets/images/genresIcons/actionGenre.png"),
-    color: "#FF3B30",
+    color: "rgba(255, 59, 48, 0.4)",
+    borderColor: "rgba(255, 59, 48, 1)",
     cellName: "Action",
   },
   "Adventure": {
     icon: require("@/assets/images/genresIcons/adventureGenre.png"),
-    color: "#FF9500",
+    color: "rgba(255, 149, 0, 0.4)",
+    borderColor: "rgba(255, 149, 0, 1)",
     cellName: "Adventure",
   },
   "Animation": {
     icon: require("@/assets/images/genresIcons/animationGenre.png"),
-    color: "#5AC8FA",
+    color: "rgba(90, 200, 250, 0.4)",
+    borderColor: "rgba(90, 200, 250, 1)",
   },
   "Comedy": {
     icon: require("@/assets/images/genresIcons/comedyGenre.png"),
-    color: "#FFD60A",
+    color: "rgba(255, 214, 10, 0.4)",
+    borderColor: "rgba(255, 214, 10, 1)",
   },
   "Crime": {
     icon: require("@/assets/images/genresIcons/crimeGenre.png"),
-    color: "#8E8E93",
+    color: "rgba(142, 142, 147, 0.4)",
+    borderColor: "rgba(142, 142, 147, 1)",
   },
   "Documentary": {
     icon: null,
-    color: "#34C759",
+    color: "rgba(52, 199, 89, 0.4)",
+    borderColor: "rgba(52, 199, 89, 1)",
   },
   "Drama": {
     icon: null,
-    color: "#5856D6",
+    color: "rgba(88, 86, 214, 0.4)",
+    borderColor: "rgba(88, 86, 214, 1)",
   },
   "Family": {
     icon: null,
-    color: "#30D158",
+    color: "rgba(48, 209, 88, 0.4)",
+    borderColor: "rgba(48, 209, 88, 1)",
   },
   "Fantasy": {
     icon: require("@/assets/images/genresIcons/fantasyGenre.png"),
-    color: "#AF52DE",
+    color: "rgba(175, 82, 222, 0.4)",
+    borderColor: "rgba(175, 82, 222, 1)",
   },
   "History": {
     icon: require("@/assets/images/genresIcons/historyGenre.png"),
-    color: "#C7C7CC",
+    color: "rgba(199, 199, 204, 0.4)",
+    borderColor: "rgba(199, 199, 204, 1)",
   },
   "Horror": {
     icon: require("@/assets/images/genresIcons/horrorGenre.png"),
-    color: "#FF2D55",
+    color: "rgba(255, 45, 85, 0.4)",
+    borderColor: "rgba(255, 45, 85, 1)",
   },
   "Music": {
     icon: null,
-    color: "#FF9F0A",
+    color: "rgba(255, 159, 10, 0.4)",
+    borderColor: "rgba(255, 159, 10, 1)",
   },
   "Mystery": {
     icon: null,
-    color: "#5856D6",
+    color: "rgba(88, 86, 214, 0.4)",
+    borderColor: "rgba(88, 86, 214, 1)",
   },
   "Romance": {
     icon: null,
-    color: "#FF6B81",
+    color: "rgba(255, 107, 129, 0.4)",
+    borderColor: "rgba(255, 107, 129, 1)",
   },
   "Science Fiction": {
     icon: null,
-    color: "#0A84FF",
+    color: "rgba(48, 130, 254, 0.4)",
+    borderColor: "rgba(48, 130, 254, 1)",
   },
   "TV Movie": {
     icon: null,
-    color: "#CFCFCF",
+    color: "rgba(207, 207, 207, 0.4)",
+    borderColor: "rgba(207, 207, 207, 1)",
   },
   "Thriller": {
     icon: null,
-    color: "#FF9F0A",
+    color: "rgba(255, 159, 10, 0.4)",
+    borderColor: "rgba(255, 159, 10, 1)",
   },
   "War": {
     icon: null,
-    color: "#8E8E93",
+    color: "rgba(142, 142, 147, 0.4)",
+    borderColor: "rgba(142, 142, 147, 1)",
   },
   "Western": {
     icon: null,
     color: "#D2691E",
+    color: "rgba(210, 105, 30, 0.4)",
+    borderColor: "rgba(210, 105, 30, 1)",
   }
 };

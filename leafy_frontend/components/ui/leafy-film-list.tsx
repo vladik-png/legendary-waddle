@@ -15,42 +15,52 @@ interface Movie {
   title: string;
   vote_average: Float;
   poster_path: string;
+  directors: string[];
 }
 
-let prevGenreID: number = 0;
 
 export default function FilmCardList({ selectedGenre, navigation }: any) {
+  const [prevGenre, setPrevGenre] = useState<number>(0);
   const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     async function loadMovies() {
-      let data;
-      if (selectedGenre["selectedGenre"] && Number(selectedGenre["selectedGenre"]) !== prevGenreID) {
+      const current = selectedGenre;
+      console.warn("prevGenre: ", prevGenre, "\n");
+      console.warn("current: ", selectedGenre, "\n");
+
+      if (current !== prevGenre) {
         console.log("getMoviesByGenre");
-        prevGenreID = selectedGenre["selectedGenre"]
-        data = await getFilmsByGenre(prevGenreID);
-      } else {
-        data = await getPopularFilms();
-      }
-      if (!data) {
-        console.log("data is null")
+
+        setPrevGenre(current);
+
+        const data = await getFilmsByGenre(current);
+        if (!data) return;
+
+        setMovies(data);
         return;
       }
 
+      const data = await getPopularFilms();
+      if (!data) return;
+
       setMovies(data);
+
+      console.log("same genre pressed — no reload");
     }
-    loadMovies();
+    loadMovies()
   }, [selectedGenre]);
 
   return (
-    <View style={{ position: "relative", backgroundColor: "transparent" }}>
-      {movies.map((movie, index) => (
+    <View style={{ position: "relative", backgroundColor: "transparent", marginTop: "5%" }}>
+      {movies?.map((movie, index) => (
         <Pressable key={index} style={[filmCardStyle.backgroundStyle, { marginBottom: 9 }]} onPress={() => {
           const id = movie.id;
           console.log("FilmID pre: ", id);
           navigation.navigate("FilmDetailScreen", { currentFilmID: id, navigation });
         }}>
           <LeafyText text={movie.title} style={filmCardStyle.filmTitleStyle} />
+          <LeafyText text={movie?.directors?.at(0)} style={filmCardStyle.filmDirectorStyle} />
           <LeafyText text={`IMDb: ${movie.vote_average.toFixed(1)}`} style={filmCardStyle.IMDbTextStyle} />
           <Image
             source={{ uri: "https://image.tmdb.org/t/p/w500" + movie.poster_path }}

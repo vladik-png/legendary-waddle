@@ -1,16 +1,15 @@
 export const textStyle = {
   homePageTrandingText: {
     color: "white",
-    fontFamily: "Arial",
-    fontSize: 18,
-    left: "5%",
+    fontFamily: "sans-serif-condensed",
+    fontSize: 22,
+    marginLeft: "5%"
   },
   homePageQuoteText: {
     fontSize: 18,
     color: "white",
     fontFamily: "Arial",
     textAlign: "center",
-    top: "10%",
     left: "10%",
     maxWidth: "80%",
   },

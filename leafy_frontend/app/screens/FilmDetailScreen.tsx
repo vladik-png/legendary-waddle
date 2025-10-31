@@ -4,7 +4,12 @@ import { genresInfo } from "@/components/styles/genreStyle";
 import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
 import LeafyText from "@/components/ui/leafy-text";
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { Dimensions, Image, ImageBackground, Pressable, ScrollView, Text, View } from "react-native";
+import YoutubePlayer from "react-native-youtube-iframe";
+import BottomBar from "./bars/bottomBar";
+
+
+const { width: screenW, height: screenH } = Dimensions.get("window");
 
 interface Cast {
   adult: boolean,
@@ -39,7 +44,7 @@ interface ProductionCompany {
   id: number;
   logo_path: string;
   name: string;
-  origin_countriy: string;
+  origin_country: string;
 };
 
 interface Genre {
@@ -58,10 +63,17 @@ interface SpokenLanguage {
   name: string;
 };
 
+interface Video {
+  name: string;
+  key: string;
+  type: string;
+  site: string;
+};
+
 interface Film {
   adult: boolean;
   backdrop_path: string;
-  belongs_to_collection: any;
+  belongs_to_collection: string;
   budget: number;
   genres: Genre[];
   homepage: string;
@@ -88,7 +100,11 @@ interface Film {
     cast: Cast[];
     crew: Crew[];
   },
+  videos: {
+    results: Video[];
+  },
   directors: any;
+  images: any;
 };
 
 export default function FilmDetailScreen({ route, navigation }: any) {
@@ -98,61 +114,153 @@ export default function FilmDetailScreen({ route, navigation }: any) {
     async function loadFilmDetails() {
       const data: Film = await getDetailedFilmByID(route.params.currentFilmID);
       if (!data) return;
-      data.directors = data.credits.crew.filter(member => member.job === "Director").map(member => member.name);
+      data.directors = data.credits.crew?.filter(member => member.job === "Director").map(member => member.name);
       setFilm(data);
     }
     loadFilmDetails();
   }, []);
 
-  return (
-    <ScrollView style={filmDetailScreenStyle.mainScrollView}>
-      <LeafyReturnArrowButton rect={{ x: "5%", y: 5 }} onPress={() => navigation.navigate("HomePageScreen")} />
-      <View style={filmDetailScreenStyle.filmBasicInfo.view}>
-        <View style={filmDetailScreenStyle.filmBasicInfo.posterView}>
-          <Image
-            source={{ uri: "https://image.tmdb.org/t/p/w500" + film?.poster_path }}
-            style={{ height: "100%", width: "100%" }} />
-        </View>
-        <View style={filmDetailScreenStyle.filmBasicInfo.infoView.view}>
-          <Text style={filmDetailScreenStyle.filmBasicInfo.infoView.title}>{film?.title}</Text>
-          <View style={filmDetailScreenStyle.filmBasicInfo.infoView.yearView}>
-            <Text style={filmDetailScreenStyle.yellow14}>{"Year"}</Text>
-            <Text style={filmDetailScreenStyle.white14}>{`: ${film?.release_date.slice(0, 4)}`}</Text>
-          </View>
-          <View style={filmDetailScreenStyle.filmBasicInfo.infoView.directorView}>
-            <Text style={filmDetailScreenStyle.yellow14}>{"Director"}</Text>
-            <Text style={filmDetailScreenStyle.white14}>{`: ${film?.directors[0]}`}</Text>
-          </View>
-          <View style={filmDetailScreenStyle.filmBasicInfo.infoView.starsView}>
-            <Text style={filmDetailScreenStyle.yellow14}>{"Stars: "}</Text>
-            {film?.credits.cast.slice(0, Math.min(4, film?.credits.cast.length)).map((star, index) =>
-              <Text key={index} style={[filmDetailScreenStyle.white14, filmDetailScreenStyle.filmBasicInfo.infoView.stars]}>{`${star.name}`}</Text>
-            )}
-          </View>
-          <LeafyText text={`IMDb: ${film?.vote_average.toFixed(1)}`} style={filmDetailScreenStyle.filmBasicInfo.infoView.imdbText} />
-        </View>
-      </View>
-      <ScrollView horizontal={true}
-        style={filmDetailScreenStyle.filmBasicInfo.genreCellView}
-        contentContainerStyle={{ paddingHorizontal: 10 }}
-        showsHorizontalScrollIndicator={false}
-      >
-        {
-          film?.genres.map((genre, index) => {
-            const name: string = genre.name;
-            return (
-              <Pressable key={index} style={[{ alignItems: "center", backgroundColor: genresInfo[name]?.color }, filmDetailScreenStyle.filmBasicInfo.genreCell]}>
-                <Text style={[filmDetailScreenStyle.filmBasicInfo.genreCellText]}>{name}</Text>
-              </Pressable>
-            )
-          })
-        }
-      </ScrollView>
+  const trailerKey = film?.videos?.results?.find(
+    video => video.site === "YouTube" && video.type === "Trailer"
+  )?.key;
 
-      <View style={{ flexDirection: "column", top: "50%", left: "5%" }}>
-        <Text style={[{ width: "80%" }, filmDetailScreenStyle.yellow18]}>Overview:</Text>
-        <Text style={[{ width: "90%" }, filmDetailScreenStyle.white14]}>   {film?.overview}</Text>
-      </View>
-    </ScrollView >
+  const castLength = film.credits.cast.length;
+
+  return (
+    <View style={{ flex: 1 }}>
+      <ScrollView style={filmDetailScreenStyle.mainScrollView}>
+
+        <LeafyReturnArrowButton style={{ marginTop: "5%", zIndex: 2 }} onPress={() => navigation.navigate("HomePageScreen")} />
+
+        <ImageBackground
+          source={{ uri: "https://image.tmdb.org/t/p/w500" + film?.images?.backdrops[0]?.file_path }}
+          style={{ height: (screenH / 100) * 40, width: "104%", marginLeft: "-3%", marginRight: "-3%", marginTop: "-20%" }}>
+          <View style={{ backgroundColor: "rgba(0, 0, 0, 0.65)", marginRight: "-2%" }}>
+
+            <View style={{ flexDirection: "column", marginLeft: "3%", marginTop: "20%", justifyContent: "space-between" }}>
+
+              <Text style={filmDetailScreenStyle.mainView.filmBasicInfo.title}>{film?.title}</Text>
+
+              <View style={filmDetailScreenStyle.mainView.filmBasicInfo.view}>
+
+                <View style={filmDetailScreenStyle.mainView.filmBasicInfo.posterView}>
+                  <Image
+                    source={{ uri: "https://image.tmdb.org/t/p/w500" + film?.poster_path }}
+                    style={{ height: "100%", width: "100%" }} />
+                </View>
+
+                <View style={filmDetailScreenStyle.mainView.filmBasicInfo.infoView.textInfoView}>
+                  <View style={filmDetailScreenStyle.mainView.filmBasicInfo.infoView.yearView}>
+                    <Text style={filmDetailScreenStyle.yellow16}>{"Year"}</Text>
+                    <Text style={filmDetailScreenStyle.white16}>{`: ${film?.release_date.slice(0, 4)}`}</Text>
+                  </View>
+
+                  <View style={filmDetailScreenStyle.mainView.filmBasicInfo.infoView.directorView}>
+                    <Text style={filmDetailScreenStyle.yellow16}>{"Director"}</Text>
+                    <Text style={filmDetailScreenStyle.white16}>{`: ${film?.directors[0]}`}</Text>
+                  </View>
+
+                  <View style={filmDetailScreenStyle.mainView.filmBasicInfo.infoView.starsView}>
+                    <Text style={filmDetailScreenStyle.yellow16}>{"Stars: "}</Text>
+                    {film?.credits?.cast?.slice(0, Math.min(4, film?.credits?.cast?.length)).map((star, index) =>
+                      <Text key={index} style={[filmDetailScreenStyle.white16, filmDetailScreenStyle.mainView.filmBasicInfo.infoView.stars]}>{`${star.name}`}</Text>
+                    )}
+                  </View>
+
+                  <View style={{ width: 100, height: 20, flexDirection: "row" }}>
+                    <Text style={filmDetailScreenStyle.yellow16}>Runtime: </Text>
+                    <Text style={filmDetailScreenStyle.white16}>{film?.runtime} </Text>
+                    <Text style={filmDetailScreenStyle.yellow16}>min</Text>
+                  </View>
+
+                  <LeafyText text={`IMDb: ${film?.vote_average.toFixed(1)}`} style={filmDetailScreenStyle.mainView.filmBasicInfo.infoView.imdbText} />
+
+                </View>
+              </View>
+            </View>
+          </View>
+        </ImageBackground>
+
+
+        <View style={filmDetailScreenStyle.actionRow.view}>
+          <Pressable style={filmDetailScreenStyle.actionRow.saveBtn}>
+            <Text style={[filmDetailScreenStyle.white18, { width: "100%", textAlign: "center" }]}>Save</Text>
+          </Pressable>
+
+          <Pressable style={filmDetailScreenStyle.actionRow.markAsWatchedBtn}>
+            <Text style={[filmDetailScreenStyle.white18, { width: "100%", textAlign: "center" }]}>Mark as Watched</Text>
+          </Pressable>
+
+          <Pressable style={filmDetailScreenStyle.actionRow.shareBtn}>
+            <Text style={[filmDetailScreenStyle.white18, { width: "100%", textAlign: "center" }]}>Share</Text>
+          </Pressable>
+        </View>
+
+        <View style={{ backgroundColor: "rgba(255, 255, 255, 0.02)", padding: 6, paddingTop: 0, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)", borderRadius: 5 }}>
+          <Text style={[filmDetailScreenStyle.yellow18, { padding: 0, margin: 0 }]}>Genres:</Text>
+          <ScrollView horizontal={true}
+            style={filmDetailScreenStyle.genreCellView}
+            contentContainerStyle={{ paddingHorizontal: 10 }}
+            showsHorizontalScrollIndicator={false}
+          >
+            {
+              film?.genres.map((genre, index) => {
+                const name: string = genre.name;
+                return (
+                  <Pressable key={index} style={[filmDetailScreenStyle.genreCell, { alignItems: "center", backgroundColor: genresInfo[name]?.color, borderColor: genresInfo[name]?.borderColor }]}>
+                    <Text style={[filmDetailScreenStyle.genreCellText]}>{name}</Text>
+                  </Pressable>
+                )
+              })
+            }
+          </ScrollView>
+        </View>
+
+        <Text style={[{ width: "80%", marginTop: "5%" }, filmDetailScreenStyle.yellow18]}>Trailer:</Text>
+        <View style={{ marginLeft: "-6%", marginTop: "2%" }}>
+          <YoutubePlayer height={250} width={"110%"} play={false} videoId={trailerKey} />
+        </View>
+        <View style={{ flexDirection: "column", marginTop: "10%" }}>
+          <Text style={filmDetailScreenStyle.yellow18}>Overview:</Text>
+          <Text style={[{ width: "100%", textAlign: "justify" }, filmDetailScreenStyle.white16]}>   {film?.overview}</Text>
+        </View>
+
+        <View style={{ width: "100%", marginBottom: "25%", marginTop: "10%" }}>
+          <Text style={[filmDetailScreenStyle.yellow18, { marginTop: "5%" }]}>Cast:</Text>
+          <View style={{ flexDirection: "column", borderColor: "rgba(255, 255, 255, 0.05)", borderRadius: 5, borderWidth: 1, padding: 2, justifyContent: "space-between", gap: 5 }}>
+            {
+              film?.credits?.cast?.map((person, index) => {
+                return (
+                  <View key={index} style={{ flexDirection: "row", height: 84, backgroundColor: "rgba(255, 255, 255, 0.02)", borderRadius: 4, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)" }}>
+                    <Image source={person.profile_path ? { uri: "https://image.tmdb.org/t/p/w500" + person?.profile_path } : require("@/assets/images/noPhoto.png")}
+                      style={{ height: "100%", width: "25%", borderTopLeftRadius: 4, borderBottomLeftRadius: 4 }} />
+                    <View style={{ flexDirection: "column", marginLeft: "5%", justifyContent: "space-between", padding: 5 }}>
+                      <Text style={filmDetailScreenStyle.white18}>{person.name}</Text>
+                      <Text style={filmDetailScreenStyle.white14}>{person.character}</Text>
+                      <Text style={filmDetailScreenStyle.white14}>{person.known_for_department}</Text>
+                    </View>
+                  </View>
+                )
+              })
+            }
+          </View>
+
+          <Text style={[filmDetailScreenStyle.yellow18, { marginTop: "5%" }]}>Crew:</Text>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", borderColor: "rgba(255, 255, 255, 0.05)", borderRadius: 5, borderWidth: 1, padding: 2 }}>
+            {
+              film?.credits?.crew?.map((person, index) => {
+                return (
+                  <View key={index} style={{ justifyContent: "center", flexDirection: "column", height: 84, padding: 5, width: "32%", marginBottom: "2%", backgroundColor: "rgba(255, 255, 255, 0.02)", borderRadius: 4, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)" }}>
+                    <Text style={[filmDetailScreenStyle.white16, { textAlign: "center" }]}>{person.name}</Text>
+                    <Text style={[filmDetailScreenStyle.white12, { textAlign: "center" }]}>{person.department}</Text>
+                  </View>
+                )
+              })
+            }
+          </View>
+        </View>
+      </ScrollView >
+      <BottomBar />
+    </View >
   );
 }

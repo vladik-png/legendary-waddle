@@ -5,6 +5,7 @@ export const backgroundStyle = {
   },
   darkBlueBackground: {
     flex: 1,
-    backgroundColor: "#181725",
+    backgroundColor: "#131222",
+    //backgroundColor: "#181725",
   }
 };

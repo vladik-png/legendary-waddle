@@ -8,7 +8,7 @@ export default function BottomBar() {
   const navigation = useNavigation();
 
   return (
-    <View style={[{ backgroundColor: "rgba(44, 43, 56, 1)", height: 64, width: "100%", position: "absolute", bottom: 0 }]} >
+    <View style={[{ backgroundColor: "rgba(180, 190, 200, 0.12)", height: 60, width: "100%", position: "absolute", bottom: 0, borderWidth: 1.5, borderColor: "rgba(255, 255, 255, 0.15)" }]} >
       <LeafyIconButton source="profile" rect={{
         x: "10%", y: 0, w: 70, h: "100%",
         img: {
@@ -18,7 +18,8 @@ export default function BottomBar() {
           w: "33%",
         }
       }}
-        style={buttonStyle.bottomBarButtons} />
+        style={buttonStyle.bottomBarButtons}
+        onPress={() => navigation.navigate("CurrentUserProfileScreen")} />
 
       <LeafyIconButton source="home" rect={{
         x: "43%", y: 0, w: 70, h: "100%",
@@ -39,7 +40,8 @@ export default function BottomBar() {
           h: "100%",
           w: "33%",
         }
-      }} style={buttonStyle.bottomBarButtons} />
+      }} style={buttonStyle.bottomBarButtons}
+        onPress={() => navigation.navigate("ExploreScreen")} />
 
       <LeafyIconButton source="" rect={{ x: 280, y: 0, w: 70, h: "100%" }} style={buttonStyle.bottomBarButtons} />
     </View >

@@ -1,10 +1,12 @@
+import { Platform } from "react-native";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+
 export const viewStyle = {
   homePageQuoteView: {
-    height: 220,
-    width: "90%",
+    height: hp("51%"),
+    width: "100%",
     backgroundColor: "#005C4D",
     borderRadius: 10,
-    marginLeft: "5%",
-    top: "2.4%"
+    opacity: (Platform.OS === "android" ? 0.07 : 0.25),
   }
 };
