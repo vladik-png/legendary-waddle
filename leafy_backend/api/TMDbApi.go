@@ -9,11 +9,12 @@ import (
 )
 
 type HomePageFilmItem struct {
-	Id         int      `json:"id"`
-	Title      string   `json:"title"`
-	IMDbRating float64  `json:"vote_average"`
-	Poster     string   `json:"poster_path"`
-	Directors  []string `json:"directors"`
+	Id          int      `json:"id"`
+	Title       string   `json:"title"`
+	IMDbRating  float64  `json:"vote_average"`
+	Poster      string   `json:"poster_path"`
+	Directors   []string `json:"directors"`
+	ReleaseDate string   `json:"release_date"`
 }
 type HomePageTMDbResults struct {
 	Results []HomePageFilmItem `json:"results"`
@@ -21,11 +22,12 @@ type HomePageTMDbResults struct {
 
 type HomePageTMDbResponse struct {
 	Results []struct {
-		Id         int     `json:"id"`
-		Title      string  `json:"title"`
-		IMDbRating float64 `json:"vote_average"`
-		Poster     string  `json:"poster_path"`
-		Credits    struct {
+		Id          int     `json:"id"`
+		Title       string  `json:"title"`
+		IMDbRating  float64 `json:"vote_average"`
+		Poster      string  `json:"poster_path"`
+		ReleaseDate string  `json:"release_date"`
+		Credits     struct {
 			Crew []struct {
 				Name string `json:"name"`
 				Job  string `json:"job"`
@@ -243,11 +245,12 @@ func GetHomePageFilmList() []HomePageFilmItem {
 			}
 		}
 		films.Results = append(films.Results, HomePageFilmItem{
-			Id:         f.Id,
-			Title:      f.Title,
-			IMDbRating: f.IMDbRating,
-			Poster:     f.Poster,
-			Directors:  directors,
+			Id:          f.Id,
+			Title:       f.Title,
+			IMDbRating:  f.IMDbRating,
+			Poster:      f.Poster,
+			Directors:   directors,
+			ReleaseDate: f.ReleaseDate,
 		})
 	}
 
@@ -295,11 +298,12 @@ func GetHomePageFilmsByGenre(genreID string) []HomePageFilmItem {
 			}
 		}
 		films.Results = append(films.Results, HomePageFilmItem{
-			Id:         f.Id,
-			Title:      f.Title,
-			IMDbRating: f.IMDbRating,
-			Poster:     f.Poster,
-			Directors:  directors,
+			Id:          f.Id,
+			Title:       f.Title,
+			IMDbRating:  f.IMDbRating,
+			Poster:      f.Poster,
+			Directors:   directors,
+			ReleaseDate: f.ReleaseDate,
 		})
 	}
 

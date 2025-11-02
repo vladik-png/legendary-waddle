@@ -1,7 +1,15 @@
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { backgroundStyle } from './backgroundStyle';
 wp(10);
 
+const background = backgroundStyle?.darkBlueBackground.backgroundColor
+
 export const filmDetailScreenStyle = {
+  grey12: {
+    fontFamily: "sans-serif-condensed",
+    fontSize: 12,
+    color: "#ACACAC",
+  },
   yellow12: {
     fontFamily: "sans-serif-condensed",
     fontSize: 12,
@@ -11,6 +19,14 @@ export const filmDetailScreenStyle = {
     fontFamily: "sans-serif-condensed",
     fontSize: 12,
     color: "white",
+  },
+  grey14: {
+    fontFamily: "sans-serif-condensed",
+    fontSize: 14,
+    color: "#ACACAC",
+    textAlign: "justify",
+    minWidth: "85%",
+    maxWidth: "85%",
   },
   yellow14: {
     fontFamily: "sans-serif-condensed",
@@ -22,6 +38,11 @@ export const filmDetailScreenStyle = {
     fontSize: 14,
     color: "white",
   },
+  grey16: {
+    fontFamily: "sans-serif-condensed",
+    fontSize: 16,
+    color: "#ACACAC",
+  },
   yellow16: {
     fontFamily: "sans-serif-condensed",
     fontSize: 16,
@@ -31,6 +52,11 @@ export const filmDetailScreenStyle = {
     fontFamily: "sans-serif-condensed",
     fontSize: 16,
     color: "white",
+  },
+  grey18: {
+    fontFamily: "sans-serif-condensed",
+    fontSize: 18,
+    color: "#ACACAC",
   },
   yellow18: {
     fontFamily: "sans-serif-condensed",
@@ -45,7 +71,7 @@ export const filmDetailScreenStyle = {
   },
   mainScrollView: {
     flex: 1,
-    backgroundColor: "#181725",
+    backgroundColor: background,
     padding: "2.5%",
     paddingTop: 0,
   },
@@ -58,17 +84,16 @@ export const filmDetailScreenStyle = {
         maxWidth: "100%",
         alignSelf: "left",
         marginTop: "5%",
-        opacity: 1,
       },
       view: {
         flexDirection: "row",
-        marginTop: "5%",
+        top: "5%",
         width: "90%",
         height: 200,
         padding: 0,
       },
       posterView: {
-        width: "42%",
+        width: wp("42%"),
         height: 220,
         backgroundColor: "white",
       },
@@ -139,19 +164,19 @@ export const filmDetailScreenStyle = {
       marginBottom: "5%",
       marginTop: "15%",
       flexDirection: "row",
-      paddingLeft: 4,
-      paddingRight: 4,
-      height: 46,
+      paddingLeft: 2,
+      paddingRight: 2,
+      height: 42,
       width: "100%",
       justifyContent: "space-between",
       alignItems: "center",
       backgroundColor: "rgba(255, 255, 255, 0.02)",
       borderWidth: 1,
       borderColor: "rgba(255, 255, 255, 0.09)",
-      borderRadius: 8,
+      borderRadius: 12,
     },
     saveBtn: {
-      borderRadius: 5,
+      borderRadius: 10,
       backgroundColor: "rgba(254, 211, 48, 0.4)",
       borderColor: "rgba(254, 211, 48, 1)",
       borderWidth: 1,
@@ -162,13 +187,16 @@ export const filmDetailScreenStyle = {
     },
     markAsWatchedBtn: {
       borderRadius: 5,
-      backgroundColor: "rgba(0, 92, 77, 0.4)",
-      borderColor: "rgba(0, 92, 77, 1)",
-      borderWidth: 1,
+      //backgroundColor: "rgba(0, 92, 77, 0.4)",
+      borderColor: "rgba(0, 92, 77, 0.4)",
+      //borderColor: "rgba(0, 92, 77, 1)",
+      backgroundColor: "rgba(0, 92, 77, 0.7)",
+      borderWidth: 2,
       height: 36,
       width: 150,
       flexDirection: "row",
       alignItems: "center",
+      borderRadius: 10,
     },
     shareBtn: {
       borderRadius: 5,
@@ -179,6 +207,7 @@ export const filmDetailScreenStyle = {
       width: 64,
       flexDirection: "row",
       alignItems: "center",
+      borderRadius: 10,
     }
   }
 };

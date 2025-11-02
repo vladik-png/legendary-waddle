@@ -1,4 +1,4 @@
-import { getFilmGenres } from "@/api/omdbApi";
+import { getFilmGenres } from "@/api/tmdbApi";
 import { genreStyle, genresInfo } from "@/components/styles/genreStyle";
 import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";

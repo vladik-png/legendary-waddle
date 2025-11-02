@@ -7,16 +7,6 @@ import GenresList from "@/components/ui/leafy-genres-list";
 import React from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 
-/*       <View style={viewStyle.homePageQuoteView}>
-         <Text style={textStyle.homePageQuoteText}>Never rat on your friends and always
-           keep your mouth shut
-         </Text>
-         <Text style={textStyle.homePageQuoteOriginText}>
-           Goodfellas ~ 1990
-         </Text>
-       </View>
-*/
-
 export default function HomePageScreen({ navigation }: any) {
   const [selectedGenre, setSelectedGenre] = React.useState<number>(0);
   return (
@@ -24,9 +14,9 @@ export default function HomePageScreen({ navigation }: any) {
       <ScrollView style={{ backgroundColor: "transparent" }}
         showsVerticalScrollIndicator={false}>
         <View style={viewStyle.homePageQuoteView}>
-          <Image source={require("@/assets/images/filmTape.jpg")} style={{ width: "100%", height: "100%", borderRadius: 8 }} />
+          <Image source={require("@/assets/images/filmTape.jpg")} style={{ width: "100%", height: "100%", borderRadius: 20 }} />
         </View>
-        <Text style={[textStyle.homePageTrandingText, { marginTop: "-25%" }]}>Genres</Text>
+        <Text style={[textStyle.homePageTrandingText, { marginTop: "-22%" }]}>Genres</Text>
         <GenresList setSelectedGenre={setSelectedGenre} />
         <Text style={[textStyle.homePageTrandingText, { marginTop: "5%" }]}>Trending</Text>
         <FilmCardList navigation={navigation} selectedGenre={selectedGenre} />

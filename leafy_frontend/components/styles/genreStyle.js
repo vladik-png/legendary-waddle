@@ -1,6 +1,6 @@
 export const genreStyle = {
   genreCellView: {
-    marginTop: "5%",
+    marginTop: "2%",
     height: 48,
     width: "100%",
     padding: 2,

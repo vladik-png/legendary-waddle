@@ -1,111 +1,20 @@
-import { getDetailedFilmByID } from "@/api/omdbApi";
+import { getDetailedFilmByID } from "@/api/tmdbApi";
+import BottomBar from "@/app/screens/bars/bottomBar";
 import { filmDetailScreenStyle } from "@/components/styles/filmDetailScreenStyle";
 import { genresInfo } from "@/components/styles/genreStyle";
 import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
 import LeafyText from "@/components/ui/leafy-text";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Image, ImageBackground, Pressable, ScrollView, Text, View } from "react-native";
+import { heightPercentageToDP } from "react-native-responsive-screen";
 import YoutubePlayer from "react-native-youtube-iframe";
-import BottomBar from "./bars/bottomBar";
+import ActorCard from "./components/CreditsCard";
+import { Film } from "./types";
 
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 
-interface Cast {
-  adult: boolean,
-  gender: number,
-  id: number,
-  known_for_department: string;
-  name: string,
-  original_name: string;
-  popularity: number;
-  profile_path: string;
-  cast_id: number,
-  character: string;
-  credit_id: string;
-  order: number;
-};
 
-interface Crew {
-  adult: boolean;
-  gender: number,
-  id: number,
-  known_for_department: string;
-  name: string;
-  original_name: string;
-  popularity: number,
-  profile_path: string;
-  credit_id: string;
-  department: string;
-  job: string;
-};
-
-interface ProductionCompany {
-  id: number;
-  logo_path: string;
-  name: string;
-  origin_country: string;
-};
-
-interface Genre {
-  id: number;
-  name: string;
-};
-
-interface ProductCountry {
-  iso_3166_1: string;
-  name: string;
-};
-
-interface SpokenLanguage {
-  english_name: string;
-  iso_639_1: string;
-  name: string;
-};
-
-interface Video {
-  name: string;
-  key: string;
-  type: string;
-  site: string;
-};
-
-interface Film {
-  adult: boolean;
-  backdrop_path: string;
-  belongs_to_collection: string;
-  budget: number;
-  genres: Genre[];
-  homepage: string;
-  id: number;
-  imdb_id: string;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  production_companies: ProductionCompany[];
-  production_countries: ProductCountry[];
-  release_date: string;
-  revenue: number;
-  runtime: number;
-  spoken_languages: SpokenLanguage[];
-  status: string;
-  tagline: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-  credits: {
-    cast: Cast[];
-    crew: Crew[];
-  },
-  videos: {
-    results: Video[];
-  },
-  directors: any;
-  images: any;
-};
 
 export default function FilmDetailScreen({ route, navigation }: any) {
   const [film, setFilm] = useState<Film | null>(null);
@@ -124,8 +33,6 @@ export default function FilmDetailScreen({ route, navigation }: any) {
     video => video.site === "YouTube" && video.type === "Trailer"
   )?.key;
 
-  const castLength = film.credits.cast.length;
-
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={filmDetailScreenStyle.mainScrollView}>
@@ -135,11 +42,16 @@ export default function FilmDetailScreen({ route, navigation }: any) {
         <ImageBackground
           source={{ uri: "https://image.tmdb.org/t/p/w500" + film?.images?.backdrops[0]?.file_path }}
           style={{ height: (screenH / 100) * 40, width: "104%", marginLeft: "-3%", marginRight: "-3%", marginTop: "-20%" }}>
-          <View style={{ backgroundColor: "rgba(0, 0, 0, 0.65)", marginRight: "-2%" }}>
+          <View style={{ backgroundColor: "rgba(0, 0, 0, 0.75)", marginRight: "-2%", marginTop: "1%" }}>
 
             <View style={{ flexDirection: "column", marginLeft: "3%", marginTop: "20%", justifyContent: "space-between" }}>
 
-              <Text style={filmDetailScreenStyle.mainView.filmBasicInfo.title}>{film?.title}</Text>
+              <Text style={filmDetailScreenStyle.mainView.filmBasicInfo.title}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {film?.title}
+              </Text>
 
               <View style={filmDetailScreenStyle.mainView.filmBasicInfo.view}>
 
@@ -178,6 +90,7 @@ export default function FilmDetailScreen({ route, navigation }: any) {
                 </View>
               </View>
             </View>
+
           </View>
         </ImageBackground>
 
@@ -196,8 +109,8 @@ export default function FilmDetailScreen({ route, navigation }: any) {
           </Pressable>
         </View>
 
-        <View style={{ backgroundColor: "rgba(255, 255, 255, 0.02)", padding: 6, paddingTop: 0, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)", borderRadius: 5 }}>
-          <Text style={[filmDetailScreenStyle.yellow18, { padding: 0, margin: 0 }]}>Genres:</Text>
+        <View style={{ backgroundColor: "rgba(255, 255, 255, 0.02)", padding: 6, paddingTop: 0, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)", borderRadius: 12 }}>
+          <Text style={[filmDetailScreenStyle.yellow18, { padding: 0, margin: 0 }]}>Genres</Text>
           <ScrollView horizontal={true}
             style={filmDetailScreenStyle.genreCellView}
             contentContainerStyle={{ paddingHorizontal: 10 }}
@@ -216,47 +129,65 @@ export default function FilmDetailScreen({ route, navigation }: any) {
           </ScrollView>
         </View>
 
-        <Text style={[{ width: "80%", marginTop: "5%" }, filmDetailScreenStyle.yellow18]}>Trailer:</Text>
+        <Text style={[{ width: "80%", marginTop: "5%" }, filmDetailScreenStyle.yellow18]}>Trailer</Text>
         <View style={{ marginLeft: "-6%", marginTop: "2%" }}>
-          <YoutubePlayer height={250} width={"110%"} play={false} videoId={trailerKey} />
+          <YoutubePlayer height={250} width={"103%"} play={false} videoId={trailerKey} />
         </View>
         <View style={{ flexDirection: "column", marginTop: "10%" }}>
-          <Text style={filmDetailScreenStyle.yellow18}>Overview:</Text>
+          <Text style={filmDetailScreenStyle.yellow18}>Overview</Text>
           <Text style={[{ width: "100%", textAlign: "justify" }, filmDetailScreenStyle.white16]}>   {film?.overview}</Text>
         </View>
 
-        <View style={{ width: "100%", marginBottom: "25%", marginTop: "10%" }}>
-          <Text style={[filmDetailScreenStyle.yellow18, { marginTop: "5%" }]}>Cast:</Text>
-          <View style={{ flexDirection: "column", borderColor: "rgba(255, 255, 255, 0.05)", borderRadius: 5, borderWidth: 1, padding: 2, justifyContent: "space-between", gap: 5 }}>
+        <View style={{ width: "100%", marginTop: "10%" }}>
+          <Text style={[filmDetailScreenStyle.yellow18, { marginTop: "5%", textDecorationLine: "underline" }]}
+            onPress={() => navigation.navigate("FilmCreditsScreen", { credits: film?.credits })}>Cast</Text>
+          <View style={{ flexDirection: "column", borderColor: "rgba(255, 255, 255, 0.05)", borderRadius: 10, borderWidth: 1, justifyContent: "space-between", gap: 5 }}>
             {
-              film?.credits?.cast?.map((person, index) => {
+              film?.credits?.cast?.slice(0, Math.min(6, film.credits.cast.length - 1)).map((person, index) => {
                 return (
-                  <View key={index} style={{ flexDirection: "row", height: 84, backgroundColor: "rgba(255, 255, 255, 0.02)", borderRadius: 4, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)" }}>
-                    <Image source={person.profile_path ? { uri: "https://image.tmdb.org/t/p/w500" + person?.profile_path } : require("@/assets/images/noPhoto.png")}
-                      style={{ height: "100%", width: "25%", borderTopLeftRadius: 4, borderBottomLeftRadius: 4 }} />
-                    <View style={{ flexDirection: "column", marginLeft: "5%", justifyContent: "space-between", padding: 5 }}>
-                      <Text style={filmDetailScreenStyle.white18}>{person.name}</Text>
-                      <Text style={filmDetailScreenStyle.white14}>{person.character}</Text>
-                      <Text style={filmDetailScreenStyle.white14}>{person.known_for_department}</Text>
-                    </View>
-                  </View>
+                  <ActorCard key={index} cast={person} />
                 )
               })
             }
           </View>
 
-          <Text style={[filmDetailScreenStyle.yellow18, { marginTop: "5%" }]}>Crew:</Text>
-          <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", borderColor: "rgba(255, 255, 255, 0.05)", borderRadius: 5, borderWidth: 1, padding: 2 }}>
+          <Text style={[filmDetailScreenStyle.yellow18, { marginTop: "5%", textDecorationLine: "underline" }]}>Crew</Text>
+          <View style={{ flexDirection: "column", borderColor: "rgba(255, 255, 255, 0.05)", borderRadius: 10, borderWidth: 1, justifyContent: "space-between", gap: 5 }}>
             {
-              film?.credits?.crew?.map((person, index) => {
+              film?.credits?.crew?.slice(0, Math.min(6, film.credits.crew.length - 1))?.map((person: any, index: any) => {
                 return (
-                  <View key={index} style={{ justifyContent: "center", flexDirection: "column", height: 84, padding: 5, width: "32%", marginBottom: "2%", backgroundColor: "rgba(255, 255, 255, 0.02)", borderRadius: 4, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)" }}>
-                    <Text style={[filmDetailScreenStyle.white16, { textAlign: "center" }]}>{person.name}</Text>
-                    <Text style={[filmDetailScreenStyle.white12, { textAlign: "center" }]}>{person.department}</Text>
-                  </View>
+                  <ActorCard key={index} cast={person} />
                 )
               })
             }
+          </View>
+        </View>
+        <View style={{ marginTop: "5%", marginBottom: heightPercentageToDP("7.3%"), backgroundColor: "rgba(255, 255, 255, 0.02)", padding: 6, paddingTop: 0, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)", borderRadius: 12 }}>
+          <Text style={[filmDetailScreenStyle.yellow18]}>Details</Text>
+          <View style={{ flexDirection: "column" }}>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={filmDetailScreenStyle.yellow16}>Spoken language:  </Text>
+              {
+                film?.spoken_languages?.map((lang: any, index: any) => {
+                  const isLast = index === film?.spoken_languages.length - 1;
+                  return (
+                    <Text key={index} style={filmDetailScreenStyle.white14}>{lang.english_name + (isLast ? "" : ", ")}</Text>
+                  )
+                })
+              }
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={filmDetailScreenStyle.yellow16}>Countries:  </Text>
+              {
+                film?.production_countries?.map((country: any, index: any) => {
+                  const isLast = index === film?.production_countries.length - 1;
+                  return (
+                    <Text key={index} style={filmDetailScreenStyle.white14}>{country.name + (isLast ? "" : ", ")}</Text>
+                  )
+                })
+              }
+            </View>
+
           </View>
         </View>
       </ScrollView >
