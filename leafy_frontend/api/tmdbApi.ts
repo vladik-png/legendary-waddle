@@ -1,33 +1,33 @@
 import { API_URL } from "@/api/API_CONFIG";
 
-export async function getPopularFilms() {
-  const response = await fetch(`${API_URL}/home_page/popular_films`);
+export async function getPopularMovies() {
+  const response = await fetch(`${API_URL}/home_page/popular_movies`);
   const data = await response.json();
   return data;
 }
 
-export async function getFilmGenres() {
-  const response = await fetch(`${API_URL}/film/all_genres`);
+export async function getMovieGenres() {
+  const response = await fetch(`${API_URL}/movie/all_genres`);
   const data = await response.json();
   return data;
 }
 
-export async function getFilmsByGenre(selectedGenre: number) {
-  const response = await fetch(`${API_URL}/film/by_genre?genre=${selectedGenre}`);
+export async function getMoviesByGenre(selectedGenre: number) {
+  const response = await fetch(`${API_URL}/movie/by_genre?genre=${selectedGenre}`);
   const data = await response.json();
   return data;
 }
 
-export async function getDetailedFilmByID(filmID: number) {
-  console.log("FilmID: ", filmID);
-  const response = await fetch(`${API_URL}/film/detailed?filmID=${filmID}`);
+export async function getDetailedMovieByID(movieID: number) {
+  console.log("MovieID: ", movieID);
+  const response = await fetch(`${API_URL}/movie/detailed?movieID=${movieID}`);
   const data = await response.json();
-  console.log("Details: ", data);
+  console.log("getDetailedMovieByID called")
   return data;
 }
 
-export async function getSimilarFilms(movieID: number) {
-  const response = await fetch(`${API_URL}/film/similar?movieID=${movieID}`);
+export async function getSimilarMovies(movieID: number) {
+  const response = await fetch(`${API_URL}/movie/similar?movieID=${movieID}`);
   const data = await response.json();
   return data;
 }

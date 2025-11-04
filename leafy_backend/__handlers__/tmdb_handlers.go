@@ -12,8 +12,8 @@ type GenreRequest struct {
 	Genre int `json:"genre"`
 }
 
-func PopularFilmsHandler(w http.ResponseWriter, r *http.Request) {
-	data := api.GetHomePageFilmList()
+func PopularMoviesHandler(w http.ResponseWriter, r *http.Request) {
+	data := api.GetHomePageMovieList()
 
 	if data == nil {
 		return
@@ -23,17 +23,17 @@ func PopularFilmsHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(data)
 }
 
-func FilmByGenreHandler(w http.ResponseWriter, r *http.Request) {
+func MovieByGenreHandler(w http.ResponseWriter, r *http.Request) {
 	genreID := r.URL.Query().Get("genre")
 	if genreID == "" {
 		fmt.Println("Failed to get genre id ")
 		return
 	}
 
-	data := api.GetHomePageFilmsByGenre(genreID)
+	data := api.GetHomePageMoviesByGenre(genreID)
 
 	/*if data == nil {
-	        fmt.Println("data == nil in FilmByGenreHandler")
+	        fmt.Println("data == nil in MovieByGenreHandler")
 	        return
 	}*/
 
@@ -41,8 +41,8 @@ func FilmByGenreHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(data)
 }
 
-func FilmGenresHandler(w http.ResponseWriter, r *http.Request) {
-	data := api.GetFilmGenres()
+func MovieGenresHandler(w http.ResponseWriter, r *http.Request) {
+	data := api.GetMovieGenres()
 
 	if data == nil {
 		http.Error(w, "Failed to fetch genres", http.StatusInternalServerError)
@@ -53,9 +53,9 @@ func FilmGenresHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(data)
 }
 
-func FilmDetailsHandler(w http.ResponseWriter, r *http.Request) {
-	filmID, _ := strconv.Atoi(r.URL.Query().Get("filmID"))
-	data, err := api.GetFilmDetails(filmID)
+func MovieDetailsHandler(w http.ResponseWriter, r *http.Request) {
+	movieID, _ := strconv.Atoi(r.URL.Query().Get("movieID"))
+	data, err := api.GetMovieDetails(movieID)
 
 	if err != nil {
 		http.Error(w, "Failed to fetch details", http.StatusInternalServerError)
@@ -66,7 +66,7 @@ func FilmDetailsHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(data)
 }
 
-func SimilarFilmsHandler(w http.ResponseWriter, r *http.Request) {
+func SimilarMoviesHandler(w http.ResponseWriter, r *http.Request) {
 	movieID, _ := strconv.Atoi(r.URL.Query().Get("movieID"))
 	data := api.GetSimilarMovies(movieID)
 
@@ -74,7 +74,7 @@ func SimilarFilmsHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(data)
 }
 
-func FilmStreamingServices(w http.ResponseWriter, r *http.Request) {
+func MovieStreamingServices(w http.ResponseWriter, r *http.Request) {
 	movieID, _ := strconv.Atoi(r.URL.Query().Get("movieID"))
 	data := api.GetStreamingServices(movieID)
 

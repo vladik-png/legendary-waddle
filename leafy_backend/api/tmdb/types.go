@@ -1,15 +1,35 @@
 package api
 
-type HomePageFilmItem struct {
-	Id          int      `json:"id"`
-	Title       string   `json:"title"`
-	IMDbRating  float64  `json:"vote_average"`
-	Poster      string   `json:"poster_path"`
-	Directors   []string `json:"directors"`
-	ReleaseDate string   `json:"release_date"`
+type WatchProvider struct {
+	LogoPath        string `json:"logo_path"`
+	ProviderID      int    `json:"provider_id"`
+	ProviderName    string `json:"provider_name"`
+	DisplayPriority int    `json:"display_priority"`
+}
+
+type CountryWatchInfo struct {
+	Link     string          `json:"link"`
+	Flatrate []WatchProvider `json:"flatrate"`
+	Rent     []WatchProvider `json:"rent"`
+	Buy      []WatchProvider `json:"buy"`
+}
+
+type Providers struct {
+	ID      int                         `json:"id"`
+	Results map[string]CountryWatchInfo `json:"results"`
+}
+
+type HomePageMovieItem struct {
+	Id             int                         `json:"id"`
+	Title          string                      `json:"title"`
+	IMDbRating     float64                     `json:"vote_average"`
+	Poster         string                      `json:"poster_path"`
+	Directors      []string                    `json:"directors"`
+	ReleaseDate    string                      `json:"release_date"`
+	WatchProviders map[string]CountryWatchInfo `json:"providers"`
 }
 type HomePageTMDbResults struct {
-	Results []HomePageFilmItem `json:"results"`
+	Results []HomePageMovieItem `json:"results"`
 }
 
 type HomePageTMDbResponse struct {
@@ -25,6 +45,7 @@ type HomePageTMDbResponse struct {
 				Job  string `json:"job"`
 			} `json:"crew"`
 		} `json:"credits"`
+		WatchProviders map[string]CountryWatchInfo `json:"providers"`
 	} `json:"results"`
 }
 
@@ -126,7 +147,7 @@ type BelongsToCollection struct {
 	Backdrop_path string `json:"backdrop_path"`
 }
 
-type Film struct {
+type Movie struct {
 	Adult                 bool                `json:"adult"`
 	Backdrop_path         string              `json:"backdrop_path"`
 	Belongs_to_collection BelongsToCollection `json:"belongs_to_collection"`
@@ -164,29 +185,13 @@ type Film struct {
 			Site string `json:"site"`
 		} `json:"results"`
 	} `json:"videos"`
-	Images         Images    `json:"images"`
-	WatchProviders Providers `json:"watch/providers"`
+	Images         Images                      `json:"images"`
+	WatchProviders map[string]CountryWatchInfo `json:"providers"`
 }
 
-type SimilarFilms struct {
-	Page         int    `json:"page"`
-	Results      []Film `json:"results"`
-	TotalPages   int    `json:"total_pages"`
-	TotalResults int    `json:"total_results"`
-}
-
-type Provider struct {
-	Location struct {
-		Link     string `json:"link"`
-		Flatrate struct {
-			LogoPath        string `json:"logo_path"`
-			ProviderID      int    `json:"provider_id"`
-			ProviderName    string `json:"provider_name"`
-			DisplayPriority int    `json:"display_priority"`
-		} `json:"flatrate"`
-	} `json:"location"`
-}
-
-type Providers struct {
-	Results []Provider `json:"watch/providers"`
+type SimilarMovies struct {
+	Page         int     `json:"page"`
+	Results      []Movie `json:"results"`
+	TotalPages   int     `json:"total_pages"`
+	TotalResults int     `json:"total_results"`
 }

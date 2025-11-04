@@ -1,4 +1,4 @@
-export const filmCardStyle = {
+export const movieCardStyle = {
   backgroundStyle: {
     backgroundColor: "rgba(255, 255, 255, 0.05)",
     borderWidth: 0.5,
@@ -12,15 +12,23 @@ export const filmCardStyle = {
     paddingLeft: "5%",
     flexDirection: "row",
   },
-  filmTitleStyle: {
+  movieTitleStyle: {
     fontSize: 16,
     marginTop: "-1%",
     color: "white",
     fontFamily: "sans-serif-condensed",
-    minWidth: "90%",
-    maxWidth: "92%"
+    minWidth: "1%",
+    maxWidth: "75%",
+    textAlign: "left",
   },
-  filmDirectorStyle: {
+  movieYearStyle: {
+    fontSize: 16,
+    marginTop: "-1%",
+    color: "white",
+    fontFamily: "sans-serif-condensed",
+    textAlign: "left",
+  },
+  movieDirectorStyle: {
     fontSize: 12,
     color: "#ACACAC",
     fontFamily: "sans-serif-condensed",
@@ -37,7 +45,7 @@ export const filmCardStyle = {
     paddingTop: 1.5,
     fontWeight: "bold",
   },
-  filmPosterStyle: {
+  moviePosterStyle: {
     width: 73,
     height: "100%",
     borderRadius: 5,

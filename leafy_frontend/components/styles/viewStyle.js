@@ -9,5 +9,10 @@ export const viewStyle = {
     borderRadius: 30,
     opacity: (Platform.OS === "android" ? 0.07 : 0.25),
     margin: "-2%",
+  },
+  imageBackground: {
+    flex: 1,
+    padding: "2%",
+    paddingTop: "10%",
   }
 };

@@ -4,7 +4,7 @@ wp(10);
 
 const background = backgroundStyle?.darkBlueBackground.backgroundColor
 
-export const filmDetailScreenStyle = {
+export const movieDetailScreenStyle = {
   grey12: {
     fontFamily: "sans-serif-condensed",
     fontSize: 12,
@@ -76,7 +76,7 @@ export const filmDetailScreenStyle = {
     paddingTop: 0,
   },
   mainView: {
-    filmBasicInfo: {
+    movieBasicInfo: {
       title: {
         fontFamily: "sans-serif-condensed",
         fontSize: 26,

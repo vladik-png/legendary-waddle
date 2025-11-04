@@ -1,4 +1,4 @@
-import { getFilmGenres } from "@/api/tmdbApi";
+import { getMovieGenres } from "@/api/tmdbApi";
 import { genreStyle, genresInfo } from "@/components/styles/genreStyle";
 import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
@@ -9,7 +9,7 @@ export default function GenresList({ setSelectedGenre }: { setSelectedGenre: (ic
 
   useEffect(() => {
     async function loadMovies() {
-      const data = await getFilmGenres();
+      const data = await getMovieGenres();
       if (!data) return;
 
       setGenres(data);

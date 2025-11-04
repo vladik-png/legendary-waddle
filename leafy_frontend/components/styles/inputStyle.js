@@ -1,12 +1,15 @@
 export const inputStyle = {
   defaultInput: {
+    width: "100%",
+    color: "white",
     fontSize: 16,
-    color: "rgba(255,255,255,0.4)",
-    paddingLeft: 10,
-    borderRadius: 20,
-    borderColor: "rgba(255,255,255,0.2)",
-    borderWidth: 0.8,
-    backgroundColor: "rgba(255, 255, 255, 0.025)",
+    height: 52,
+    paddingLeft: 20,
+    backgroundColor: "rgba(255, 255,255, 0.03)",
+    borderRadius: 21,
+    padding: 0.5,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.08)",
   },
   inputWhiteText: {
     color: "rgba(255, 255, 255, 0.6)",

@@ -1,17 +1,18 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
+import CollectionScreen from "../screens/CollectionPage/CollectionScreen";
 import CreatePasswordScreen from "../screens/CreatePasswordScreen";
 import EmailVerifyingScreen from "../screens/EmailVerifyingScreen";
 import Error500Screen from "../screens/error/500";
-import ExploreScreen from "../screens/ExporeScreen";
-import FilmCreditsScreen from "../screens/FilmDetailsPage/FilmCreditsScreen";
-import FilmDetailScreen from "../screens/FilmDetailsPage/FilmDetailScreen";
+import ExploreScreen from "../screens/ExplorePage/ExploreScreen";
+import SearchScreen from "../screens/ExplorePage/SearchScreen";
 import ForgotPasswordScreen1 from "../screens/ForgotPasswordScreen1";
 import HomePageScreen from "../screens/HomePage/HomePageScreen";
 import LoginScreen from "../screens/LoginScreen";
+import FilmCreditsScreen from "../screens/MovieDetailsPage/MovieCreditsScreen";
+import FilmDetailScreen from "../screens/MovieDetailsPage/MovieDetailScreen";
 import OnboardingScreen from "../screens/OnboardingScreen";
 import RegistrationScreen from "../screens/RegistrationScreen";
-import SearchScreen from "../screens/SearchScreen";
 import SettingScreen from "../screens/SettingScreen";
 import CurrentUserProfileScreen from "../screens/UserPage/CurrentUserProfileScreen";
 import UserProfileScreen from "../screens/UserPage/UserProfileScreen";
@@ -22,6 +23,7 @@ export default function LeafyNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="HomePageScreen" component={HomePageScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="CollectionScreen" component={CollectionScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />

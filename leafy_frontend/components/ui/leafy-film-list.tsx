@@ -1,5 +1,5 @@
-import { getFilmsByGenre, getPopularFilms, getSimilarFilms } from "@/api/tmdbApi";
-import { filmCardStyle } from "@/components/styles/filmCardStyle";
+import { getMoviesByGenre, getPopularMovies, getSimilarMovies } from "@/api/tmdbApi";
+import { movieCardStyle } from "@/components/styles/movieCardStyle";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
@@ -11,24 +11,25 @@ interface Genre {
   name: string;
 }
 
-interface Film {
+interface Movie {
   id: number;
   title: string;
   vote_average: Float;
   poster_path: string;
   directors: string[];
   release_date: string;
+  providers: any;
 }
 
-interface FilmCardListParams {
+interface MovieCardListParams {
   selectedGenre: number | any;
   movieID: number | any;
 }
 
-export default function FilmCardList({ selectedGenre, movieID/*for recommendations*/ }: FilmCardListParams) {
+export default function MovieCardList({ selectedGenre, movieID/*for recommendations*/ }: MovieCardListParams) {
   const navigation = useNavigation();
   const [prevGenre, setPrevGenre] = useState<number>(0);
-  const [movies, setMovies] = useState<Film[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     async function loadmovies() {
@@ -37,7 +38,7 @@ export default function FilmCardList({ selectedGenre, movieID/*for recommendatio
       console.warn("current: ", selectedGenre, "\n");
 
       if (movieID) {
-        const data = await getSimilarFilms(movieID);
+        const data = await getSimilarMovies(movieID);
 
         setMovies(data);
         return;
@@ -47,7 +48,7 @@ export default function FilmCardList({ selectedGenre, movieID/*for recommendatio
 
           setPrevGenre(current);
 
-          const data = await getFilmsByGenre(current);
+          const data = await getMoviesByGenre(current);
           if (!data) return;
 
           setMovies(data);
@@ -55,7 +56,7 @@ export default function FilmCardList({ selectedGenre, movieID/*for recommendatio
         }
 
         if (current === 0) {
-          const data = await getPopularFilms();
+          const data = await getPopularMovies();
           if (!data) return;
 
           setMovies(data);
@@ -67,32 +68,44 @@ export default function FilmCardList({ selectedGenre, movieID/*for recommendatio
     loadmovies()
   }, [selectedGenre, movieID]);
 
+
   return (
     <View style={{ position: "relative", backgroundColor: "transparent", marginTop: "2%", marginBottom: heightPercentageToDP("7.3%") }}>
       {
         (movies || [])?.map((movie, index) => (
-          <Pressable key={index} style={[filmCardStyle.backgroundStyle]} onPress={() => {
+          <Pressable key={index} style={[movieCardStyle?.backgroundStyle]} onPress={() => {
             const id = movie.id;
-            console.log("FilmID pre: ", id);
-            navigation?.push("FilmDetailScreen", { currentFilmID: id });
+            console.log("MovieID pre: ", id);
+            navigation?.push("FilmDetailScreen", { currentMovieID: id });
           }}>
             <Image
               source={{ uri: "https://image.tmdb.org/t/p/w500" + movie.poster_path }}
-              style={filmCardStyle.filmPosterStyle}
+              style={movieCardStyle.moviePosterStyle}
               pointerEvents="none"
             />
             <View style={{ flexDirection: "column", height: "100%", marginLeft: "6%", justifyContent: "space-evenly" }}>
-              <View style={{ flexDirection: "column", height: "70%" }}>
-                <Text style={filmCardStyle.filmTitleStyle} pointerEvents="none">{movie.title + ` (${movie?.release_date.slice(0, 4)})`}</Text>
-                <Text style={filmCardStyle.filmDirectorStyle} pointerEvents="none">{movie?.directors?.at(0)}</Text>
+              <View style={{ flexDirection: "column", height: "30%" }}>
+                <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
+                  <Text style={movieCardStyle.movieTitleStyle}
+                    pointerEvents="none"
+                    numberOfLines={1}
+                    ellipsizeMode="tile">{movie?.title}</Text>
+                  <Text style={movieCardStyle.movieYearStyle} pointerEvents="none">{`(${movie?.release_date.slice(0, 4)})`}</Text>
+                </View>
+                <Text style={movieCardStyle.movieDirectorStyle} pointerEvents="none">{movie?.directors?.at(0)}</Text>
               </View>
-              <View style={{ flexDirection: "row" }}>
-                <Image style={{ height: 30, width: 30 }} />
+              <View style={{ flexDirection: "row", gap: "2%", height: 20 }}>
+                {
+                  movie?.providers?.["US"]?.flatrate?.slice(0, (Math.min(8, movie?.providers?.["US"]?.flatrate?.length)))?.map((flat: any, index: number) => (
+                    <Image key={index} source={{ uri: "https://image.tmdb.org/t/p/w500" + movie?.providers?.["US"]?.flatrate?.[index]?.logo_path }} style={{ height: 20, width: 20 }} />
+                  ))
+                }
               </View>
-              <Text style={filmCardStyle.IMDbTextStyle} pointerEvents="none">{`IMDb: ${movie.vote_average.toFixed(1)}`}</Text>
+              <Text style={movieCardStyle.IMDbTextStyle} pointerEvents="none">{`IMDb: ${movie.vote_average.toFixed(1)}`}</Text>
             </View>
           </Pressable>
-        ))
+        )
+        )
       }
     </View>
   );

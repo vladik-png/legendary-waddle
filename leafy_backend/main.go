@@ -35,12 +35,12 @@ func attach_api_handlers() {
 
 	/*-----------------------------------------------------------------*/
 	/*------------TMDb handlers--------------------------*/
-	http.Handle("/home_page/popular_films", corsMiddleware(http.HandlerFunc(__handlers__.PopularFilmsHandler)))
-	http.Handle("/film/all_genres", corsMiddleware(http.HandlerFunc(__handlers__.FilmGenresHandler)))
-	http.Handle("/film/by_genre", corsMiddleware(http.HandlerFunc(__handlers__.FilmByGenreHandler)))
-	http.Handle("/film/detailed", corsMiddleware(http.HandlerFunc(__handlers__.FilmDetailsHandler)))
-	http.Handle("/film/similar", corsMiddleware(http.HandlerFunc(__handlers__.SimilarFilmsHandler)))
-	http.Handle("/film/services", corsMiddleware(http.HandlerFunc(__handlers__.FilmStreamingServices)))
+	http.Handle("/home_page/popular_movies", corsMiddleware(http.HandlerFunc(__handlers__.PopularMoviesHandler)))
+	http.Handle("/movie/all_genres", corsMiddleware(http.HandlerFunc(__handlers__.MovieGenresHandler)))
+	http.Handle("/movie/by_genre", corsMiddleware(http.HandlerFunc(__handlers__.MovieByGenreHandler)))
+	http.Handle("/movie/detailed", corsMiddleware(http.HandlerFunc(__handlers__.MovieDetailsHandler)))
+	http.Handle("/movie/similar", corsMiddleware(http.HandlerFunc(__handlers__.SimilarMoviesHandler)))
+	http.Handle("/movie/services", corsMiddleware(http.HandlerFunc(__handlers__.MovieStreamingServices)))
 
 	/*-----------------------------------------------------------------*/
 	/*------------User handlers--------------------------*/

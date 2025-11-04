@@ -39,13 +39,13 @@ export const genresInfo = {
   "Adventure": {
     icon: require("@/assets/images/genresIcons/adventureGenre.png"),
     color: "rgba(255, 149, 0, 0.4)",
-    borderColor: "rgba(255, 149, 0, 1)",
+    borderColor: "#FF9500",
     cellName: "Adventure",
   },
   "Animation": {
     icon: require("@/assets/images/genresIcons/animationGenre.png"),
     color: "rgba(90, 200, 250, 0.4)",
-    borderColor: "rgba(90, 200, 250, 1)",
+    borderColor: "#5AC8FA",
   },
   "Comedy": {
     icon: require("@/assets/images/genresIcons/comedyGenre.png"),
@@ -60,17 +60,17 @@ export const genresInfo = {
   "Documentary": {
     icon: null,
     color: "rgba(52, 199, 89, 0.4)",
-    borderColor: "rgba(52, 199, 89, 1)",
+    borderColor: "#34C759",
   },
   "Drama": {
     icon: null,
     color: "rgba(88, 86, 214, 0.4)",
-    borderColor: "rgba(88, 86, 214, 1)",
+    borderColor: "#5856D6",
   },
   "Family": {
     icon: null,
-    color: "rgba(48, 209, 88, 0.4)",
-    borderColor: "rgba(48, 209, 88, 1)",
+    color: "rgba(255, 217, 0, 0.4)",
+    borderColor: "#FFD900",
   },
   "Fantasy": {
     icon: require("@/assets/images/genresIcons/fantasyGenre.png"),

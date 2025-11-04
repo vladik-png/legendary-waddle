@@ -8,14 +8,14 @@ import (
 	"net/http"
 )
 
-func GetFilmDetails(filmID int) (Film, error) {
-	url := fmt.Sprintf("%s/movie/%d?api_key=%s&append_to_response=credits,videos,images,watch/providers", TMDB_API_URL, filmID, TMDB_API_KEY)
+func GetMovieDetails(movieID int) (Movie, error) {
+	url := fmt.Sprintf("%s/movie/%d?api_key=%s&append_to_response=credits,videos,images", TMDB_API_URL, movieID, TMDB_API_KEY)
 
 	resp, err := http.Get(url)
 
 	if err != nil {
 		fmt.Println("Request details error ", err)
-		return Film{}, errors.New("Request error in GetFilmDetails")
+		return Movie{}, errors.New("Request error in GetMovieDetails")
 	}
 
 	defer resp.Body.Close()
@@ -23,28 +23,58 @@ func GetFilmDetails(filmID int) (Film, error) {
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Read details error ", err)
-		return Film{}, errors.New("Read error in GetFilmDetails")
+		return Movie{}, errors.New("Read error in GetMovieDetails")
 	}
 
-	var data Film
+	var data Movie
 
 	if err := json.Unmarshal(body, &data); err != nil {
 		fmt.Println("JSON details error ", err)
-		//fmt.Println("BODY details ", string(body))
-		return Film{}, errors.New("JSON unmarshal error in GetFilmDetails")
+		return Movie{}, errors.New("JSON unmarshal error in GetmovieDetails")
+	}
+
+	providers, err := GetMovieProviders(movieID)
+
+	data.WatchProviders = providers.Results
+	return data, nil
+}
+
+func GetMovieProviders(movieID int) (Providers, error) {
+	url := fmt.Sprintf("%s/movie/%d/watch/providers?api_key=%s", TMDB_API_URL, movieID, TMDB_API_KEY)
+
+	resp, err := http.Get(url)
+
+	if err != nil {
+		fmt.Println("Request providers error ", err)
+		return Providers{}, errors.New("Request error in GetMovieProviders")
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Read providers error ", err)
+		return Providers{}, errors.New("Read error in GetMovieProviders")
+	}
+
+	var data Providers
+
+	if err := json.Unmarshal(body, &data); err != nil {
+		fmt.Println("JSON providers error ", err)
+		return Providers{}, errors.New("JSON unmarshal error in GetMovieProviders")
 	}
 
 	return data, nil
 }
 
-func GetHomePageFilmList() []HomePageFilmItem {
+func GetHomePageMovieList() []HomePageMovieItem {
 	url := fmt.Sprintf("%s/movie/popular?api_key=%s", TMDB_API_URL, TMDB_API_KEY)
 
 	resp, err := http.Get(url)
 
 	if err != nil {
 		fmt.Println("Request error ", err)
-		return []HomePageFilmItem{}
+		return []HomePageMovieItem{}
 	}
 
 	defer resp.Body.Close()
@@ -52,23 +82,27 @@ func GetHomePageFilmList() []HomePageFilmItem {
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Read error ", err)
-		return []HomePageFilmItem{}
+		return []HomePageMovieItem{}
 	}
 
 	var data HomePageTMDbResponse
 
 	if err := json.Unmarshal(body, &data); err != nil {
 		fmt.Println("JSON error ", err)
-		//fmt.Println("BODY ", string(body))
 		return nil
 	}
 
-	var films HomePageTMDbResults
+	var movies HomePageTMDbResults
 
 	for _, f := range data.Results {
-		credits, err := GetFilmDetails(f.Id)
+		credits, err := GetMovieDetails(f.Id)
 		if err != nil {
 			fmt.Println("Failed to get credits for movie:", f.Id)
+			continue
+		}
+		providers, err := GetMovieProviders(f.Id)
+		if err != nil {
+			fmt.Println("Failed to get providers for movie:", f.Id)
 			continue
 		}
 		var directors []string
@@ -77,20 +111,22 @@ func GetHomePageFilmList() []HomePageFilmItem {
 				directors = append(directors, crew.Name)
 			}
 		}
-		films.Results = append(films.Results, HomePageFilmItem{
-			Id:          f.Id,
-			Title:       f.Title,
-			IMDbRating:  f.IMDbRating,
-			Poster:      f.Poster,
-			Directors:   directors,
-			ReleaseDate: f.ReleaseDate,
+
+		movies.Results = append(movies.Results, HomePageMovieItem{
+			Id:             f.Id,
+			Title:          f.Title,
+			IMDbRating:     f.IMDbRating,
+			Poster:         f.Poster,
+			Directors:      directors,
+			ReleaseDate:    f.ReleaseDate,
+			WatchProviders: providers.Results,
 		})
 	}
 
-	return films.Results
+	return movies.Results
 }
 
-func GetHomePageFilmsByGenre(genreID string) []HomePageFilmItem {
+func GetHomePageMoviesByGenre(genreID string) []HomePageMovieItem {
 	url := fmt.Sprintf("%s/discover/movie?api_key=%s&with_genres=%s", TMDB_API_URL, TMDB_API_KEY, genreID)
 
 	resp, err := http.Get(url)
@@ -116,10 +152,15 @@ func GetHomePageFilmsByGenre(genreID string) []HomePageFilmItem {
 		return nil
 	}
 
-	var films HomePageTMDbResults
+	var movies HomePageTMDbResults
 
 	for _, f := range data.Results {
-		credits, err := GetFilmDetails(f.Id)
+		credits, err := GetMovieDetails(f.Id)
+		if err != nil {
+			fmt.Println("Failed to get credits for movie:", f.Id)
+			continue
+		}
+		providers, err := GetMovieProviders(f.Id)
 		if err != nil {
 			fmt.Println("Failed to get credits for movie:", f.Id)
 			continue
@@ -130,20 +171,21 @@ func GetHomePageFilmsByGenre(genreID string) []HomePageFilmItem {
 				directors = append(directors, crew.Name)
 			}
 		}
-		films.Results = append(films.Results, HomePageFilmItem{
-			Id:          f.Id,
-			Title:       f.Title,
-			IMDbRating:  f.IMDbRating,
-			Poster:      f.Poster,
-			Directors:   directors,
-			ReleaseDate: f.ReleaseDate,
+		movies.Results = append(movies.Results, HomePageMovieItem{
+			Id:             f.Id,
+			Title:          f.Title,
+			IMDbRating:     f.IMDbRating,
+			Poster:         f.Poster,
+			Directors:      directors,
+			ReleaseDate:    f.ReleaseDate,
+			WatchProviders: providers.Results,
 		})
 	}
 
-	return films.Results
+	return movies.Results
 }
 
-func GetFilmGenres() []MovieGenre {
+func GetMovieGenres() []MovieGenre {
 	url := fmt.Sprintf("%s/genre/movie/list?api_key=%s&language=en", TMDB_API_URL, TMDB_API_KEY)
 
 	resp, err := http.Get(url)
@@ -172,7 +214,7 @@ func GetFilmGenres() []MovieGenre {
 	return data.Genres
 }
 
-func GetSimilarMovies(movieID int) []HomePageFilmItem {
+func GetSimilarMovies(movieID int) []HomePageMovieItem {
 	url := fmt.Sprintf("%s/movie/%d/similar?api_key=%s", TMDB_API_URL, movieID, TMDB_API_KEY)
 
 	resp, err := http.Get(url)
@@ -197,10 +239,10 @@ func GetSimilarMovies(movieID int) []HomePageFilmItem {
 		return nil
 	}
 
-	var films HomePageTMDbResults
+	var movies HomePageTMDbResults
 
 	for _, f := range data.Results {
-		credits, err := GetFilmDetails(f.Id)
+		credits, err := GetMovieDetails(f.Id)
 
 		if err != nil {
 			fmt.Println("Failed to get credits for movie:", f.Id)
@@ -214,7 +256,7 @@ func GetSimilarMovies(movieID int) []HomePageFilmItem {
 			}
 		}
 
-		films.Results = append(films.Results, HomePageFilmItem{
+		movies.Results = append(movies.Results, HomePageMovieItem{
 			Id:          f.Id,
 			Title:       f.Title,
 			IMDbRating:  f.IMDbRating,
@@ -224,5 +266,5 @@ func GetSimilarMovies(movieID int) []HomePageFilmItem {
 		})
 	}
 
-	return films.Results
+	return movies.Results
 }

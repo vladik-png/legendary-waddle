@@ -1,4 +1,4 @@
-import { filmDetailScreenStyle } from "@/components/styles/filmDetailScreenStyle";
+import { filmDetailScreenStyle } from "@/components/styles/movieDetailScreenStyle";
 import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
 import React from "react";
 import { ScrollView, Text, View } from "react-native";

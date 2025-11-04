@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func GetStreamingServices(movieID int) []Provider {
+func GetStreamingServices(movieID int) map[string]CountryWatchInfo {
 	url := fmt.Sprintf("%s/movie/%d/watch/providers?api_key=%s", TMDB_API_URL, movieID, TMDB_API_KEY)
 
 	resp, err := http.Get(url)

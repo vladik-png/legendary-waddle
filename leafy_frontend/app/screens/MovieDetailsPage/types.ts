@@ -62,7 +62,7 @@ export type Video = {
   site: string;
 };
 
-export type Film = {
+export type Movie = {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: string;
@@ -94,4 +94,5 @@ export type Film = {
   },
   directors: any;
   images: any;
+  providers: any;
 };
