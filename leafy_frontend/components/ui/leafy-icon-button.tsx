@@ -54,6 +54,7 @@ export default function LeafyIconButton(
     home: require('@/assets/images/HomeBtn.png'),
     compass: require('@/assets/images/Compass.png'),
     profile: require('@/assets/images/Profile.png'),
+    newContent: require('@/assets/images/addNewContent.png'),
   };
   return (
     //<View style={position}>

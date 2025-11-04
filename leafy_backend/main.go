@@ -39,6 +39,12 @@ func attach_api_handlers() {
 	http.Handle("/film/all_genres", corsMiddleware(http.HandlerFunc(__handlers__.FilmGenresHandler)))
 	http.Handle("/film/by_genre", corsMiddleware(http.HandlerFunc(__handlers__.FilmByGenreHandler)))
 	http.Handle("/film/detailed", corsMiddleware(http.HandlerFunc(__handlers__.FilmDetailsHandler)))
+	http.Handle("/film/similar", corsMiddleware(http.HandlerFunc(__handlers__.SimilarFilmsHandler)))
+	http.Handle("/film/services", corsMiddleware(http.HandlerFunc(__handlers__.FilmStreamingServices)))
+
+	/*-----------------------------------------------------------------*/
+	/*------------User handlers--------------------------*/
+	http.Handle("/userProfile", corsMiddleware(http.HandlerFunc(__handlers__.UserProfileHandler)))
 }
 
 func main() {

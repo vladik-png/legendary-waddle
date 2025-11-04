@@ -1,8 +1,8 @@
 export const filmCardStyle = {
   backgroundStyle: {
-    backgroundColor: "rgba(255, 255, 255, 0.03)",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.13)",
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    borderWidth: 0.5,
+    borderColor: "rgba(255, 255, 255, 0.20)",
     height: 118,
     width: "100%",
     marginTop: "1.5%",

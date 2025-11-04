@@ -20,7 +20,7 @@ export const buttonStyle = {
     justifyContent: "center"
   },
   continueButton: {
-    backgroundColor: "#005C4D",
+    backgroundColor: "#004338",
     borderColor: "rgba(255, 255, 255, 0.7)",
     borderWidth: 1,
     borderRadius: 25,

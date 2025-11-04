@@ -1,10 +1,7 @@
-import { RegistrationRequest } from "@/api/registrationPageApi";
-import LeafyContinueButton from "@/components/ui/leafy-continue-button";
+import { textStyle } from "@/components/styles/textStyles";
 import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
-import LeafyText from "@/components/ui/leafy-text";
-import LeafyInput from "@/components/ui/leafy-text-input";
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ImageBackground, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function RegistrationScreen({ navigation }: any) {
   const [firstName, setFirstName] = useState("");
@@ -15,48 +12,43 @@ export default function RegistrationScreen({ navigation }: any) {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   return (
-    <View style={styles.container}>
-      <View style={styles.main}>
+    <ImageBackground source={require("@/assets/images/background.png")} style={{ flex: 1 }}>
 
-        <LeafyReturnArrowButton rect={{ x: "8%", y: 50, w: 25, h: 25 }}
-          onPress={() => navigation.navigate("Login")} />
+      <LeafyReturnArrowButton style={{ marginTop: "8%" }}
+        onPress={() => navigation.navigate("Login")} />
 
-        <LeafyText fontSize={25} text="Create account"
-          rect={{ x: "5%", y: "13%", w: 330, h: 32 }} />
+      <Text style={[textStyle.white22, { fontSize: 30, marginTop: "30%", marginBottom: "2%", alignSelf: "center" }]}>Create Your Account</Text>
+      <Text style={[textStyle.grey22, { marginBottom: "10%", alignSelf: "center" }]}>All your entertainment in one place</Text>
 
-        <LeafyInput text="First Name" placeholder="Type your First Name"
-          value={firstName} onChangeText={setFirstName}
-          rect={{ x: "5%", y: "20%", w: "44%", h: 52 }} />
-
-        <LeafyInput text="Last Name" placeholder="Type your Last Name"
-          value={lastName} onChangeText={setLastName}
-          rect={{ x: "51%", y: "20%", w: "44%", h: 52 }} />
-
-        <LeafyInput text="Username" placeholder="Type your username"
-          value={username} onChangeText={setUsername}
-          rect={{ x: "5%", y: 264, w: "90%", h: 52 }} />
-
-        <LeafyInput text="Email" placeholder="Type your email"
-          value={email} onChangeText={setEmail}
-          rect={{ x: "5%", y: 363, w: "90%", h: 52 }} />
-
-        <LeafyInput text="Password" placeholder="Type your password"
-          value={password} onChangeText={setPassword}
-          rect={{ x: "5%", y: 462, w: "90%", h: 52 }} />
-
-        <LeafyInput text="Confirm password" placeholder="Type your password"
-          value={confirmPassword} onChangeText={setConfirmPassword}
-          rect={{ x: "5%", y: 561, w: "90%", h: 52 }} />
-
-        <LeafyContinueButton text="Sign Up" color="white"
-          onPress={() => RegistrationRequest({ firstName, lastName, username, email, password })}
-          rect={{ x: "5%", y: 660, w: "90%", h: 56 }} />
-
-        <LeafyText fontSize={14} align="center" text="Already have an account ? Login"
-          rect={{ x: "centered", y: 730, w: 234, h: 18 }} onPress={() => navigation.navigate("Login")} />
-
+      <View style={{ flexDirection: "column", gap: "2%" }}>
+        <View style={{ flexDirection: "column", gap: 5 }}>
+          <Text style={[textStyle.white18, { marginLeft: "1%" }]}>Full Name</Text>
+          <TextInput style={[textStyle.white18, { width: "100%", color: "white", fontSize: 18, height: 52, paddingLeft: 20, backgroundColor: "rgba(255, 255,255, 0.03)", borderRadius: 21, padding: 0.5, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)" }]} placeholderTextColor={"rgba(255, 255, 255, 0.6)"} placeholder="Enter email" />
+        </View>
+        <View style={{ flexDirection: "column", gap: 5 }}>
+          <Text style={[textStyle.white18, { marginLeft: "1%" }]}>Email address</Text>
+          <TextInput style={[textStyle.white18, { width: "100%", color: "white", fontSize: 18, height: 52, paddingLeft: 20, backgroundColor: "rgba(255, 255,255, 0.03)", borderRadius: 21, padding: 0.5, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)" }]} placeholderTextColor={"rgba(255, 255, 255, 0.6)"} placeholder="Enter email" />
+        </View>
+        <View style={{ flexDirection: "column", gap: 5 }}>
+          <Text style={[textStyle.white18, { marginLeft: "1%" }]}>Password</Text>
+          <TextInput style={[textStyle.white18, { width: "100%", color: "white", fontSize: 18, height: 52, paddingLeft: 20, backgroundColor: "rgba(255, 255,255, 0.03)", borderRadius: 21, padding: 0.5, borderWidth: 1, borderColor: "rgba(255, 255, 255, 0.1)" }]} placeholderTextColor={"rgba(255, 255, 255, 0.6)"} placeholder="Enter email" />
+        </View>
       </View>
-    </View>
+
+      <Pressable style={{
+        marginTop: "5%",
+        backgroundColor: "#004338",
+        borderColor: "rgba(255, 255, 255, 0.7)",
+        borderWidth: 0.5,
+        borderRadius: 25,
+        alignItems: "center",
+        justifyContent: "center",
+        height: 52,
+      }}>
+        <Text style={textStyle.white18}>Sign Up</Text>
+      </Pressable>
+
+    </ImageBackground>
   );
 }
 

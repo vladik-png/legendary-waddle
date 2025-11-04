@@ -25,3 +25,9 @@ export async function getDetailedFilmByID(filmID: number) {
   console.log("Details: ", data);
   return data;
 }
+
+export async function getSimilarFilms(movieID: number) {
+  const response = await fetch(`${API_URL}/film/similar?movieID=${movieID}`);
+  const data = await response.json();
+  return data;
+}

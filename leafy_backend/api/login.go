@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"leafy/__http__"
 	"leafy/db_conn"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Guest struct {
@@ -44,12 +46,11 @@ func Login(guest Guest) (CurrentUser, int) {
 		return user, __http__.ErrInternal
 	}
 
-	//hash, _ := bcrypt.GenerateFromPassword([]byte(guest.Password), bcrypt.DefaultCost)
-
-	/*if guest.Password == "" || string(hash) != passHash {
-		fmt.Println("Incorrect password for login")
+	err = bcrypt.CompareHashAndPassword([]byte(passHash), []byte(guest.Password))
+	if err != nil {
+		fmt.Println("Failed to compare hash and password")
 		return user, __http__.ErrInvalidPass
-	}*/
+	}
 
 	return user, __http__.OK
 }

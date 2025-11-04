@@ -3,7 +3,7 @@ package __handlers__
 import (
 	"encoding/json"
 	"fmt"
-	"leafy/api"
+	api "leafy/api/tmdb"
 	"net/http"
 	"strconv"
 )
@@ -61,6 +61,24 @@ func FilmDetailsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to fetch details", http.StatusInternalServerError)
 		return
 	}
+
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(data)
+}
+
+func SimilarFilmsHandler(w http.ResponseWriter, r *http.Request) {
+	movieID, _ := strconv.Atoi(r.URL.Query().Get("movieID"))
+	data := api.GetSimilarMovies(movieID)
+
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(data)
+}
+
+func FilmStreamingServices(w http.ResponseWriter, r *http.Request) {
+	movieID, _ := strconv.Atoi(r.URL.Query().Get("movieID"))
+	data := api.GetStreamingServices(movieID)
+
+	fmt.Println("Data: ", data)
 
 	w.Header().Set("Content-type", "application/json")
 	json.NewEncoder(w).Encode(data)

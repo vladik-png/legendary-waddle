@@ -1,48 +1,15 @@
-import { buttonStyle } from "@/components/styles/buttonStyle";
-import LeafyIconButton from "@/components/ui/leafy-icon-button";
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View } from "react-native";
+import BottomBarIconButton from "./components/BottomBarIconButton";
 
 export default function BottomBar() {
-  const navigation = useNavigation();
-
   return (
-    <View style={[{ backgroundColor: "rgba(19, 18, 34, 0.9)", height: "7%", width: "100%", position: "absolute", bottom: 0, borderWidth: 0.3, borderColor: "rgba(180, 190, 210, 0.1)" }]} >
-      <LeafyIconButton source="profile" rect={{
-        x: "10%", y: 0, w: 70, h: "100%",
-        img: {
-          x: "5%",
-          y: "centered",
-          h: "100%",
-          w: "33%",
-        }
-      }}
-        style={buttonStyle.bottomBarButtons}
-        onPress={() => navigation.navigate("CurrentUserProfileScreen")} />
-
-      <LeafyIconButton source="home" rect={{
-        x: "43%", y: 0, w: 70, h: "100%",
-        img: {
-          x: "20%",
-          y: "centered",
-          h: "100%",
-          w: "33%",
-        }
-      }} style={buttonStyle.bottomBarButtons}
-        onPress={() => navigation.navigate("HomePageScreen")} />
-
-      <LeafyIconButton source="compass" rect={{
-        x: "77%", y: 0, w: 70, h: "100%",
-        img: {
-          x: "5%",
-          y: "centered",
-          h: "100%",
-          w: "33%",
-        }
-      }} style={buttonStyle.bottomBarButtons}
-        onPress={() => navigation.navigate("ExploreScreen", { navigation })} />
-
-    </View >
+    <View style={[{ flexDirection: "row", justifyContent: "space-evenly", alignItems: "center", backgroundColor: "rgba(19, 18, 34, 0.9)", height: "7%", width: "100%", position: "absolute", bottom: 0, borderWidth: 0.3, borderColor: "rgba(180, 190, 210, 0.1)" }]} >
+      <BottomBarIconButton source="home" navigateTo="HomePageScreen" />
+      <BottomBarIconButton source="compass" navigateTo="ExploreScreen" />
+      <BottomBarIconButton source="newContent" />
+      <BottomBarIconButton source="chats" />
+      <BottomBarIconButton source="profile" navigateTo="UserProfileScreen" isCurrentUser={false} />
+    </View>
   );
 }

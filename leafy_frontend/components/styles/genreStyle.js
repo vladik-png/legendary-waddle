@@ -1,13 +1,14 @@
 export const genreStyle = {
   genreCellView: {
+    margin: "-2%",
     marginTop: "2%",
     height: 48,
-    width: "100%",
+    width: "104%",
     padding: 2,
     alignSelf: "left",
-    backgroundColor: "rgba(255, 255, 255, 0.01)",
+    backgroundColor: "rgba(255, 255, 255, 0.03)",
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.1)",
+    borderColor: "rgba(255, 255, 255, 0.15)",
     borderRadius: 30,
   },
   genreCell: {
