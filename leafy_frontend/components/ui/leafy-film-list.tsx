@@ -2,7 +2,7 @@ import { getMoviesByGenre, getPopularMovies, getSimilarMovies } from "@/api/tmdb
 import { movieCardStyle } from "@/components/styles/movieCardStyle";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { Image, Linking, Pressable, Text, View } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
@@ -19,14 +19,16 @@ interface Movie {
   directors: string[];
   release_date: string;
   providers: any;
+  imdb_id: string;
 }
 
 interface MovieCardListParams {
   selectedGenre: number | any;
   movieID: number | any;
+  movieGenre: number | any;
 }
 
-export default function MovieCardList({ selectedGenre, movieID/*for recommendations*/ }: MovieCardListParams) {
+export default function MovieCardList({ selectedGenre, movieID, movieGenre/*for recommendations*/ }: MovieCardListParams) {
   const navigation = useNavigation();
   const [prevGenre, setPrevGenre] = useState<number>(0);
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -38,7 +40,7 @@ export default function MovieCardList({ selectedGenre, movieID/*for recommendati
       console.warn("current: ", selectedGenre, "\n");
 
       if (movieID) {
-        const data = await getSimilarMovies(movieID);
+        const data = await getSimilarMovies(movieID) || await getMoviesByGenre(movieGenre);
 
         setMovies(data);
         return;
@@ -101,7 +103,20 @@ export default function MovieCardList({ selectedGenre, movieID/*for recommendati
                   ))
                 }
               </View>
-              <Text style={movieCardStyle.IMDbTextStyle} pointerEvents="none">{`IMDb: ${movie.vote_average.toFixed(1)}`}</Text>
+
+              <Pressable style={movieCardStyle.imdbText.view}
+                onPress={async () => {
+                  const url = `https://www.imdb.com/title/${movie?.imdb_id}`;
+                  const sup = await Linking.canOpenURL(url);
+                  if (sup) Linking.openURL(url);
+                }}
+              >
+                <Text style={movieCardStyle.imdbText.text}>
+                  {
+                    `IMDb: ${movie?.vote_average.toFixed(1)}`
+                  }
+                </Text>
+              </Pressable>
             </View>
           </Pressable>
         )

@@ -23,8 +23,8 @@ export default function LeafyNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="HomePageScreen" component={HomePageScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="CollectionScreen" component={CollectionScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="CollectionScreen" component={CollectionScreen} options={{ headerShown: false }} />
       <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ForgotPasswordScreen1" component={ForgotPasswordScreen1} options={{ headerShown: false }} />

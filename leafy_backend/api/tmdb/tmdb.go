@@ -120,6 +120,7 @@ func GetHomePageMovieList() []HomePageMovieItem {
 			Directors:      directors,
 			ReleaseDate:    f.ReleaseDate,
 			WatchProviders: providers.Results,
+			IMDbID:         credits.Imdb_id,
 		})
 	}
 
@@ -179,6 +180,7 @@ func GetHomePageMoviesByGenre(genreID string) []HomePageMovieItem {
 			Directors:      directors,
 			ReleaseDate:    f.ReleaseDate,
 			WatchProviders: providers.Results,
+			IMDbID:         credits.Imdb_id,
 		})
 	}
 
@@ -263,6 +265,7 @@ func GetSimilarMovies(movieID int) []HomePageMovieItem {
 			Poster:      f.Poster,
 			Directors:   directors,
 			ReleaseDate: f.ReleaseDate,
+			IMDbID:      credits.Imdb_id,
 		})
 	}
 
@@ -291,6 +294,30 @@ func GetActorFilmography(personID int) MovieCredits {
 	if err := json.Unmarshal(body, &data); err != nil {
 		fmt.Println("Failed to unmarshal from body in GetActorFilmography")
 		return MovieCredits{}
+	}
+
+	return data
+}
+
+func GetNowPlayingMovies() NowPlayingMoviesResponse {
+	url := fmt.Sprintf("%s/movie/now_playing?api_key=%s", TMDB_API_URL, TMDB_API_KEY)
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println("GetNowPlayingMovies error: ", err)
+		return NowPlayingMoviesResponse{}
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Failed to read all from body in GetNowPlayingMovies")
+		return NowPlayingMoviesResponse{}
+	}
+
+	var data NowPlayingMoviesResponse
+
+	if err := json.Unmarshal(body, &data); err != nil {
+		fmt.Println("Failed to unmarshal from body in GetNowPlayingMovies")
+		return NowPlayingMoviesResponse{}
 	}
 
 	return data

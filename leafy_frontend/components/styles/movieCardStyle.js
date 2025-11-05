@@ -34,16 +34,21 @@ export const movieCardStyle = {
     fontFamily: "sans-serif-condensed",
     marginTop: 2,
   },
-  IMDbTextStyle: {
-    backgroundColor: "#FED53A",
-    fontSize: 12,
-    height: 20,
-    width: 64,
-    borderRadius: 5,
-    color: "black",
-    paddingLeft: 6,
-    paddingTop: 1.5,
-    fontWeight: "bold",
+  imdbText: {
+    view: {
+      backgroundColor: "#FED53A",
+      height: 20,
+      borderRadius: 5,
+      width: 64,
+      flexDirection: "column",
+      justifyContent: "center"
+    },
+    text: {
+      textAlign: "center",
+      fontSize: 12,
+      color: "black",
+      fontWeight: "bold",
+    }
   },
   moviePosterStyle: {
     width: 73,

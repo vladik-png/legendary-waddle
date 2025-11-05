@@ -23,9 +23,11 @@ export const buttonStyle = {
     backgroundColor: "#004338",
     borderColor: "rgba(255, 255, 255, 0.7)",
     borderWidth: 1,
-    borderRadius: 25,
+    borderRadius: 21,
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    height: 52,
   },
   darkButton: {
     borderRadius: 25,

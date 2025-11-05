@@ -1,11 +1,11 @@
-import { LoginRequest } from "@/api/loginPageApi";
+import { buttonStyle } from "@/components/styles/buttonStyle";
+import { inputStyle } from "@/components/styles/inputStyle";
 import { textStyle } from "@/components/styles/textStyles";
-import LeafyContinueButton from "@/components/ui/leafy-continue-button";
 import LeafyIconButton from "@/components/ui/leafy-icon-button";
 import LeafyText from "@/components/ui/leafy-text";
-import LeafyInput from "@/components/ui/leafy-text-input";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ImageBackground, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 
 export default function LoginScreen({ navigation }: any) {
@@ -18,24 +18,23 @@ export default function LoginScreen({ navigation }: any) {
 
         <Text style={[textStyle.white18, { fontSize: 32, marginTop: "25%", alignSelf: "center" }]}>Hi, Welcome Back!</Text>
 
-        <Text style={[textStyle.white18, { marginLeft: "1%" }]}>Full Name</Text>
-        <LeafyText fontSize={16} align="center" text="Input your registered account!"
-          rect={{ x: "centered", y: 136, w: "100%", h: 24 }} />
+        <ImageBackground source={require("@/assets/images/background.png")} style={[styles.darkRect]}>
 
-        <View style={[styles.darkRect]}>
+          <View style={{ flexDirection: "column", marginTop: "5%" }}>
+            <Text style={[textStyle.white18, { marginLeft: "1%" }]}>Username</Text>
+            <TextInput onPressIn={() => navigation.navigate("SearchScreen")} style={inputStyle.defaultInput} placeholderTextColor={"rgba(255, 255, 255, 0.6)"} placeholder="Enter request" />
+          </View>
 
-          <LeafyInput text="Email" placeholder="Enter your email address"
-            value={email} onChangeText={setEmail}
-            rect={{ x: "5%", y: "8%", w: "90%", h: 52 }} />
+          <View style={{ flexDirection: "column", marginTop: "5%" }}>
+            <Text style={[textStyle.white18, { marginLeft: "1%" }]}>Password</Text>
+            <TextInput onPressIn={() => navigation.navigate("SearchScreen")} style={inputStyle.defaultInput} placeholderTextColor={"rgba(255, 255, 255, 0.6)"} placeholder="Enter request" />
+          </View>
 
-          <LeafyInput text="Password" placeholder="Enter your password"
-            value={password} onChangeText={setPassword}
-            rect={{ x: "5%", y: "18%", w: "90%", h: 52 }} />
-
-          <LeafyContinueButton text="Continue with Email" color="white"
-            onPress={() => LoginRequest({ email, password, navigation })}
-            rect={{ x: "5%", y: 250, w: "90%", h: 56 }} />
-
+          <Pressable style={[buttonStyle.continueButton, { marginTop: "5%" }]}>
+            <Text style={[textStyle.white20]}>
+              Continue
+            </Text>
+          </Pressable>
 
           <LeafyIconButton text="Sign In with Google" textAlign="center" source="google"
             rect={{
@@ -59,7 +58,7 @@ export default function LoginScreen({ navigation }: any) {
             text="Dont have an account ? Sign up here"
             rect={{ x: "centered", y: 530, w: "100%", h: 18 }}
             onPress={() => navigation.navigate("Registration")} />
-        </View>
+        </ImageBackground>
 
       </View>
     </View >
@@ -73,20 +72,25 @@ const styles = StyleSheet.create({
     backgroundColor: "#02332B",
   },
   darkRect: {
-    backgroundColor: "rgba(15, 14, 26, 1)",
-    width: "102%",
+    width: wp("102%"),
     marginLeft: "-1%",
-    height: "70%",
+    height: hp("65%"),
     position: "absolute",
-    marginTop: "70%",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
+    marginTop: hp("35%"),
     borderWidth: 0.5,
     borderColor: "rgba(255, 255, 255, 0.25)",
     padding: "2%",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   main: {
     width: "100%",
     height: "100%",
   },
 });
+
+/**
+           <LeafyContinueButton text="Continue with Email" color="white"
+            onPress={() => LoginRequest({ email, password, navigation })}
+            rect={{ x: "5%", y: 250, w: "90%", h: 56 }} />
+ */

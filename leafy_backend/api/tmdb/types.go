@@ -27,6 +27,7 @@ type HomePageMovieItem struct {
 	Directors      []string                    `json:"directors"`
 	ReleaseDate    string                      `json:"release_date"`
 	WatchProviders map[string]CountryWatchInfo `json:"providers"`
+	IMDbID         string                      `json:"imdb_id"`
 }
 type HomePageTMDbResults struct {
 	Results []HomePageMovieItem `json:"results"`
@@ -182,7 +183,7 @@ type Movie struct {
 			Name string `json:"name"`
 			Key  string `json:"key"`
 			Type string `json:"type"`
-			Site string `json:"ite"`
+			Site string `json:"site"`
 		} `json:"results"`
 	} `json:"videos"`
 	Images         Images                      `json:"images"`
@@ -259,4 +260,15 @@ type PeopleDetails struct {
 type ActorDetails struct {
 	Filmography MovieCredits  `json:"filmography"`
 	Details     PeopleDetails `json:"details"`
+}
+
+type NowPlayingMoviesResponse struct {
+	Dates struct {
+		Maximum string `json:"maximum"`
+		Minimum string `json:"minimum"`
+	} `json:"dates"`
+	Results []struct {
+		Id         int    `json:"id"`
+		PosterPath string `json:"poster_path"`
+	} `json:"results"`
 }

@@ -1,17 +1,16 @@
 import { getDetailedMovieByID } from "@/api/tmdbApi";
 import BottomBar from "@/app/screens/bars/bottomBar";
 import { genresInfo } from "@/components/styles/genreStyle";
-import { movieDetailScreenStyle } from "@/components/styles/movieDetailScreenStyle";
 import MovieCardList from "@/components/ui/leafy-film-list";
 import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
-import LeafyText from "@/components/ui/leafy-text";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Image, ImageBackground, Pressable, ScrollView, Text, View } from "react-native";
+import { Dimensions, Image, ImageBackground, Linking, Pressable, ScrollView, Text, View } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import YoutubePlayer from "react-native-youtube-iframe";
 import ActorCard from "./components/CreditsCard";
 import DetailRow from "./components/DetailRow";
+import { movieDetailScreenStyle } from "./styles";
 import { Movie } from "./types";
 
 
@@ -46,7 +45,7 @@ export default function MovieDetailScreen({ route }: any) {
 
           <ImageBackground
             source={{ uri: "https://image.tmdb.org/t/p/w500" + movie?.images?.backdrops[0]?.file_path }}
-            style={{ height: (screenH / 100) * 40, width: "104%", marginLeft: "-3%", marginRight: "-3%", marginTop: "-25%" }}>
+            style={movieDetailScreenStyle.ImageBackground}>
             <View style={{ backgroundColor: "rgba(0, 0, 0, 0.75)", marginRight: "-2%", marginTop: "1%", height: heightPercentageToDP("40%") }}>
 
               <View style={{ flexDirection: "column", marginLeft: "3%", marginTop: "20%", justifyContent: "space-between" }}>
@@ -82,7 +81,12 @@ export default function MovieDetailScreen({ route }: any) {
                         <Text style={movieDetailScreenStyle.yellow16}>{"Stars: "}</Text>
                         {
                           movie?.credits?.cast?.slice(0, Math.min(4, movie?.credits?.cast?.length)).map((star, index) =>
-                            <Text key={index} style={[movieDetailScreenStyle.white16, movieDetailScreenStyle.mainView.movieBasicInfo.infoView.stars]}>{`${star.name}`}</Text>
+                            <Text key={index} style={
+                              [movieDetailScreenStyle.white16,
+                              movieDetailScreenStyle.mainView.movieBasicInfo.infoView.stars]
+                            }>
+                              {`${star.name}`}
+                            </Text>
                           )
                         }
                       </View>
@@ -93,7 +97,21 @@ export default function MovieDetailScreen({ route }: any) {
                         <Text style={movieDetailScreenStyle.yellow16}>min</Text>
                       </View>
 
-                      <LeafyText text={`IMDb: ${movie?.vote_average.toFixed(1)}`} style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.imdbText} />
+                      <Pressable style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.imdbText.view}
+                        onPress={async () => {
+                          const url = `https://www.imdb.com/title/${movie?.imdb_id}`;
+                          const sup = await Linking.canOpenURL(url);
+                          if (sup) Linking.openURL(url);
+                        }}
+                      >
+
+                        <Text style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.imdbText.text}>
+                          {
+                            `IMDb: ${movie?.vote_average.toFixed(1)}`
+                          }
+                        </Text>
+                      </Pressable>
+
                     </View>
                   </View>
                 </View>
@@ -116,7 +134,7 @@ export default function MovieDetailScreen({ route }: any) {
             </Pressable>
           </View>
 
-          <View style={{ backgroundColor: "rgba(255, 255, 255, 0.05)", padding: 6, paddingTop: 0, borderWidth: 0.5, borderColor: "rgba(255, 255, 255, 0.2)", borderRadius: 12 }}>
+          <View style={movieDetailScreenStyle.sectionView}>
             <Text style={[movieDetailScreenStyle.yellow18, { padding: 0, margin: 0 }]}>Genres</Text>
             <ScrollView horizontal={true}
               style={movieDetailScreenStyle.genreCellView}
@@ -136,7 +154,7 @@ export default function MovieDetailScreen({ route }: any) {
             </ScrollView>
           </View>
 
-          <View style={{ marginTop: "5%", backgroundColor: "rgba(255, 255, 255, 0.05)", padding: 6, paddingTop: 0, borderWidth: 0.5, borderColor: "rgba(255, 255, 255, 0.2)", borderRadius: 12 }}>
+          <View style={movieDetailScreenStyle.sectionView}>
             <Text style={[movieDetailScreenStyle.yellow18, { padding: 0, margin: 0 }]}>Providers</Text>
             <ScrollView horizontal={true}
               style={[movieDetailScreenStyle.genreCellView, { height: 40 }]}
@@ -145,7 +163,7 @@ export default function MovieDetailScreen({ route }: any) {
             >
               {
                 movie?.providers?.["US"]?.flatrate?.map((flat: any, index: number) => (
-                  <Image key={index} source={{ uri: "https://image.tmdb.org/t/p/w500" + flat?.logo_path }} style={{ height: 30, width: 30, borderRadius: 4, marginRight: "1%" }} />
+                  <Image key={index} source={{ uri: "https://image.tmdb.org/t/p/w500" + flat?.logo_path }} style={{ height: 32, width: 32, borderRadius: 4, marginRight: "4" }} />
                 ))
               }
             </ScrollView>
@@ -155,7 +173,8 @@ export default function MovieDetailScreen({ route }: any) {
           <View style={{ marginLeft: "-6%", marginTop: "2%" }}>
             <YoutubePlayer height={250} width={"103%"} play={false} videoId={trailerKey} />
           </View>
-          <View style={{ flexDirection: "column", marginTop: "10%" }}>
+
+          <View style={[movieDetailScreenStyle.sectionView, { flexDirection: "column" }]}>
             <Text style={movieDetailScreenStyle.yellow18}>Overview</Text>
             <Text style={[{ width: "100%", textAlign: "justify" }, movieDetailScreenStyle.white16]}>   {movie?.overview}</Text>
           </View>
@@ -193,13 +212,13 @@ export default function MovieDetailScreen({ route }: any) {
               <DetailRow label="Companies" items={movie?.production_companies} prop="name" maxW="75%" />
               <DetailRow label="Revenue" item={movie?.revenue + "$"} maxW="75%" />
               <DetailRow label="Tagline" item={movie?.tagline || "Nothing"} maxW="75%" />
-              <DetailRow label="IMDb ID" item={movie?.imdb_id} maxW="30%" />
+              <DetailRow label="IMDb ID" item={movie?.imdb_id} maxW="75%" />
             </View>
           </View>
 
 
           <Text style={[movieDetailScreenStyle.yellow18]}>Similar movies</Text>
-          <MovieCardList navigation={navigation} movieID={movie?.id} />
+          <MovieCardList navigation={navigation} movieID={movie?.id} movieGenre={movie?.genres[0]?.id} />
         </ScrollView >
       </ImageBackground>
       <BottomBar />

@@ -41,6 +41,7 @@ func attach_api_handlers() {
 	http.Handle("/movie/detailed", corsMiddleware(http.HandlerFunc(__handlers__.MovieDetailsHandler)))
 	http.Handle("/movie/similar", corsMiddleware(http.HandlerFunc(__handlers__.SimilarMoviesHandler)))
 	http.Handle("/movie/services", corsMiddleware(http.HandlerFunc(__handlers__.MovieStreamingServices)))
+	http.Handle("/movie/now_playing", corsMiddleware(http.HandlerFunc(__handlers__.NowPlayingMoviesHandler)))
 
 	/*-----------------------------------------------------------------*/
 	/*------------User handlers--------------------------*/

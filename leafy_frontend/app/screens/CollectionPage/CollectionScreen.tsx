@@ -11,7 +11,7 @@ export default function CollectionScreen({ collection }: { collection: string })
     <ImageBackground source={require("@/assets/images/background.png")} style={{ flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ height: heightPercentageToDP("45%"), width: "100%" }}>
-          <ImageBackground source={{ uri: `/home/mrcrabs/Desktop/Practice/semestr/legendary-waddle/leafy_frontend/assets/images/collections/50${collection}Top.png` }} style={{ width: "100%", height: "100%" }} >
+          <ImageBackground source={require("@/assets/images/collections/50comedyTop.png")} style={{ width: "100%", height: "100%" }} >
             <LeafyReturnArrowButton style={{ marginTop: "5%", marginLeft: "2%", zIndex: 2 }} onPress={() => useNavigation()?.goBack()} />
           </ImageBackground>
         </View>

@@ -88,3 +88,12 @@ func ActorMoviesListHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 	json.NewEncoder(w).Encode(data.Results)
 }
+
+func NowPlayingMoviesHandler(w http.ResponseWriter, r *http.Request) {
+	data := api.GetNowPlayingMovies()
+
+	fmt.Println("Data: ", data)
+
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(data.Results)
+}

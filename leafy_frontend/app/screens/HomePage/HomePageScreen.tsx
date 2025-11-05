@@ -5,9 +5,11 @@ import FilmCardList from "@/components/ui/leafy-film-list";
 import GenresList from "@/components/ui/leafy-genres-list";
 import React from "react";
 import { Image, ImageBackground, ScrollView, Text, View } from "react-native";
+import PremiereCarousel from "./components/PremiereCarousel";
 
 export default function HomePageScreen({ navigation }: any) {
   const [selectedGenre, setSelectedGenre] = React.useState<number>(0);
+
   return (
 
     <ImageBackground source={require("@/assets/images/background.png")} style={{ flex: 1 }}>
@@ -18,6 +20,10 @@ export default function HomePageScreen({ navigation }: any) {
         </View>
         <Text style={[textStyle.homePageTrandingText, { marginTop: "-22%" }]}>Genres</Text>
         <GenresList setSelectedGenre={setSelectedGenre} />
+
+        <Text style={[textStyle.homePageTrandingText, { marginTop: "5%" }]}>Now in theaters</Text>
+        <PremiereCarousel />
+
         <Text style={[textStyle.homePageTrandingText, { marginTop: "5%" }]}>Trending</Text>
         <FilmCardList selectedGenre={selectedGenre} />
       </ScrollView>

@@ -3,7 +3,7 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 export const viewStyle = {
   homePageQuoteView: {
-    height: hp("51%"),
+    height: hp("40%"),
     width: "104%",
     backgroundColor: "#005C4D",
     borderRadius: 30,

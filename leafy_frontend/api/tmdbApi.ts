@@ -37,3 +37,9 @@ export async function getFilmographyByPerson(personID: number) {
   const data = await response.json();
   return data;
 }
+
+export async function getNowPlayingMovies() {
+  const response = await fetch(`${API_URL}/movie/now_playing`);
+  const data = await response.json();
+  return data;
+}
