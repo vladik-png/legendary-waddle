@@ -31,3 +31,9 @@ export async function getSimilarMovies(movieID: number) {
   const data = await response.json();
   return data;
 }
+
+export async function getFilmographyByPerson(personID: number) {
+  const response = await fetch(`${API_URL}/person/movies_list?personID=${personID}`);
+  const data = await response.json();
+  return data;
+}

@@ -32,11 +32,6 @@ func MovieByGenreHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := api.GetHomePageMoviesByGenre(genreID)
 
-	/*if data == nil {
-	        fmt.Println("data == nil in MovieByGenreHandler")
-	        return
-	}*/
-
 	w.Header().Set("Content-type", "application/json")
 	json.NewEncoder(w).Encode(data)
 }
@@ -82,4 +77,14 @@ func MovieStreamingServices(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-type", "application/json")
 	json.NewEncoder(w).Encode(data)
+}
+
+func ActorMoviesListHandler(w http.ResponseWriter, r *http.Request) {
+	personID, _ := strconv.Atoi(r.URL.Query().Get("personID"))
+	data := api.GetActorFilmography(personID)
+
+	fmt.Println("Data: ", data)
+
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(data.Results)
 }

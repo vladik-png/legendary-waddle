@@ -166,8 +166,8 @@ type Movie struct {
 	Release_date          string              `json:"release_date"`
 	Revenue               int                 `json:"revenue"`
 	Runtime               int                 `json:"runtime"`
-	Spoken_languages      []SpokenLanguage    `json:"spoken_languages"`
-	Status                string              `json:"status"`
+	Spoken_languages      []SpokenLanguage    `json:"poken_languages"`
+	Status                string              `json:"tatus"`
 	Tagline               string              `json:"tagline"`
 	Title                 string              `json:"title"`
 	Video                 bool                `json:"video"`
@@ -182,7 +182,7 @@ type Movie struct {
 			Name string `json:"name"`
 			Key  string `json:"key"`
 			Type string `json:"type"`
-			Site string `json:"site"`
+			Site string `json:"ite"`
 		} `json:"results"`
 	} `json:"videos"`
 	Images         Images                      `json:"images"`
@@ -194,4 +194,69 @@ type SimilarMovies struct {
 	Results      []Movie `json:"results"`
 	TotalPages   int     `json:"total_pages"`
 	TotalResults int     `json:"total_results"`
+}
+
+type MovieCredits struct {
+	Results []struct {
+		Cast []struct {
+			Adult            bool    `json:"Adult"`
+			BackdropPath     string  `json:"backdrop_path"`
+			GenreIds         []int   `json:"genre_ids"`
+			Id               int     `json:"id"`
+			OriginalLanguage string  `json:"original_language"`
+			OriginalTitle    string  `json:"original_title"`
+			Overview         string  `json:"overview"`
+			Popularity       float32 `json:"popularity"`
+			PosterPath       string  `json:"poster_path"`
+			ReleaseDate      string  `json:"release_date"`
+			Title            string  `json:"title"`
+			Video            bool    `json:"video"`
+			VoteAverage      float32 `json:"vote_average"`
+			VoteCount        int     `json:"vote_count"`
+			Character        string  `json:"character"`
+			CreditId         string  `json:"credit_id"`
+			Order            int     `json:"order"`
+		} `json:"cast"`
+		Crew []struct {
+			Adult            bool    `json:"Adult"`
+			BackdropPath     string  `json:"backdrop_path"`
+			GenreIds         []int   `json:"genre_ids"`
+			Id               int     `json:"id"`
+			OriginalLanguage string  `json:"original_language"`
+			OriginalTitle    string  `json:"original_title"`
+			Overview         string  `json:"overview"`
+			Popularity       float32 `json:"popularity"`
+			PosterPath       string  `json:"poster_path"`
+			ReleaseDate      string  `json:"release_date"`
+			Title            string  `json:"title"`
+			Video            bool    `json:"video"`
+			VoteAverage      float32 `json:"vote_average"`
+			VoteCount        int     `json:"vote_count"`
+			CreditId         string  `json:"credit_id"`
+			Department       string  `json:"department"`
+			Job              string  `json:"job"`
+		} `json:"crew"`
+	} `json:"results"`
+}
+
+type PeopleDetails struct {
+	Adult              bool     `json:"adult"`
+	AlsoKnownAs        []string `json:"also_known_as"`
+	Biography          string   `json:"biography"`
+	Birthday           string   `json:"birthday"`
+	Deathday           string   `json:"deathday"`
+	Gender             int      `json:"gender"`
+	Homepage           string   `json:"homepage"`
+	Id                 int      `json:"id"`
+	ImdbId             string   `json:"imdb_id"`
+	KnownForDepartment string   `json:"known_for_department"`
+	Name               string   `json:"name"`
+	PlaceOfBirth       string   `json:"place_of_birth"`
+	Popularity         float32  `json:"popularity"`
+	ProfilePath        string   `json:"profile_path"`
+}
+
+type ActorDetails struct {
+	Filmography MovieCredits  `json:"filmography"`
+	Details     PeopleDetails `json:"details"`
 }

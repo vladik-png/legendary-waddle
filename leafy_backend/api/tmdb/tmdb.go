@@ -268,3 +268,30 @@ func GetSimilarMovies(movieID int) []HomePageMovieItem {
 
 	return movies.Results
 }
+
+func GetActorFilmography(personID int) MovieCredits {
+	url := fmt.Sprintf("%s/person/%d/movie_credits?api_key=%s", TMDB_API_URL, personID, TMDB_API_KEY)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println("Failed request in GetActorFilmography")
+		return MovieCredits{}
+	}
+
+	defer resp.Body.Close()
+
+	var data MovieCredits
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Failed to read all from body in GetActorFilmography")
+		return MovieCredits{}
+	}
+
+	if err := json.Unmarshal(body, &data); err != nil {
+		fmt.Println("Failed to unmarshal from body in GetActorFilmography")
+		return MovieCredits{}
+	}
+
+	return data
+}
