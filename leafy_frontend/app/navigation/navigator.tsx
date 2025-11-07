@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
+import ActorProfileScreen from "../screens/ActorPage/ActorProfileScreen";
 import CollectionScreen from "../screens/CollectionPage/CollectionScreen";
 import CreatePasswordScreen from "../screens/CreatePasswordScreen";
 import EmailVerifyingScreen from "../screens/EmailVerifyingScreen";
@@ -38,6 +39,7 @@ export default function LeafyNavigator() {
       <Stack.Screen name="ExploreScreen" component={ExploreScreen} options={{ headerShown: false }} />
       <Stack.Screen name="SearchScreen" component={SearchScreen} options={{ headerShown: false }} />
       <Stack.Screen name="FilmCreditsScreen" component={FilmCreditsScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="ActorProfileScreen" component={ActorProfileScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

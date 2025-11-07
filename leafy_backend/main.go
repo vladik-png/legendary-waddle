@@ -24,28 +24,28 @@ func corsMiddleware(next http.Handler) http.Handler {
 }
 
 func attach_api_handlers() {
-	/*------------Registration handlers--------------------------*/
-	http.Handle("/register_new_user", corsMiddleware(http.HandlerFunc(__handlers__.RegistrationHandler)))
+	routes := map[string]http.HandlerFunc{
+		"/register_new_user":  __handlers__.RegistrationHandler,
+		"/login":              __handlers__.LoginHandler,
+		"/email_verification": __handlers__.EmailVerificationHandler,
 
-	/*------------Login handlers--------------------------*/
-	http.Handle("/login", corsMiddleware(http.HandlerFunc(__handlers__.LoginHandler)))
+		"/movie/home_page/popular_movies": __handlers__.PopularMoviesHandler,
+		"/movie/home_page/genres":         __handlers__.MovieGenresHandler,
+		"/movie/home_page/by_genre":       __handlers__.MovieByGenreHandler,
+		"/movie/home_page/now_playing":    __handlers__.NowPlayingMoviesHandler,
 
-	/*------------Email verification handlers--------------------------*/
-	http.Handle("/email_verification", corsMiddleware(http.HandlerFunc(__handlers__.EmailVerificationHandler)))
+		"/movie/details":  __handlers__.MovieDetailsHandler,
+		"/movie/similar":  __handlers__.SimilarMoviesHandler,
+		"/movie/services": __handlers__.MovieStreamingServices,
 
-	/*-----------------------------------------------------------------*/
-	/*------------TMDb handlers--------------------------*/
-	http.Handle("/home_page/popular_movies", corsMiddleware(http.HandlerFunc(__handlers__.PopularMoviesHandler)))
-	http.Handle("/movie/all_genres", corsMiddleware(http.HandlerFunc(__handlers__.MovieGenresHandler)))
-	http.Handle("/movie/by_genre", corsMiddleware(http.HandlerFunc(__handlers__.MovieByGenreHandler)))
-	http.Handle("/movie/detailed", corsMiddleware(http.HandlerFunc(__handlers__.MovieDetailsHandler)))
-	http.Handle("/movie/similar", corsMiddleware(http.HandlerFunc(__handlers__.SimilarMoviesHandler)))
-	http.Handle("/movie/services", corsMiddleware(http.HandlerFunc(__handlers__.MovieStreamingServices)))
-	http.Handle("/movie/now_playing", corsMiddleware(http.HandlerFunc(__handlers__.NowPlayingMoviesHandler)))
+		"/person/movies": __handlers__.ActorMoviesListHandler,
 
-	/*-----------------------------------------------------------------*/
-	/*------------User handlers--------------------------*/
-	http.Handle("/userProfile", corsMiddleware(http.HandlerFunc(__handlers__.UserProfileHandler)))
+		"/user/profile": __handlers__.UserProfileHandler,
+	}
+
+	for path, handler := range routes {
+		http.Handle(path, corsMiddleware(handler))
+	}
 }
 
 func main() {

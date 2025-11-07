@@ -198,46 +198,49 @@ type SimilarMovies struct {
 }
 
 type MovieCredits struct {
-	Results []struct {
-		Cast []struct {
-			Adult            bool    `json:"Adult"`
-			BackdropPath     string  `json:"backdrop_path"`
-			GenreIds         []int   `json:"genre_ids"`
-			Id               int     `json:"id"`
-			OriginalLanguage string  `json:"original_language"`
-			OriginalTitle    string  `json:"original_title"`
-			Overview         string  `json:"overview"`
-			Popularity       float32 `json:"popularity"`
-			PosterPath       string  `json:"poster_path"`
-			ReleaseDate      string  `json:"release_date"`
-			Title            string  `json:"title"`
-			Video            bool    `json:"video"`
-			VoteAverage      float32 `json:"vote_average"`
-			VoteCount        int     `json:"vote_count"`
-			Character        string  `json:"character"`
-			CreditId         string  `json:"credit_id"`
-			Order            int     `json:"order"`
-		} `json:"cast"`
-		Crew []struct {
-			Adult            bool    `json:"Adult"`
-			BackdropPath     string  `json:"backdrop_path"`
-			GenreIds         []int   `json:"genre_ids"`
-			Id               int     `json:"id"`
-			OriginalLanguage string  `json:"original_language"`
-			OriginalTitle    string  `json:"original_title"`
-			Overview         string  `json:"overview"`
-			Popularity       float32 `json:"popularity"`
-			PosterPath       string  `json:"poster_path"`
-			ReleaseDate      string  `json:"release_date"`
-			Title            string  `json:"title"`
-			Video            bool    `json:"video"`
-			VoteAverage      float32 `json:"vote_average"`
-			VoteCount        int     `json:"vote_count"`
-			CreditId         string  `json:"credit_id"`
-			Department       string  `json:"department"`
-			Job              string  `json:"job"`
-		} `json:"crew"`
-	} `json:"results"`
+	Cast []Cast `json:"cast"`
+	Crew []Crew `json:"crew"`
+}
+
+type Credits struct {
+	Cast []struct {
+		Adult            bool    `json:"adult"`
+		BackdropPath     string  `json:"backdrop_path"`
+		GenreIds         []int   `json:"genre_ids"`
+		Id               int     `json:"id"`
+		OriginalLanguage string  `json:"original_language"`
+		OriginalTitle    string  `json:"original_title"`
+		Overview         string  `json:"overview"`
+		Popularity       float32 `json:"popularity"`
+		PosterPath       string  `json:"poster_path"`
+		ReleaseDate      string  `json:"release_date"`
+		Title            string  `json:"title"`
+		Video            bool    `json:"video"`
+		VoteAverage      float32 `json:"vote_average"`
+		VoteCount        int     `json:"vote_count"`
+		Character        string  `json:"character"`
+		CreditId         string  `json:"credit_id"`
+		Order            int     `json:"order"`
+	} `json:"cast"`
+	Crew []struct {
+		Adult            bool    `json:"adult"`
+		BackdropPath     string  `json:"backdrop_path"`
+		GenreIds         []int   `json:"genre_ids"`
+		Id               int     `json:"id"`
+		OriginalLanguage string  `json:"original_language"`
+		OriginalTitle    string  `json:"original_title"`
+		Overview         string  `json:"overview"`
+		Popularity       float32 `json:"popularity"`
+		PosterPath       string  `json:"poster_path"`
+		ReleaseDate      string  `json:"release_date"`
+		Title            string  `json:"title"`
+		Video            bool    `json:"video"`
+		VoteAverage      float32 `json:"vote_average"`
+		VoteCount        int     `json:"vote_count"`
+		CreditId         string  `json:"credit_id"`
+		Department       string  `json:"department"`
+		Job              string  `json:"job"`
+	} `json:"crew"`
 }
 
 type PeopleDetails struct {
@@ -257,9 +260,22 @@ type PeopleDetails struct {
 	ProfilePath        string   `json:"profile_path"`
 }
 
+type PersonImages struct {
+	Id       int `json:"id"`
+	Profiles []struct {
+		AspectRatio float32 `json:"aspect_ratio"`
+		Height      int     `json:"height"`
+		Iso_639_1   string  `json:"iso_639_1"`
+		FilePath    string  `json:"file_path"`
+		Width       int     `json:"width"`
+	} `json:"profiles"`
+}
+
 type ActorDetails struct {
 	Filmography MovieCredits  `json:"filmography"`
 	Details     PeopleDetails `json:"details"`
+	Images      PersonImages  `json:"images"`
+	Backdrop    []string      `json:"backdrop"`
 }
 
 type NowPlayingMoviesResponse struct {

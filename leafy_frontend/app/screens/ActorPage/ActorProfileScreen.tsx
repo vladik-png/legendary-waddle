@@ -1,13 +1,15 @@
+import { getFilmographyByPerson } from "@/api/tmdbApi";
 import BottomBar from "@/app/screens/bars/bottomBar";
-import { movieDetailScreenStyle } from "@/components/styles/movieDetailScreenStyle";
-import MovieCardList from "@/components/ui/leafy-film-list";
+import { textStyle } from "@/components/styles/textStyles";
 import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
-import LeafyText from "@/components/ui/leafy-text";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Image, ImageBackground, Pressable, ScrollView, Text, View } from "react-native";
+import { Dimensions, Image, ImageBackground, Linking, Pressable, ScrollView, Text, View } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
-import YoutubePlayer from "react-native-youtube-iframe";
+import BiographyModal from "./components/BiographyModal";
+import Filmography from "./components/Filmography";
+import PhotosModal from "./components/PhotosModal";
+import { actorDetailScreen } from "./styles";
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 
@@ -15,20 +17,27 @@ const { width: screenW, height: screenH } = Dimensions.get("window");
 
 export default function ActorProfileScreen({ route }: any) {
   const navigation = useNavigation();
-  const [movie, setMovie] = useState<any>(null);
-  console.log("Movie ID in moviedetailsscreen: ", route.params?.currentMovieID || 13);
+  const [actor, setActor] = useState<any>(null);
+  const [movies, setMovies] = useState<any>(null);
+  const [images, setImages] = useState<any>(null);
+  const [backdrop, setBackdrop] = useState<any>(null);
+
+  console.log("actor ID in actordetailsscreen: ", route.params?.currentactorID || 13);
   const personID = route.params?.personID;
   useEffect(() => {
     async function loadActorDetails() {
-      /*const data = await getDetailedMovieByID(route.params?.currentMovieID || 13);
-      if (!data) return;
-      data.directors = data.credits.crew?.filter(member => member.job === "Director").map(member => member.name);
-      setMovie(data);*/
+      const data = await getFilmographyByPerson(personID);
+      if (data) {
+        setActor(data.details);
+        setMovies(data.filmography);
+        setImages(data.images.profiles);
+        setBackdrop(data.backdrop);
+      }
     }
     loadActorDetails();
   }, []);
 
-  /*const trailerKey = movie?.videos?.results?.find(
+  /*const trailerKey = actor?.videos?.results?.find(
     video => video.site === "YouTube" && video.type === "Trailer"
   )?.key;*/
 
@@ -40,55 +49,71 @@ export default function ActorProfileScreen({ route }: any) {
           <LeafyReturnArrowButton style={{ marginTop: "5%", zIndex: 2 }} onPress={() => navigation.goBack()} />
 
           <ImageBackground
-            source={{ uri: "https://image.tmdb.org/t/p/w500" + movie?.images?.backdrops[0]?.file_path }}
+            source={{ uri: "https://image.tmdb.org/t/p/w500" + images?.[images?.length - 1]?.file_path }}
             style={{ height: (screenH / 100) * 40, width: "104%", marginLeft: "-3%", marginRight: "-3%", marginTop: "-25%" }}>
             <View style={{ backgroundColor: "rgba(0, 0, 0, 0.75)", marginRight: "-2%", marginTop: "1%", height: heightPercentageToDP("40%") }}>
 
               <View style={{ flexDirection: "column", marginLeft: "3%", marginTop: "20%", justifyContent: "space-between" }}>
 
-                <Text style={movieDetailScreenStyle.mainView.movieBasicInfo.title}
+                <Text style={actorDetailScreen.mainView.actorBasicInfo.title}
                   numberOfLines={1}
                   ellipsizeMode="tail"
                 >
-                  {movie?.title}
+                  {actor?.name}
                 </Text>
 
-                <View style={movieDetailScreenStyle.mainView.movieBasicInfo.view}>
+                <View style={actorDetailScreen.mainView.actorBasicInfo.view}>
 
-                  <View style={movieDetailScreenStyle.mainView.movieBasicInfo.posterView}>
+                  <View style={actorDetailScreen.mainView.actorBasicInfo.posterView}>
                     <Image
-                      source={{ uri: "https://image.tmdb.org/t/p/w500" + movie?.poster_path }}
+                      source={actor?.profile_path ? { uri: "https://image.tmdb.org/t/p/w500" + actor?.profile_path } : require("@/assets/images/noPhoto.png")}
                       style={{ height: "100%", width: "100%" }} />
                   </View>
 
-                  <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.view}>
-                    <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.textInfoView}>
-                      <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.yearView}>
-                        <Text style={movieDetailScreenStyle.yellow16}>{"Year"}</Text>
-                        <Text style={movieDetailScreenStyle.white16}>{`: ${movie?.release_date.slice(0, 4)}`}</Text>
+                  <View style={actorDetailScreen.mainView.actorBasicInfo.infoView.view}>
+                    <View style={actorDetailScreen.mainView.actorBasicInfo.infoView.textInfoView}>
+                      <View style={actorDetailScreen.mainView.actorBasicInfo.infoView.bdayView}>
+                        <Text style={textStyle.yellow16}>{"Birthday"}</Text>
+                        <Text style={textStyle.white16}>{`: ${actor?.birthday || "Not available"}`}</Text>
                       </View>
 
-                      <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.directorView}>
-                        <Text style={movieDetailScreenStyle.yellow16}>{"Director"}</Text>
-                        <Text style={movieDetailScreenStyle.white16}>{`: ${movie?.directors[0]}`}</Text>
+                      <View style={actorDetailScreen.mainView.actorBasicInfo.infoView.bdayView}>
+                        <Text style={textStyle.yellow16}>{"Deathday"}</Text>
+                        <Text style={textStyle.white16}>{`: ${actor?.deathday || "Still alive"}`}</Text>
                       </View>
 
-                      <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.starsView}>
-                        <Text style={movieDetailScreenStyle.yellow16}>{"Stars: "}</Text>
-                        {
-                          /*movie?.credits?.cast?.slice(0, Math.min(4, movie?.credits?.cast?.length)).map((star, index) =>
-                            <Text key={index} style={[movieDetailScreenStyle.white16, movieDetailScreenStyle.mainView.movieBasicInfo.infoView.stars]}>{`${star.name}`}</Text>
-                          )*/
-                        }
+                      <View style={actorDetailScreen.mainView.actorBasicInfo.infoView.genderView}>
+                        <Text style={textStyle.yellow16}>{"Gender"}</Text>
+                        <Text style={textStyle.white16}>{`: ${actor?.gender === 1 ? "Female" : "Male"}`}</Text>
                       </View>
 
-                      <View style={{ width: 100, height: 20, flexDirection: "row" }}>
-                        <Text style={movieDetailScreenStyle.yellow16}>Runtime: </Text>
-                        <Text style={movieDetailScreenStyle.white16}>{movie?.runtime} </Text>
-                        <Text style={movieDetailScreenStyle.yellow16}>min</Text>
+                      <View style={{ width: "100%", flexDirection: "column" }}>
+                        <Text style={textStyle.yellow16}>{"Place of birth: "}</Text>
+
+                        <Text style={[textStyle.white16, { width: "100%" }]}
+                          numberOfLines={1} ellipsizeMode="tile">  {actor?.place_of_birth || "unknown"} </Text>
                       </View>
 
-                      <LeafyText text={`IMDb: ${movie?.vote_average.toFixed(1)}`} style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.imdbText} />
+                      <View style={{ width: "100%", flexDirection: "row" }}>
+                        <Text style={textStyle.yellow16}>{"Department: "}</Text>
+                        <Text style={textStyle.white16}>{actor?.known_for_department} </Text>
+                      </View>
+
+                      <View style={{ width: "100%", flexDirection: "row" }}>
+                        <Text style={textStyle.yellow16}>{"Popularity: "}</Text>
+                        <Text style={textStyle.white16}>{actor?.popularity} </Text>
+                      </View>
+
+                      <Pressable style={actorDetailScreen.mainView.actorBasicInfo.infoView.imdbText.view}
+                        onPress={async () => {
+                          const url = `https://www.imdb.com/name/${actor?.imdb_id}`;
+                          const sup = await Linking.canOpenURL(url);
+                          if (sup) Linking.openURL(url);
+                        }}
+                      >
+                        <Text style={actorDetailScreen.mainView.actorBasicInfo.infoView.imdbText.text}>IMDb</Text>
+                      </Pressable>
+
                     </View>
                   </View>
                 </View>
@@ -97,106 +122,30 @@ export default function ActorProfileScreen({ route }: any) {
           </ImageBackground>
 
 
-          <View style={movieDetailScreenStyle.actionRow.view}>
-            <Pressable style={movieDetailScreenStyle.actionRow.saveBtn}>
-              <Text style={[movieDetailScreenStyle.white18, { width: "100%", textAlign: "center" }]}>Save</Text>
+          <View style={actorDetailScreen.actionRow.view}>
+            <Pressable style={actorDetailScreen.actionRow.markAsWatchedBtn}>
+              <Text style={[actorDetailScreen.white18, { width: "100%", textAlign: "center" }]}>Subscribe</Text>
             </Pressable>
 
-            <Pressable style={movieDetailScreenStyle.actionRow.markAsWatchedBtn}>
-              <Text style={[movieDetailScreenStyle.white18, { width: "100%", textAlign: "center" }]}>Mark as Watched</Text>
+            <Pressable style={actorDetailScreen.actionRow.saveBtn}>
+              <Text style={[actorDetailScreen.white18, { width: "100%", textAlign: "center" }]}>Mark as Favourite</Text>
             </Pressable>
 
-            <Pressable style={movieDetailScreenStyle.actionRow.shareBtn}>
-              <Text style={[movieDetailScreenStyle.white18, { width: "100%", textAlign: "center" }]}>Share</Text>
+            <Pressable style={actorDetailScreen.actionRow.shareBtn}>
+              <Text style={[actorDetailScreen.white18, { width: "100%", textAlign: "center" }]}>Share</Text>
             </Pressable>
           </View>
 
-          <View style={{ backgroundColor: "rgba(255, 255, 255, 0.05)", padding: 6, paddingTop: 0, borderWidth: 0.5, borderColor: "rgba(255, 255, 255, 0.2)", borderRadius: 12 }}>
-            <Text style={[movieDetailScreenStyle.yellow18, { padding: 0, margin: 0 }]}>Genres</Text>
-            <ScrollView horizontal={true}
-              style={movieDetailScreenStyle.genreCellView}
-              contentContainerStyle={{ paddingHorizontal: 10 }}
-              showsHorizontalScrollIndicator={false}
-            >
-              {
-                /*movie?.genres.map((genre, index) => {
-                  const name: string = genre.name;
-                  return (
-                    <Pressable key={index} style={[movieDetailScreenStyle.genreCell, { alignItems: "center", backgroundColor: genresInfo[name]?.color, borderColor: genresInfo[name]?.borderColor }]}>
-                      <Text style={[movieDetailScreenStyle.genreCellText]}>{name}</Text>
-                    </Pressable>
-                  )
-                })*/
-              }
-            </ScrollView>
-          </View>
+          <BiographyModal bio={actor?.biography || "It`s empty here for now..."} />
 
-          <View style={{ marginTop: "5%", backgroundColor: "rgba(255, 255, 255, 0.05)", padding: 6, paddingTop: 0, borderWidth: 0.5, borderColor: "rgba(255, 255, 255, 0.2)", borderRadius: 12 }}>
-            <Text style={[movieDetailScreenStyle.yellow18, { padding: 0, margin: 0 }]}>Providers</Text>
-            <ScrollView horizontal={true}
-              style={[movieDetailScreenStyle.genreCellView, { height: 40 }]}
-              contentContainerStyle={{ paddingHorizontal: 10 }}
-              showsHorizontalScrollIndicator={false}
-            >
-              {
-                /* movie?.providers?.["US"]?.flatrate?.map((flat: any, index: number) => (
-                   <Image key={index} source={{ uri: "https://image.tmdb.org/t/p/w500" + flat?.logo_path }} style={{ height: 30, width: 30, borderRadius: 4, marginRight: "1%" }} />
-                 ))*/
-              }
-            </ScrollView>
-          </View>
+          <PhotosModal images={images} backdrop={backdrop} />
 
-          <Text style={[{ width: "80%", marginTop: "5%" }, movieDetailScreenStyle.yellow18]}>Trailer</Text>
-          <View style={{ marginLeft: "-6%", marginTop: "2%" }}>
-            <YoutubePlayer height={250} width={"103%"} play={false} videoId={trailerKey} />
-          </View>
-          <View style={{ flexDirection: "column", marginTop: "10%" }}>
-            <Text style={movieDetailScreenStyle.yellow18}>Overview</Text>
-            <Text style={[{ width: "100%", textAlign: "justify" }, movieDetailScreenStyle.white16]}>   {movie?.overview}</Text>
-          </View>
+          <Text style={[textStyle.yellow18, { marginTop: "5%" }]}>Filmography</Text>
+          <Filmography />
 
-          <View style={{ width: "100%", marginTop: "10%" }}>
-            <Text style={[movieDetailScreenStyle.yellow18, { marginTop: "5%", textDecorationLine: "underline" }]}
-              onPress={() => navigation.navigate("FilmCreditsScreen", { credits: movie?.credits })}>Cast</Text>
-            <View style={{ flexDirection: "column", borderColor: "rgba(255, 255, 255, 0.1)", borderRadius: 10, borderWidth: 1, justifyContent: "space-between", gap: 5 }}>
-              {
-                movie?.credits?.cast?.slice(0, Math.min(6, movie.credits.cast.length - 1)).map((person, index) => {
-                  return (
-                    <ActorCard key={index} cast={person} />
-                  )
-                })
-              }
-            </View>
-
-            <Text style={[movieDetailScreenStyle.yellow18, { marginTop: "5%", textDecorationLine: "underline" }]}>Crew</Text>
-            <View style={{ flexDirection: "column", borderColor: "rgba(255, 255, 255, 0.1)", borderRadius: 10, borderWidth: 1, justifyContent: "space-between", gap: 5 }}>
-              {
-                movie?.credits?.crew?.slice(0, Math.min(6, movie.credits.crew.length - 1))?.map((person: any, index: any) => {
-                  return (
-                    <ActorCard key={index} cast={person} />
-                  )
-                })
-              }
-            </View>
-          </View>
-          <View style={{ marginTop: "5%", marginBottom: heightPercentageToDP("5%"), backgroundColor: "rgba(255, 255, 255, 0.05)", padding: 6, paddingTop: 0, borderWidth: 0.5, borderColor: "rgba(255, 255, 255, 0.2)", borderRadius: 12 }}>
-            <Text style={[movieDetailScreenStyle.yellow18]}>Details</Text>
-            <View style={{ flexDirection: "column" }}>
-              <DetailRow label="Release date" item={movie?.release_date} prop="english_name" maxW="75%" />
-              <DetailRow label="Spoken languages" items={movie?.spoken_languages} prop="english_name" maxW="75%" />
-              <DetailRow label="Countries" items={movie?.production_countries} prop="name" maxW="75%" />
-              <DetailRow label="Companies" items={movie?.production_companies} prop="name" maxW="75%" />
-              <DetailRow label="Revenue" item={movie?.revenue + "$"} maxW="75%" />
-              <DetailRow label="Tagline" item={movie?.tagline || "Nothing"} maxW="75%" />
-              <DetailRow label="IMDb ID" item={movie?.imdb_id} maxW="30%" />
-            </View>
-          </View>
-
-
-          <Text style={[movieDetailScreenStyle.yellow18]}>Similar movies</Text>
-          <MovieCardList navigation={navigation} movieID={movie?.id} />
         </ScrollView >
       </ImageBackground>
+
       <BottomBar />
     </View >
   );

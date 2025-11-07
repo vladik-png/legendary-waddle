@@ -12,15 +12,18 @@ type GenreRequest struct {
 	Genre int `json:"genre"`
 }
 
+func jsonResponse(w http.ResponseWriter, r *http.Request, data any) {
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(data)
+}
+
 func PopularMoviesHandler(w http.ResponseWriter, r *http.Request) {
 	data := api.GetHomePageMovieList()
 
 	if data == nil {
 		return
 	}
-
-	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(data)
+	jsonResponse(w, r, data)
 }
 
 func MovieByGenreHandler(w http.ResponseWriter, r *http.Request) {
@@ -32,8 +35,7 @@ func MovieByGenreHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := api.GetHomePageMoviesByGenre(genreID)
 
-	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(data)
+	jsonResponse(w, r, data)
 }
 
 func MovieGenresHandler(w http.ResponseWriter, r *http.Request) {
@@ -44,8 +46,7 @@ func MovieGenresHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(data)
+	jsonResponse(w, r, data)
 }
 
 func MovieDetailsHandler(w http.ResponseWriter, r *http.Request) {
@@ -57,43 +58,32 @@ func MovieDetailsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(data)
+	jsonResponse(w, r, data)
 }
 
 func SimilarMoviesHandler(w http.ResponseWriter, r *http.Request) {
 	movieID, _ := strconv.Atoi(r.URL.Query().Get("movieID"))
 	data := api.GetSimilarMovies(movieID)
 
-	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(data)
+	jsonResponse(w, r, data)
 }
 
 func MovieStreamingServices(w http.ResponseWriter, r *http.Request) {
 	movieID, _ := strconv.Atoi(r.URL.Query().Get("movieID"))
 	data := api.GetStreamingServices(movieID)
 
-	fmt.Println("Data: ", data)
-
-	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(data)
+	jsonResponse(w, r, data)
 }
 
 func ActorMoviesListHandler(w http.ResponseWriter, r *http.Request) {
 	personID, _ := strconv.Atoi(r.URL.Query().Get("personID"))
 	data := api.GetActorFilmography(personID)
 
-	fmt.Println("Data: ", data)
-
-	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(data.Results)
+	jsonResponse(w, r, data)
 }
 
 func NowPlayingMoviesHandler(w http.ResponseWriter, r *http.Request) {
 	data := api.GetNowPlayingMovies()
 
-	fmt.Println("Data: ", data)
-
-	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(data.Results)
+	jsonResponse(w, r, data)
 }

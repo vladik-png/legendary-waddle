@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"leafy/log"
 	"net/http"
 )
 
@@ -15,7 +16,7 @@ func GetMovieDetails(movieID int) (Movie, error) {
 
 	if err != nil {
 		fmt.Println("Request details error ", err)
-		return Movie{}, errors.New("Request error in GetMovieDetails")
+		return Movie{}, errors.New("request error in GetMovieDetails")
 	}
 
 	defer resp.Body.Close()
@@ -23,7 +24,7 @@ func GetMovieDetails(movieID int) (Movie, error) {
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Read details error ", err)
-		return Movie{}, errors.New("Read error in GetMovieDetails")
+		return Movie{}, errors.New("read error in GetMovieDetails")
 	}
 
 	var data Movie
@@ -34,6 +35,10 @@ func GetMovieDetails(movieID int) (Movie, error) {
 	}
 
 	providers, err := GetMovieProviders(movieID)
+	if err != nil {
+		fmt.Println("Read details error ", err)
+		return Movie{}, errors.New("read error in GetMovieDetails")
+	}
 
 	data.WatchProviders = providers.Results
 	return data, nil
@@ -46,7 +51,7 @@ func GetMovieProviders(movieID int) (Providers, error) {
 
 	if err != nil {
 		fmt.Println("Request providers error ", err)
-		return Providers{}, errors.New("Request error in GetMovieProviders")
+		return Providers{}, errors.New("request error in GetMovieProviders")
 	}
 
 	defer resp.Body.Close()
@@ -54,7 +59,7 @@ func GetMovieProviders(movieID int) (Providers, error) {
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Read providers error ", err)
-		return Providers{}, errors.New("Read error in GetMovieProviders")
+		return Providers{}, errors.New("read error in GetMovieProviders")
 	}
 
 	var data Providers
@@ -149,7 +154,6 @@ func GetHomePageMoviesByGenre(genreID string) []HomePageMovieItem {
 
 	if err := json.Unmarshal(body, &data); err != nil {
 		fmt.Println("JSON by genre error ", err)
-		//fmt.Println("BODY by genre ", string(body))
 		return nil
 	}
 
@@ -185,35 +189,6 @@ func GetHomePageMoviesByGenre(genreID string) []HomePageMovieItem {
 	}
 
 	return movies.Results
-}
-
-func GetMovieGenres() []MovieGenre {
-	url := fmt.Sprintf("%s/genre/movie/list?api_key=%s&language=en", TMDB_API_URL, TMDB_API_KEY)
-
-	resp, err := http.Get(url)
-
-	if err != nil {
-		fmt.Println("Request genres error ", err)
-		return nil
-	}
-
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("Read genres error ", err)
-		return nil
-	}
-
-	var data MovieGenreResponse
-
-	if err := json.Unmarshal(body, &data); err != nil {
-		fmt.Println("JSON error genres ", err)
-		fmt.Println("BODY genres ", string(body))
-		return nil
-	}
-
-	return data.Genres
 }
 
 func GetSimilarMovies(movieID int) []HomePageMovieItem {
@@ -272,51 +247,24 @@ func GetSimilarMovies(movieID int) []HomePageMovieItem {
 	return movies.Results
 }
 
-func GetActorFilmography(personID int) MovieCredits {
-	url := fmt.Sprintf("%s/person/%d/movie_credits?api_key=%s", TMDB_API_URL, personID, TMDB_API_KEY)
-
-	resp, err := http.Get(url)
-	if err != nil {
-		fmt.Println("Failed request in GetActorFilmography")
-		return MovieCredits{}
-	}
-
-	defer resp.Body.Close()
-
-	var data MovieCredits
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("Failed to read all from body in GetActorFilmography")
-		return MovieCredits{}
-	}
-
-	if err := json.Unmarshal(body, &data); err != nil {
-		fmt.Println("Failed to unmarshal from body in GetActorFilmography")
-		return MovieCredits{}
-	}
-
-	return data
-}
-
 func GetNowPlayingMovies() NowPlayingMoviesResponse {
 	url := fmt.Sprintf("%s/movie/now_playing?api_key=%s", TMDB_API_URL, TMDB_API_KEY)
 	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println("GetNowPlayingMovies error: ", err)
+		log.Failed("GetNowPlayingMovies")
 		return NowPlayingMoviesResponse{}
 	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("Failed to read all from body in GetNowPlayingMovies")
+		log.Failed("GetNowPlayingMovies")
 		return NowPlayingMoviesResponse{}
 	}
 
 	var data NowPlayingMoviesResponse
 
 	if err := json.Unmarshal(body, &data); err != nil {
-		fmt.Println("Failed to unmarshal from body in GetNowPlayingMovies")
+		log.Failed("GetNowPlayingMovies")
 		return NowPlayingMoviesResponse{}
 	}
 

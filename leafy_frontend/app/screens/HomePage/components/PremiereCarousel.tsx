@@ -2,8 +2,7 @@ import { getNowPlayingMovies } from "@/api/tmdbApi";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Image, Pressable, ScrollView } from "react-native";
-import { premiereMovies } from "./styles";
-
+import { nowPlaying } from "./styles";
 
 export default function PremiereCarousel() {
   const navigator = useNavigation();
@@ -12,17 +11,17 @@ export default function PremiereCarousel() {
   useEffect(() => {
     async function loadMovies() {
       const data = await getNowPlayingMovies();
-      if (data) setMovies(data);
+      if (data) setMovies(data.results);
     }
     loadMovies();
   });
 
   return (
-    <ScrollView style={[premiereMovies.scrollView]} horizontal={true} showsHorizontalScrollIndicator={false}>
+    <ScrollView style={[nowPlaying.scrollView]} horizontal={true} showsHorizontalScrollIndicator={false}>
       {
         movies?.map((movie: any, index: number) => {
           return (
-            <Pressable key={index} style={[premiereMovies.item]}
+            <Pressable key={index} style={[nowPlaying.item]}
               onPress={() => navigator?.push("FilmDetailScreen", { currentMovieID: movie?.id })}>
               <Image source={{ uri: "https://image.tmdb.org/t/p/w500" + movie?.poster_path }} style={{ width: "100%", height: "100%", borderRadius: 4 }} />
             </Pressable>
@@ -32,3 +31,4 @@ export default function PremiereCarousel() {
     </ScrollView >
   )
 }
+

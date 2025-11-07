@@ -36,9 +36,9 @@ export const movieCardStyle = {
   },
   imdbText: {
     view: {
-      backgroundColor: "#FED53A",
+      backgroundColor: "#deb522",
       height: 20,
-      borderRadius: 5,
+      borderRadius: 4,
       width: 64,
       flexDirection: "column",
       justifyContent: "center"

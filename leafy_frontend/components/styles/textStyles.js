@@ -75,7 +75,7 @@ export const textStyle = {
   },
   yellow18: {
     fontFamily: "sans-serif-condensed",
-    fontSize: 20,
+    fontSize: 18,
     color: "#FED330",
     marginBottom: "2%",
   },

@@ -1,5 +1,5 @@
 
-export const premiereMovies = {
+export const nowPlaying = {
   scrollView: {
     height: 160,
     backgroundColor: "rgba(255, 255, 255, 0.05)",

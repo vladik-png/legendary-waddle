@@ -1,4 +1,5 @@
 import { backgroundStyle } from '@/components/styles/backgroundStyle';
+import { textStyle } from '@/components/styles/textStyles';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 wp(10);
 
@@ -109,7 +110,7 @@ export const movieDetailScreenStyle = {
         justifyContent: "space-between"
       },
       posterView: {
-        width: wp("42%"),
+        width: "42%",
         height: "100%",
         backgroundColor: "white",
       },
@@ -117,7 +118,7 @@ export const movieDetailScreenStyle = {
         view: {
           flexDirection: "column",
           marginLeft: "3%",
-          width: "57%",
+          width: "62%",
           height: "100%",
           backgroundColor: "rgba(255, 255, 255, 0.05)",
           borderWidth: 1,
@@ -150,7 +151,7 @@ export const movieDetailScreenStyle = {
         },
         imdbText: {
           view: {
-            backgroundColor: "#FED53A",
+            backgroundColor: "#deb522",
             height: 24,
             borderRadius: 5,
             width: 76,
@@ -206,7 +207,7 @@ export const movieDetailScreenStyle = {
     saveBtn: {
       borderRadius: 10,
       borderColor: "rgba(254, 211, 48, 0.3)",
-      backgroundColor: "rgba(224, 181, 18, 1)",
+      backgroundColor: "#deb522",
       borderWidth: 0.5,
       height: 36,
       width: 64,
@@ -235,5 +236,23 @@ export const movieDetailScreenStyle = {
       alignItems: "center",
       borderRadius: 10,
     }
+  },
+  credits: {
+    view: {
+      flexDirection: "column",
+      borderColor: "rgba(255, 255, 255, 0.1)",
+      borderRadius: 10,
+      borderWidth: 1,
+      justifyContent: "space-between",
+      gap: 5
+    },
+    text: [
+      textStyle.yellow18,
+      {
+        marginLeft: "2%",
+        marginTop: "5%",
+        textDecorationLine: "underline"
+      }
+    ],
   }
 };

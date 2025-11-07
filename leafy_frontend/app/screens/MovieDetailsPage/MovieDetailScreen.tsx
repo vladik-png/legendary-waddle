@@ -44,7 +44,7 @@ export default function MovieDetailScreen({ route }: any) {
           <LeafyReturnArrowButton style={{ marginTop: "5%", zIndex: 2 }} onPress={() => navigation.goBack()} />
 
           <ImageBackground
-            source={{ uri: "https://image.tmdb.org/t/p/w500" + movie?.images?.backdrops[0]?.file_path }}
+            source={{ uri: "https://image.tmdb.org/t/p/w500" + movie?.images?.backdrops[movie?.images?.backdrops?.length - 1]?.file_path }}
             style={movieDetailScreenStyle.ImageBackground}>
             <View style={{ backgroundColor: "rgba(0, 0, 0, 0.75)", marginRight: "-2%", marginTop: "1%", height: heightPercentageToDP("40%") }}>
 
@@ -180,9 +180,10 @@ export default function MovieDetailScreen({ route }: any) {
           </View>
 
           <View style={{ width: "100%", marginTop: "10%" }}>
-            <Text style={[movieDetailScreenStyle.yellow18, { marginTop: "5%", textDecorationLine: "underline" }]}
-              onPress={() => navigation.navigate("FilmCreditsScreen", { credits: movie?.credits })}>Cast</Text>
-            <View style={{ flexDirection: "column", borderColor: "rgba(255, 255, 255, 0.1)", borderRadius: 10, borderWidth: 1, justifyContent: "space-between", gap: 5 }}>
+
+            <Text style={movieDetailScreenStyle.credits.text}
+              onPress={() => navigation.navigate("FilmCreditsScreen", { credits: movie?.credits, poster: movie?.poster_path })}>Cast</Text>
+            <View style={movieDetailScreenStyle.credits.view}>
               {
                 movie?.credits?.cast?.slice(0, Math.min(6, movie.credits.cast.length - 1)).map((person, index) => {
                   return (
@@ -192,8 +193,8 @@ export default function MovieDetailScreen({ route }: any) {
               }
             </View>
 
-            <Text style={[movieDetailScreenStyle.yellow18, { marginTop: "5%", textDecorationLine: "underline" }]}>Crew</Text>
-            <View style={{ flexDirection: "column", borderColor: "rgba(255, 255, 255, 0.1)", borderRadius: 10, borderWidth: 1, justifyContent: "space-between", gap: 5 }}>
+            <Text style={movieDetailScreenStyle.credits.text}>Crew</Text>
+            <View style={movieDetailScreenStyle.credits.view}>
               {
                 movie?.credits?.crew?.slice(0, Math.min(6, movie.credits.crew.length - 1))?.map((person: any, index: any) => {
                   return (
@@ -202,17 +203,18 @@ export default function MovieDetailScreen({ route }: any) {
                 })
               }
             </View>
+
           </View>
           <View style={{ marginTop: "5%", marginBottom: heightPercentageToDP("5%"), backgroundColor: "rgba(255, 255, 255, 0.05)", padding: 6, paddingTop: 0, borderWidth: 0.5, borderColor: "rgba(255, 255, 255, 0.2)", borderRadius: 12 }}>
             <Text style={[movieDetailScreenStyle.yellow18]}>Details</Text>
             <View style={{ flexDirection: "column" }}>
-              <DetailRow label="Release date" item={movie?.release_date} prop="english_name" maxW="75%" />
+              <DetailRow label="Release date" item={movie?.release_date} maxW="75%" />
               <DetailRow label="Spoken languages" items={movie?.spoken_languages} prop="english_name" maxW="75%" />
               <DetailRow label="Countries" items={movie?.production_countries} prop="name" maxW="75%" />
               <DetailRow label="Companies" items={movie?.production_companies} prop="name" maxW="75%" />
               <DetailRow label="Revenue" item={movie?.revenue + "$"} maxW="75%" />
               <DetailRow label="Tagline" item={movie?.tagline || "Nothing"} maxW="75%" />
-              <DetailRow label="IMDb ID" item={movie?.imdb_id} maxW="75%" />
+              <DetailRow label="IMDb ID" item={movie?.imdb_id || "Not available"} maxW="75%" />
             </View>
           </View>
 
