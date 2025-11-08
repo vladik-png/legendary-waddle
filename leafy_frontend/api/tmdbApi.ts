@@ -41,5 +41,6 @@ export async function getFilmographyByPerson(personID: number) {
 export async function getNowPlayingMovies() {
   const response = await fetch(`${API_URL}/movie/home_page/now_playing`);
   const data = await response.json();
+  console.log("Maximum date: ", data?.dates?.maximum)
   return data;
 }

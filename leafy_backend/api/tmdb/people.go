@@ -113,8 +113,6 @@ func getPersonCombinedCredits(personID int) []string {
 		return nil
 	}
 
-	fmt.Println("data: ", data)
-
 	var backdrop []string
 
 	for _, cast := range data.Cast {

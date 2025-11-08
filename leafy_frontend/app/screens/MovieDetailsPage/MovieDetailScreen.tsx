@@ -1,6 +1,8 @@
 import { getDetailedMovieByID } from "@/api/tmdbApi";
 import BottomBar from "@/app/screens/bars/bottomBar";
+import { MONTH } from "@/app/utils/month";
 import { genresInfo } from "@/components/styles/genreStyle";
+import { textStyle } from "@/components/styles/textStyles";
 import MovieCardList from "@/components/ui/leafy-film-list";
 import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
 import { useNavigation } from "expo-router";
@@ -16,12 +18,14 @@ import { Movie } from "./types";
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 
-
-
 export default function MovieDetailScreen({ route }: any) {
   const navigation = useNavigation();
   const [movie, setMovie] = useState<Movie | null>(null);
   console.log("Movie ID in moviedetailsscreen: ", route.params?.currentMovieID || 13);
+
+  const inCinemas: boolean = route.params?.inCinemas;
+  const maximum = route.params?.maximum;
+
   useEffect(() => {
     async function loadMovieDetails() {
       const data: Movie = await getDetailedMovieByID(route.params?.currentMovieID || 13);
@@ -63,6 +67,13 @@ export default function MovieDetailScreen({ route }: any) {
                     <Image
                       source={{ uri: "https://image.tmdb.org/t/p/w500" + movie?.poster_path }}
                       style={{ height: "100%", width: "100%" }} />
+                    {
+                      inCinemas ? (
+                        <View style={{ position: "absolute", top: "3%", width: "100%", backgroundColor: "rgba(50, 158, 79, 0.9)" }}>
+                          <Text style={[textStyle.white12, { textTransform: "uppercase", textAlign: "center", alignSelf: "center" }]}>{`In cinemas till ${(maximum.slice(3, 5) + ' ' + MONTH[maximum.slice(0, 2)])}`}</Text>
+                        </View>
+                      ) : (<></>)
+                    }
                   </View>
 
                   <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.view}>
@@ -222,7 +233,7 @@ export default function MovieDetailScreen({ route }: any) {
           <Text style={[movieDetailScreenStyle.yellow18]}>Similar movies</Text>
           <MovieCardList navigation={navigation} movieID={movie?.id} movieGenre={movie?.genres[0]?.id} />
         </ScrollView >
-      </ImageBackground>
+      </ImageBackground >
       <BottomBar />
     </View >
   );

@@ -113,6 +113,7 @@ export const movieDetailScreenStyle = {
         width: "42%",
         height: "100%",
         backgroundColor: "white",
+        position: "relative",
       },
       infoView: {
         view: {

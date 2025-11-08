@@ -21,7 +21,7 @@ export default function HomePageScreen({ navigation }: any) {
         <Text style={[textStyle.homePageTrandingText, { marginTop: "-22%" }]}>Genres</Text>
         <GenresList setSelectedGenre={setSelectedGenre} />
 
-        <Text style={[textStyle.homePageTrandingText, { marginTop: "5%" }]}>Now in theaters</Text>
+        <Text style={[textStyle.homePageTrandingText, { marginTop: "5%" }]}>Now in cinemas</Text>
         <PremiereCarousel />
 
         <Text style={[textStyle.homePageTrandingText, { marginTop: "5%" }]}>Trending</Text>
