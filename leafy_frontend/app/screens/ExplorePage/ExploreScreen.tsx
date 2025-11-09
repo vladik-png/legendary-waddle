@@ -3,8 +3,8 @@ import { Image, ImageBackground, Pressable, ScrollView, Text, TextInput, View } 
 import BottomBar from "../bars/bottomBar";
 import { explorePageStyle } from "./styles";
 
-import { inputStyle } from "@/components/styles/inputStyle";
-import { viewStyle } from "@/components/styles/viewStyle";
+import { inputStyle } from "@/styles/inputStyle";
+import { viewStyle } from "@/styles/viewStyle";
 
 export default function ExploreScreen({ navigation }: any) {
   return (

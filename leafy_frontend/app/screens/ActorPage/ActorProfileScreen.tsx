@@ -1,13 +1,12 @@
 import { getFilmographyByPerson } from "@/api/tmdbApi";
 import BottomBar from "@/app/screens/bars/bottomBar";
-import { textStyle } from "@/components/styles/textStyles";
-import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
+import LeafyReturnArrowButton from "@/components/ui/leafy-return-arrow-btn";
+import { textStyle } from "@/styles/textStyles";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Image, ImageBackground, Linking, Pressable, ScrollView, Text, View } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import BiographyModal from "./components/BiographyModal";
-import Filmography from "./components/Filmography";
 import PhotosModal from "./components/PhotosModal";
 import { actorDetailScreen } from "./styles";
 
@@ -22,24 +21,19 @@ export default function ActorProfileScreen({ route }: any) {
   const [images, setImages] = useState<any>(null);
   const [backdrop, setBackdrop] = useState<any>(null);
 
-  console.log("actor ID in actordetailsscreen: ", route.params?.currentactorID || 13);
   const personID = route.params?.personID;
   useEffect(() => {
     async function loadActorDetails() {
       const data = await getFilmographyByPerson(personID);
       if (data) {
-        setActor(data.details);
-        setMovies(data.filmography);
-        setImages(data.images.profiles);
-        setBackdrop(data.backdrop);
+        setActor(data?.details);
+        setMovies(data?.filmography);
+        setImages(data?.images?.profiles);
+        setBackdrop(data?.backdrop);
       }
     }
     loadActorDetails();
   }, []);
-
-  /*const trailerKey = actor?.videos?.results?.find(
-    video => video.site === "YouTube" && video.type === "Trailer"
-  )?.key;*/
 
   return (
     <View style={{ flex: 1 }}>
@@ -49,7 +43,7 @@ export default function ActorProfileScreen({ route }: any) {
           <LeafyReturnArrowButton style={{ marginTop: "5%", zIndex: 2 }} onPress={() => navigation.goBack()} />
 
           <ImageBackground
-            source={{ uri: "https://image.tmdb.org/t/p/w500" + images?.[images?.length - 1]?.file_path }}
+            source={{ uri: "https://image.tmdb.org/t/p/w200" + images?.[images?.length - 1]?.file_path }}
             style={{ height: (screenH / 100) * 40, width: "104%", marginLeft: "-3%", marginRight: "-3%", marginTop: "-25%" }}>
             <View style={{ backgroundColor: "rgba(0, 0, 0, 0.75)", marginRight: "-2%", marginTop: "1%", height: heightPercentageToDP("40%") }}>
 
@@ -66,7 +60,7 @@ export default function ActorProfileScreen({ route }: any) {
 
                   <View style={actorDetailScreen.mainView.actorBasicInfo.posterView}>
                     <Image
-                      source={actor?.profile_path ? { uri: "https://image.tmdb.org/t/p/w500" + actor?.profile_path } : require("@/assets/images/noPhoto.png")}
+                      source={actor?.profile_path ? { uri: "https://image.tmdb.org/t/p/w200" + actor?.profile_path } : require("@/assets/images/noPhoto.png")}
                       style={{ height: "100%", width: "100%" }} />
                   </View>
 
@@ -140,11 +134,9 @@ export default function ActorProfileScreen({ route }: any) {
 
           <PhotosModal images={images} backdrop={backdrop} />
 
-          <Text style={[textStyle.yellow18, { marginTop: "5%" }]}>Filmography</Text>
-          <Filmography />
 
         </ScrollView >
-      </ImageBackground>
+      </ImageBackground >
 
       <BottomBar />
     </View >

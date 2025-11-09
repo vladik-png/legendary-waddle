@@ -1,3 +1,5 @@
+import { StyleSheet } from "react-native";
+
 const font = "sans-serif-condensed";
 
 const yellow = {
@@ -20,7 +22,7 @@ const gray = {
   color: "#ACACAC",
 }
 
-export const textStyle = {
+export const textStyle = StyleSheet.create({
   homePageTrandingText: {
     color: "white",
     fontFamily: "sans-serif-condensed",
@@ -43,9 +45,9 @@ export const textStyle = {
     right: "14%",
     textAlign: "right",
   },
-};
+});
 
-for (let i = 10; i <= 26; ++i) {
+for (let i = 10; i <= 36; ++i) {
   textStyle[`yellow${i}`] = [yellow, { fontSize: i }];
   textStyle[`white${i}`] = [white, { fontSize: i }];
   textStyle[`black${i}`] = [black, { fontSize: i }];

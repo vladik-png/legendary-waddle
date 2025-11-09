@@ -1,10 +1,10 @@
 import { getDetailedMovieByID } from "@/api/tmdbApi";
 import BottomBar from "@/app/screens/bars/bottomBar";
 import { MONTH } from "@/app/utils/month";
-import { genresInfo } from "@/components/styles/genreStyle";
-import { textStyle } from "@/components/styles/textStyles";
 import MovieCardList from "@/components/ui/leafy-film-list";
-import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
+import LeafyReturnArrowButton from "@/components/ui/leafy-return-arrow-btn";
+import { genresInfo } from "@/styles/genreStyle";
+import { textStyle } from "@/styles/textStyles";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Image, ImageBackground, Linking, Pressable, ScrollView, Text, View } from "react-native";
@@ -44,7 +44,7 @@ export default function MovieDetailScreen({ route }: any) {
     <View style={{ flex: 1 }}>
       <ImageBackground source={require("@/assets/images/background.png")} style={{ flex: 1 }}>
 
-        <ScrollView showsVerticalScrollIndicator={false} style={{ padding: "2%" }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ padding: "1%" }}>
           <LeafyReturnArrowButton style={{ marginTop: "5%", zIndex: 2 }} onPress={() => navigation.goBack()} />
 
           <ImageBackground
@@ -79,21 +79,21 @@ export default function MovieDetailScreen({ route }: any) {
                   <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.view}>
                     <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.textInfoView}>
                       <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.yearView}>
-                        <Text style={movieDetailScreenStyle.yellow16}>{"Year"}</Text>
-                        <Text style={movieDetailScreenStyle.white16}>{`: ${movie?.release_date.slice(0, 4)}`}</Text>
+                        <Text style={textStyle.yellow16}>{"Year"}</Text>
+                        <Text style={textStyle.white16}>{`: ${movie?.release_date.slice(0, 4)}`}</Text>
                       </View>
 
                       <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.directorView}>
-                        <Text style={movieDetailScreenStyle.yellow16}>{"Director"}</Text>
-                        <Text style={movieDetailScreenStyle.white16}>{`: ${movie?.directors[0]}`}</Text>
+                        <Text style={textStyle.yellow16}>{"Director"}</Text>
+                        <Text style={textStyle.white16}>{`: ${movie?.directors[0]}`}</Text>
                       </View>
 
                       <View style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.starsView}>
-                        <Text style={movieDetailScreenStyle.yellow16}>{"Stars: "}</Text>
+                        <Text style={textStyle.yellow16}>{"Stars: "}</Text>
                         {
                           movie?.credits?.cast?.slice(0, Math.min(4, movie?.credits?.cast?.length)).map((star, index) =>
                             <Text key={index} style={
-                              [movieDetailScreenStyle.white16,
+                              [textStyle.white16,
                               movieDetailScreenStyle.mainView.movieBasicInfo.infoView.stars]
                             }>
                               {`${star.name}`}
@@ -103,9 +103,9 @@ export default function MovieDetailScreen({ route }: any) {
                       </View>
 
                       <View style={{ width: 100, height: 20, flexDirection: "row" }}>
-                        <Text style={movieDetailScreenStyle.yellow16}>Runtime: </Text>
-                        <Text style={movieDetailScreenStyle.white16}>{movie?.runtime} </Text>
-                        <Text style={movieDetailScreenStyle.yellow16}>min</Text>
+                        <Text style={textStyle.yellow16}>Runtime: </Text>
+                        <Text style={textStyle.white16}>{movie?.runtime} </Text>
+                        <Text style={textStyle.yellow16}>min</Text>
                       </View>
 
                       <Pressable style={movieDetailScreenStyle.mainView.movieBasicInfo.infoView.imdbText.view}
@@ -133,20 +133,20 @@ export default function MovieDetailScreen({ route }: any) {
 
           <View style={movieDetailScreenStyle.actionRow.view}>
             <Pressable style={movieDetailScreenStyle.actionRow.saveBtn}>
-              <Text style={[movieDetailScreenStyle.white18, { width: "100%", textAlign: "center" }]}>Save</Text>
+              <Text style={[textStyle.white18, { width: "100%", textAlign: "center" }]}>Save</Text>
             </Pressable>
 
             <Pressable style={movieDetailScreenStyle.actionRow.markAsWatchedBtn}>
-              <Text style={[movieDetailScreenStyle.white18, { width: "100%", textAlign: "center" }]}>Mark as Watched</Text>
+              <Text style={[textStyle.white18, { width: "100%", textAlign: "center" }]}>Mark as Watched</Text>
             </Pressable>
 
             <Pressable style={movieDetailScreenStyle.actionRow.shareBtn}>
-              <Text style={[movieDetailScreenStyle.white18, { width: "100%", textAlign: "center" }]}>Share</Text>
+              <Text style={[textStyle.white18, { width: "100%", textAlign: "center" }]}>Share</Text>
             </Pressable>
           </View>
 
           <View style={movieDetailScreenStyle.sectionView}>
-            <Text style={[movieDetailScreenStyle.yellow18, { padding: 0, margin: 0 }]}>Genres</Text>
+            <Text style={[textStyle.yellow18, { padding: 0, marginBottom: 5 }]}>Genres</Text>
             <ScrollView horizontal={true}
               style={movieDetailScreenStyle.genreCellView}
               contentContainerStyle={{ paddingHorizontal: 10 }}
@@ -166,7 +166,7 @@ export default function MovieDetailScreen({ route }: any) {
           </View>
 
           <View style={movieDetailScreenStyle.sectionView}>
-            <Text style={[movieDetailScreenStyle.yellow18, { padding: 0, margin: 0 }]}>Providers</Text>
+            <Text style={[textStyle.yellow18]}>Providers</Text>
             <ScrollView horizontal={true}
               style={[movieDetailScreenStyle.genreCellView, { height: 40 }]}
               contentContainerStyle={{ paddingHorizontal: 10 }}
@@ -180,44 +180,18 @@ export default function MovieDetailScreen({ route }: any) {
             </ScrollView>
           </View>
 
-          <Text style={[{ width: "80%", marginTop: "5%" }, movieDetailScreenStyle.yellow18]}>Trailer</Text>
-          <View style={{ marginLeft: "-6%", marginTop: "2%" }}>
-            <YoutubePlayer height={250} width={"103%"} play={false} videoId={trailerKey} />
+          <Text style={[{ width: "80%", marginTop: "5%" }, textStyle.yellow20]}>Trailer</Text>
+          <View style={{ marginLeft: "0%", marginTop: "1%" }}>
+            <YoutubePlayer height={250} width={"100%"} play={false} videoId={trailerKey} />
           </View>
 
           <View style={[movieDetailScreenStyle.sectionView, { flexDirection: "column" }]}>
-            <Text style={movieDetailScreenStyle.yellow18}>Overview</Text>
-            <Text style={[{ width: "100%", textAlign: "justify" }, movieDetailScreenStyle.white16]}>   {movie?.overview}</Text>
+            <Text style={textStyle.yellow20}>Overview</Text>
+            <Text style={[{ width: "100%", textAlign: "justify" }, textStyle.white16]}>   {movie?.overview}</Text>
           </View>
 
-          <View style={{ width: "100%", marginTop: "10%" }}>
-
-            <Text style={movieDetailScreenStyle.credits.text}
-              onPress={() => navigation.navigate("FilmCreditsScreen", { credits: movie?.credits, poster: movie?.poster_path })}>Cast</Text>
-            <View style={movieDetailScreenStyle.credits.view}>
-              {
-                movie?.credits?.cast?.slice(0, Math.min(6, movie.credits.cast.length - 1)).map((person, index) => {
-                  return (
-                    <ActorCard key={index} cast={person} />
-                  )
-                })
-              }
-            </View>
-
-            <Text style={movieDetailScreenStyle.credits.text}>Crew</Text>
-            <View style={movieDetailScreenStyle.credits.view}>
-              {
-                movie?.credits?.crew?.slice(0, Math.min(6, movie.credits.crew.length - 1))?.map((person: any, index: any) => {
-                  return (
-                    <ActorCard key={index} cast={person} />
-                  )
-                })
-              }
-            </View>
-
-          </View>
-          <View style={{ marginTop: "5%", marginBottom: heightPercentageToDP("5%"), backgroundColor: "rgba(255, 255, 255, 0.05)", padding: 6, paddingTop: 0, borderWidth: 0.5, borderColor: "rgba(255, 255, 255, 0.2)", borderRadius: 12 }}>
-            <Text style={[movieDetailScreenStyle.yellow18]}>Details</Text>
+          <View style={{ marginTop: "5%", backgroundColor: "rgba(255, 255, 255, 0.05)", padding: 6, paddingTop: 0, borderWidth: 0.5, borderColor: "rgba(255, 255, 255, 0.2)", borderRadius: 12 }}>
+            <Text style={[textStyle.yellow20]}>Details</Text>
             <View style={{ flexDirection: "column" }}>
               <DetailRow label="Release date" item={movie?.release_date} maxW="75%" />
               <DetailRow label="Spoken languages" items={movie?.spoken_languages} prop="english_name" maxW="75%" />
@@ -229,8 +203,34 @@ export default function MovieDetailScreen({ route }: any) {
             </View>
           </View>
 
+          <View style={{ width: "100%", marginTop: "5%" }}>
 
-          <Text style={[movieDetailScreenStyle.yellow18]}>Similar movies</Text>
+            <Text style={movieDetailScreenStyle.credits.text}
+              onPress={() => navigation.navigate("FilmCreditsScreen", { credits: movie?.credits, poster: movie?.poster_path })}>Cast</Text>
+            <ScrollView horizontal={true} style={movieDetailScreenStyle.credits.view}>
+              {
+                movie?.credits?.cast?.slice(0, Math.min(6, movie.credits.cast.length - 1)).map((person, index) => {
+                  return (
+                    <ActorCard key={index} cast={person} />
+                  )
+                })
+              }
+            </ScrollView>
+
+            <Text style={movieDetailScreenStyle.credits.text}>Crew</Text>
+            <ScrollView horizontal={true} style={movieDetailScreenStyle.credits.view}>
+              {
+                movie?.credits?.crew?.slice(0, Math.min(6, movie.credits.crew.length - 1))?.map((person: any, index: any) => {
+                  return (
+                    <ActorCard key={index} cast={person} />
+                  )
+                })
+              }
+            </ScrollView>
+
+          </View>
+
+          <Text style={[textStyle.yellow20, { marginTop: "5%" }]}>Similar movies</Text>
           <MovieCardList navigation={navigation} movieID={movie?.id} movieGenre={movie?.genres[0]?.id} />
         </ScrollView >
       </ImageBackground >

@@ -1,5 +1,5 @@
-import { textStyle } from "@/components/styles/textStyles";
-import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
+import LeafyReturnArrowButton from "@/components/ui/leafy-return-arrow-btn";
+import { textStyle } from "@/styles/textStyles";
 import React from "react";
 import { ImageBackground, ScrollView, Text, View } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";

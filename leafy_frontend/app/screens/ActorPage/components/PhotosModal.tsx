@@ -1,4 +1,4 @@
-import { textStyle } from "@/components/styles/textStyles";
+import { textStyle } from "@/styles/textStyles";
 import React, { useState } from "react";
 import { Image, Modal, Pressable, ScrollView, Text, View } from "react-native";
 
@@ -20,7 +20,7 @@ export default function PhotosModal({ images, backdrop }: { images: any[], backd
               <Pressable key={index} onPress={() => { setOpen(true); setCurrImg({ path: image?.file_path, h: imageHeight, w: imageHeight * image?.aspect_ratio }); }}
                 style={{ height: imageHeight, width: imageHeight * image?.aspect_ratio, borderRadius: 4, marginRight: 5 }}  >
                 <Image
-                  source={{ uri: "https://image.tmdb.org/t/p/w500" + image?.file_path }}
+                  source={{ uri: "https://image.tmdb.org/t/p/w200" + image?.file_path }}
                   style={{ width: "100%", height: "100%" }}
                 />
               </Pressable>
@@ -38,7 +38,7 @@ export default function PhotosModal({ images, backdrop }: { images: any[], backd
                 < Pressable key={index} onPress={() => { setOpen(true); setCurrImg({ path: back, h, w }); }}
                   style={{ height: h, width: w, borderRadius: 4, marginRight: 5 }}  >
                   <Image
-                    source={{ uri: "https://image.tmdb.org/t/p/w500" + back }}
+                    source={{ uri: "https://image.tmdb.org/t/p/w300" + back }}
                     style={{ width: "100%", height: "100%" }}
                   />
                 </Pressable>

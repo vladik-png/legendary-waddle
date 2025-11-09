@@ -1,35 +1,42 @@
 export const genreStyle = {
   genreCellView: {
-    margin: "-2%",
+    margin: "-1%",
     marginTop: "2%",
     height: 48,
-    width: "104%",
+    width: "102%",
     padding: 2,
-    alignSelf: "left",
+    alignSelf: "center",
     backgroundColor: "rgba(255, 255, 255, 0.03)",
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.15)",
     borderRadius: 30,
   },
   genreCell: {
-    height: 28,
+    height: 30,
     borderRadius: 8,
-    alignSelf: "flex-start",
+    minWidth: 50,
+    alignSelf: "center",
     paddingLeft: 6,
     paddingRight: 6,
     marginLeft: 6,
     marginRight: 6,
     borderWidth: 1,
+    justifyContent: "center",
   },
   genreCellText: {
-    marginTop: 2,
     fontFamily: "sans-serif-condensed",
     color: "white",
     fontSize: 14,
+    alignSelf: "center",
   }
 };
 
 export const genresInfo = {
+  "All": {
+    color: "rgba(255, 255, 255, 0.4)",
+    borderColor: "rgba(255, 255, 255, 1)",
+    cellName: "Action",
+  },
   "Action": {
     icon: require("@/assets/images/genresIcons/actionGenre.png"),
     color: "rgba(255, 59, 48, 0.4)",

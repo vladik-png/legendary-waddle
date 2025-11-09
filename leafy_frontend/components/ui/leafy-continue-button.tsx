@@ -2,7 +2,7 @@ import LeafyText from "@/components/ui/leafy-text";
 import { Dimensions, Pressable } from "react-native";
 
 //styles import
-import { buttonStyle } from "../styles/buttonStyle";
+import { buttonStyle } from "../../styles/buttonStyle";
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 

@@ -1,7 +1,7 @@
 import { getNowPlayingMovies } from "@/api/tmdbApi";
 import { MONTH } from "@/app/utils/month";
 import { nowPlayingMoviesId } from "@/app/utils/nowPlaying";
-import { textStyle } from "@/components/styles/textStyles";
+import { textStyle } from "@/styles/textStyles";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";

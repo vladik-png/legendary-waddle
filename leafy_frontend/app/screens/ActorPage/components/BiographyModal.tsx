@@ -1,4 +1,4 @@
-import { textStyle } from "@/components/styles/textStyles";
+import { textStyle } from "@/styles/textStyles";
 import React, { useState } from "react";
 import { ImageBackground, Modal, Pressable, ScrollView, Text, View } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
@@ -28,7 +28,7 @@ export default function BiographyModal({ bio }: { bio: string }) {
             }}>
             <View style={{
               width: "90%",
-              backgroundColor: "rgba(42, 41, 55, 0.9)",
+              backgroundColor: "rgba(38, 37, 44, 0.95)",
               padding: "2%",
               borderRadius: 12,
               maxHeight: "80%",

@@ -1,5 +1,5 @@
-import { textStyle } from "@/components/styles/textStyles";
-import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
+import LeafyReturnArrowButton from "@/components/ui/leafy-return-arrow-btn";
+import { textStyle } from "@/styles/textStyles";
 import React, { useState } from "react";
 import { ImageBackground, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 

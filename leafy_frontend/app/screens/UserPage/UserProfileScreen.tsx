@@ -1,6 +1,6 @@
 import { getUserProfileData } from "@/api/currentUser";
-import { textStyle } from "@/components/styles/textStyles";
-import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
+import LeafyReturnArrowButton from "@/components/ui/leafy-return-arrow-btn";
+import { textStyle } from "@/styles/textStyles";
 import React, { useEffect, useState } from "react";
 import { Image, ImageBackground, Pressable, ScrollView, Text, View } from "react-native";
 import BottomBar from "../bars/bottomBar";

@@ -1,6 +1,5 @@
 export const filmography = {
   mainScrollView: {
-    width: "100%",
   }
 };
 

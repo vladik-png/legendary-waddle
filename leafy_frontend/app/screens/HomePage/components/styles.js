@@ -8,8 +8,8 @@ export const nowPlaying = {
     borderColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: 12,
     marginTop: "3%",
-    marginLeft: "-2%",
-    marginRight: "-2%",
+    marginLeft: "-1%",
+    marginRight: "-1%",
   },
   item: {
     marginRight: 5,

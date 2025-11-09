@@ -1,6 +1,6 @@
 import { LoginRequest } from "@/api/loginPageApi";
 import LeafyContinueButton from "@/components/ui/leafy-continue-button";
-import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
+import LeafyReturnArrowButton from "@/components/ui/leafy-return-arrow-btn";
 import LeafyText from "@/components/ui/leafy-text";
 import LeafyInput from "@/components/ui/leafy-text-input";
 import React, { useState } from "react";

@@ -271,11 +271,25 @@ type PersonImages struct {
 	} `json:"profiles"`
 }
 
+type FilmographyMovie struct {
+	PosterPath   string `json:"poster_path"`
+	EnglishTitle string `json:"english_title"`
+	Id           int    `json:"id"`
+}
+type FilmographyItems struct {
+	Year   string             `json:"year"`
+	Movies []FilmographyMovie `json:"movies"`
+}
+
+type ActorMoviesCredits struct {
+	Results []FilmographyItems `json:"result"`
+}
+
 type ActorDetails struct {
-	Filmography MovieCredits  `json:"filmography"`
-	Details     PeopleDetails `json:"details"`
-	Images      PersonImages  `json:"images"`
-	Backdrop    []string      `json:"backdrop"`
+	Filmography []FilmographyItems `json:"filmography"`
+	Details     PeopleDetails      `json:"details"`
+	Images      PersonImages       `json:"images"`
+	Backdrop    []string           `json:"backdrop"`
 }
 
 type NowPlayingMoviesResponse struct {

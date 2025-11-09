@@ -1,5 +1,5 @@
 import MovieCardList from "@/components/ui/leafy-film-list";
-import LeafyReturnArrowButton from "@/components/ui/leafy-retur-arrow-btn";
+import LeafyReturnArrowButton from "@/components/ui/leafy-return-arrow-btn";
 import { useNavigation } from "expo-router";
 import React from "react";
 import { ImageBackground, ScrollView, View } from "react-native";

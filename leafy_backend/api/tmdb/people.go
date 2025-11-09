@@ -8,31 +8,61 @@ import (
 	"net/http"
 )
 
-func getPersonMovieCredits(personID int) MovieCredits {
+func getPersonMovieCredits(personID int) ActorMoviesCredits {
 	url := fmt.Sprintf("%s/person/%d/movie_credits?api_key=%s", TMDB_API_URL, personID, TMDB_API_KEY)
 
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Failed("GetActorFilmography")
-		return MovieCredits{}
+		return ActorMoviesCredits{}
 	}
 
 	defer resp.Body.Close()
 
-	var data MovieCredits
+	var data struct {
+		Cast []struct {
+			Id           int    `json:"id"`
+			EnglishTitle string `json:"english_title"`
+			PosterPath   string `json:"poster_path"`
+			ReleaseDate  string `json:"release_date"`
+		} `json:"cast"`
+	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Failed("GetActorFilmography")
-		return MovieCredits{}
+		return ActorMoviesCredits{}
 	}
 
 	if err := json.Unmarshal(body, &data); err != nil {
 		log.Failed("GetActorFilmography")
-		return MovieCredits{}
+		return ActorMoviesCredits{}
 	}
 
-	return data
+	years := make(map[string][]FilmographyMovie)
+
+	for _, f := range data.Cast {
+		year := "Unknown"
+
+		if len(f.ReleaseDate) >= 4 {
+			year = f.ReleaseDate[:4]
+		}
+		years[f.ReleaseDate[:4]] = append(years[year], FilmographyMovie{
+			Id:           f.Id,
+			EnglishTitle: f.EnglishTitle,
+			PosterPath:   f.PosterPath,
+		})
+	}
+
+	var movies ActorMoviesCredits
+	for key, value := range years {
+		movies.Results = append(movies.Results, FilmographyItems{
+			Year:   key,
+			Movies: value,
+		})
+	}
+
+	return movies
 }
 
 func getPersonDetails(personID int) PeopleDetails {
@@ -128,12 +158,12 @@ func getPersonCombinedCredits(personID int) []string {
 func GetActorFilmography(personID int) ActorDetails {
 	var actor ActorDetails
 
-	actor.Filmography = getPersonMovieCredits(personID)
+	actor.Filmography = getPersonMovieCredits(personID).Results
 	actor.Details = getPersonDetails(personID)
 	actor.Images = getPersonImages(personID)
 	actor.Backdrop = getPersonCombinedCredits(personID)
 
-	fmt.Println("Actor backdrop: ", actor.Backdrop)
+	fmt.Println("Actor filmography: ", actor.Filmography)
 
 	return actor
 }

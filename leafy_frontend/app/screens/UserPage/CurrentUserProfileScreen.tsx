@@ -1,4 +1,4 @@
-import { backgroundStyle } from "@/components/styles/backgroundStyle";
+import { backgroundStyle } from "@/styles/backgroundStyle";
 import React from "react";
 import { View } from "react-native";
 import BottomBar from "../bars/bottomBar";

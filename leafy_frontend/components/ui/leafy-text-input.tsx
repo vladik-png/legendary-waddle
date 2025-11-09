@@ -1,7 +1,7 @@
 import { Dimensions, Text, TextInput, View } from "react-native";
 
 //styles import
-import { inputStyle } from "@/components/styles/inputStyle";
+import { inputStyle } from "@/styles/inputStyle";
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 

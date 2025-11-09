@@ -1,4 +1,4 @@
-import { backgroundStyle } from '@/components/styles/backgroundStyle';
+import { backgroundStyle } from '@/styles/backgroundStyle';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 wp(10);
 

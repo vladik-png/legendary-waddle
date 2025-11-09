@@ -1,8 +1,8 @@
-import { buttonStyle } from "@/components/styles/buttonStyle";
-import { inputStyle } from "@/components/styles/inputStyle";
-import { textStyle } from "@/components/styles/textStyles";
 import LeafyIconButton from "@/components/ui/leafy-icon-button";
 import LeafyText from "@/components/ui/leafy-text";
+import { buttonStyle } from "@/styles/buttonStyle";
+import { inputStyle } from "@/styles/inputStyle";
+import { textStyle } from "@/styles/textStyles";
 import React, { useState } from "react";
 import { ImageBackground, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";

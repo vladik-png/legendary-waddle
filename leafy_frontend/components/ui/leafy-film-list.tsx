@@ -1,11 +1,12 @@
 import { getMoviesByGenre, getPopularMovies, getSimilarMovies } from "@/api/tmdbApi";
 import { nowPlayingMoviesId } from "@/app/utils/nowPlaying";
-import { movieCardStyle } from "@/components/styles/movieCardStyle";
+import { movieCardStyle } from "@/styles/movieCardStyle";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Image, Linking, Pressable, Text, View } from "react-native";
+import { Image, Linking, Text, TouchableOpacity, View } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import { textStyle } from "../../styles/textStyles";
 
 interface Genre {
   id: number;
@@ -29,7 +30,7 @@ interface MovieCardListParams {
   movieGenre: number | any;
 }
 
-export default function MovieCardList({ selectedGenre, movieID, movieGenre/*for recommendations*/ }: MovieCardListParams) {
+export default function MovieCardList({ selectedGenre, movieID, movieGenre }: MovieCardListParams) {
   const navigation = useNavigation();
   const [prevGenre, setPrevGenre] = useState<number>(0);
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -46,6 +47,13 @@ export default function MovieCardList({ selectedGenre, movieID, movieGenre/*for 
         setMovies(data);
         return;
       } else {
+        if (!current && current !== prevGenre) {
+          const data = await getPopularMovies();
+          if (!data) return;
+
+          setMovies(data);
+          return;
+        }
         if (current != prevGenre) {
           console.log("getmoviesByGenre");
 
@@ -57,15 +65,7 @@ export default function MovieCardList({ selectedGenre, movieID, movieGenre/*for 
           setMovies(data);
           return;
         }
-
-        if (current === 0) {
-          const data = await getPopularMovies();
-          if (!data) return;
-
-          setMovies(data);
-        }
       }
-
       console.log("same genre pressed — no reload");
     }
     loadmovies()
@@ -80,7 +80,7 @@ export default function MovieCardList({ selectedGenre, movieID, movieGenre/*for 
             nowPlayingMoviesId.includes(movie?.id) ?
               null
               :
-              (<Pressable key={index} style={[movieCardStyle?.backgroundStyle]} onPress={() => {
+              (<TouchableOpacity key={index} style={[movieCardStyle?.backgroundStyle]} onPress={() => {
                 const id = movie.id;
                 console.log("MovieID pre: ", id);
                 navigation?.push("FilmDetailScreen", { currentMovieID: id });
@@ -96,20 +96,20 @@ export default function MovieCardList({ selectedGenre, movieID, movieGenre/*for 
                       <Text style={movieCardStyle.movieTitleStyle}
                         pointerEvents="none"
                         numberOfLines={1}
-                        ellipsizeMode="tile">{movie?.title}</Text>
-                      <Text style={movieCardStyle.movieYearStyle} pointerEvents="none">{`(${movie?.release_date.slice(0, 4)})`}</Text>
+                        ellipsizeMode="tail">{movie?.title}</Text>
+                      <Text style={[movieCardStyle.movieYearStyle, textStyle.gray16]} pointerEvents="none">{` (${movie?.release_date.slice(0, 4)})`}</Text>
                     </View>
                     <Text style={movieCardStyle.movieDirectorStyle} pointerEvents="none">{movie?.directors?.at(0)}</Text>
                   </View>
                   <View style={{ flexDirection: "row", gap: "2%", height: 20 }}>
                     {
                       movie?.providers?.["US"]?.flatrate?.slice(0, (Math.min(8, movie?.providers?.["US"]?.flatrate?.length)))?.map((flat: any, index: number) => (
-                        <Image key={index} source={{ uri: "https://image.tmdb.org/t/p/w500" + movie?.providers?.["US"]?.flatrate?.[index]?.logo_path }} style={{ height: 20, width: 20 }} />
+                        <Image key={index} source={{ uri: "https://image.tmdb.org/t/p/w200" + movie?.providers?.["US"]?.flatrate?.[index]?.logo_path }} style={{ height: 20, width: 20 }} />
                       ))
                     }
                   </View>
 
-                  <Pressable style={movieCardStyle.imdbText.view}
+                  <TouchableOpacity style={movieCardStyle.imdbText.view}
                     onPress={async () => {
                       const url = `https://www.imdb.com/title/${movie?.imdb_id}`;
                       const sup = await Linking.canOpenURL(url);
@@ -121,9 +121,9 @@ export default function MovieCardList({ selectedGenre, movieID, movieGenre/*for 
                         `IMDb: ${movie?.vote_average.toFixed(1)}`
                       }
                     </Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
-              </Pressable>
+              </TouchableOpacity>
               )
           )
         })}

@@ -1,5 +1,5 @@
 import { getMovieGenres } from "@/api/tmdbApi";
-import { genreStyle, genresInfo } from "@/components/styles/genreStyle";
+import { genreStyle, genresInfo } from "@/styles/genreStyle";
 import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 
@@ -20,11 +20,15 @@ export default function GenresList({ setSelectedGenre }: { setSelectedGenre: (ic
   return (
     <View style={genreStyle.genreCellView}>
       <ScrollView horizontal={true}
-        style={{ width: "100%", margin: 0, borderRadius: 22, height: 44, paddingTop: 8, backgroundColor: "rgba(255, 255, 255, 0.03)" }}
+        style={{ width: "100%", margin: 0, borderRadius: 22, height: 44, backgroundColor: "rgba(255, 255, 255, 0.03)" }}
         contentContainerStyle={{ paddingHorizontal: 10 }}
         showsHorizontalScrollIndicator={false}
       >
-        {
+        {[
+          (<Pressable key={0} style={[genreStyle.genreCell, { backgroundColor: genresInfo["All"].color, borderColor: genresInfo["All"]?.borderColor }]} onPress={() => { setSelectedGenre(0); }}>
+            <Text style={[genreStyle.genreCellText]}>{"All"}</Text>
+          </Pressable>)
+          ,
           genreItems.map((genre, index) => {
             const name = genre.name;
             return (
@@ -33,7 +37,7 @@ export default function GenresList({ setSelectedGenre }: { setSelectedGenre: (ic
               </Pressable>
             )
           })
-        }
+        ]}
       </ScrollView>
     </View>
   )

@@ -1,4 +1,4 @@
-import { movieDetailScreenStyle } from "@/components/styles/movieDetailScreenStyle";
+import { movieDetailScreenStyle } from "@/styles/movieDetailScreenStyle";
 import React from "react";
 import { Text, View } from "react-native";
 import JoinedText from "./JoinedText";

@@ -1,5 +1,5 @@
-import { backgroundStyle } from '@/components/styles/backgroundStyle';
-import { textStyle } from '@/components/styles/textStyles';
+import { backgroundStyle } from '@/styles/backgroundStyle';
+import { textStyle } from '@/styles/textStyles';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 wp(10);
 
@@ -240,15 +240,12 @@ export const movieDetailScreenStyle = {
   },
   credits: {
     view: {
-      flexDirection: "column",
       borderColor: "rgba(255, 255, 255, 0.1)",
       borderRadius: 10,
       borderWidth: 1,
-      justifyContent: "space-between",
-      gap: 5
     },
     text: [
-      textStyle.yellow18,
+      textStyle.yellow20,
       {
         marginLeft: "2%",
         marginTop: "5%",

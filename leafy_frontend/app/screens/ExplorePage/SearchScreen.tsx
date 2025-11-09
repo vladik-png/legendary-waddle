@@ -1,4 +1,4 @@
-import { inputStyle } from "@/components/styles/inputStyle";
+import { inputStyle } from "@/styles/inputStyle";
 import React from "react";
 import { ImageBackground, ScrollView, TextInput, View } from "react-native";
 

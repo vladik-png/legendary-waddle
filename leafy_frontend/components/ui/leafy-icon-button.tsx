@@ -1,7 +1,7 @@
 import { Dimensions, Image, Pressable, Text } from "react-native";
 
 //styles import
-import { buttonStyle } from "@/components/styles/buttonStyle";
+import { buttonStyle } from "@/styles/buttonStyle";
 
 const { width: screenW, height: screenH } = Dimensions.get("window");
 

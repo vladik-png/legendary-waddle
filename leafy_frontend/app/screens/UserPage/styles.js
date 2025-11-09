@@ -1,4 +1,4 @@
-import { textStyle } from "@/components/styles/textStyles";
+import { textStyle } from "@/styles/textStyles";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 wp("100");
