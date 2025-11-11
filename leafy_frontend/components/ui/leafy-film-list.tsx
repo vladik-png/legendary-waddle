@@ -1,9 +1,10 @@
 import { getMoviesByGenre, getPopularMovies, getSimilarMovies } from "@/api/tmdbApi";
+import { getCurrentGenre, setCurrentGenre } from "@/app/utils/homePage";
 import { nowPlayingMoviesId } from "@/app/utils/nowPlaying";
 import { movieCardStyle } from "@/styles/movieCardStyle";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Image, Linking, Text, TouchableOpacity, View } from "react-native";
+import { Image, Linking, Platform, Text, TouchableOpacity, View } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 import { textStyle } from "../../styles/textStyles";
@@ -25,20 +26,18 @@ interface Movie {
 }
 
 interface MovieCardListParams {
-  selectedGenre: number | any;
+  selectedGenre: number;
   movieID: number | any;
   movieGenre: number | any;
 }
 
 export default function MovieCardList({ selectedGenre, movieID, movieGenre }: MovieCardListParams) {
   const navigation = useNavigation();
-  const [prevGenre, setPrevGenre] = useState<number>(0);
   const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     async function loadmovies() {
-      const current = selectedGenre;
-      console.warn("prevGenre: ", prevGenre, "\n");
+      console.warn("prevGenre: ", getCurrentGenre(), "\n");
       console.warn("current: ", selectedGenre, "\n");
 
       if (movieID) {
@@ -47,22 +46,13 @@ export default function MovieCardList({ selectedGenre, movieID, movieGenre }: Mo
         setMovies(data);
         return;
       } else {
-        if (!current && current !== prevGenre) {
-          const data = await getPopularMovies();
-          if (!data) return;
+        if (getCurrentGenre() !== selectedGenre || !selectedGenre) {
 
-          setMovies(data);
-          return;
-        }
-        if (current != prevGenre) {
-          console.log("getmoviesByGenre");
+          setCurrentGenre(selectedGenre);
 
-          setPrevGenre(current);
+          const data = getCurrentGenre() ? await getMoviesByGenre(getCurrentGenre()) : await getPopularMovies();
+          if (data) setMovies(data);
 
-          const data = await getMoviesByGenre(current);
-          if (!data) return;
-
-          setMovies(data);
           return;
         }
       }
@@ -73,7 +63,7 @@ export default function MovieCardList({ selectedGenre, movieID, movieGenre }: Mo
 
 
   return (
-    <View style={{ position: "relative", backgroundColor: "transparent", marginTop: "2%", marginBottom: heightPercentageToDP("7.3%") }}>
+    <View style={{ position: "relative", backgroundColor: "transparent", marginTop: "2%", marginBottom: heightPercentageToDP(Platform.OS === "ios" ? "10%" : "7.8%") }}>
       {
         (movies || [])?.map((movie, index) => {
           return (

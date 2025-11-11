@@ -1,13 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import LeafyNavigator from "./navigation/navigator";
+import LeafyNavigator from './navigation/navigator';
 
-export default function Page() {
+export default function App() {
   return (
-    <SafeAreaProvider>
-      <StatusBar hidden />
+    <>
+      <StatusBar hidden={true} />
       <LeafyNavigator />
-    </SafeAreaProvider>
+    </>
   );
 }

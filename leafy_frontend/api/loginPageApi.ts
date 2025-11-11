@@ -1,7 +1,9 @@
 import { API_URL } from "@/api/API_CONFIG";
 import { CURRENT_USER } from "@/api/currentUser";
 
-export async function LoginRequest({ email, password, navigation }: any) {
+export async function LoginRequest(email: string, password: string, navigation: any) {
+
+  console.log("Trying to login")
   try {
     const res = await fetch(`${API_URL}/login`, {
       method: "POST",
@@ -22,7 +24,7 @@ export async function LoginRequest({ email, password, navigation }: any) {
         CURRENT_USER.username = user.username;
         CURRENT_USER.UID = user.userID;
       }
-      navigation.navigate("HomePageScreen");
+      navigation.replace("HomePageScreen");
     }
 
     if (data.code === 403) {

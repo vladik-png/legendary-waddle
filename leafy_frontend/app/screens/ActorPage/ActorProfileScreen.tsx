@@ -21,11 +21,16 @@ export default function ActorProfileScreen({ route }: any) {
   const [images, setImages] = useState<any>(null);
   const [backdrop, setBackdrop] = useState<any>(null);
 
+
   const personID = route.params?.personID;
   useEffect(() => {
     async function loadActorDetails() {
       const data = await getFilmographyByPerson(personID);
       if (data) {
+
+        console.log("MOVIES:   ", data?.filmography);
+        data?.filmography?.sort((a: object, b: object) => (b?.year - a?.year));
+
         setActor(data?.details);
         setMovies(data?.filmography);
         setImages(data?.images?.profiles);
@@ -33,13 +38,14 @@ export default function ActorProfileScreen({ route }: any) {
       }
     }
     loadActorDetails();
+
   }, []);
 
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground source={require("@/assets/images/background.png")} style={{ flex: 1 }}>
 
-        <ScrollView showsVerticalScrollIndicator={false} style={{ padding: "2%" }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ padding: "2%", flex: 1 }} >
           <LeafyReturnArrowButton style={{ marginTop: "5%", zIndex: 2 }} onPress={() => navigation.goBack()} />
 
           <ImageBackground

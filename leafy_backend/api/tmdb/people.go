@@ -20,12 +20,7 @@ func getPersonMovieCredits(personID int) ActorMoviesCredits {
 	defer resp.Body.Close()
 
 	var data struct {
-		Cast []struct {
-			Id           int    `json:"id"`
-			EnglishTitle string `json:"english_title"`
-			PosterPath   string `json:"poster_path"`
-			ReleaseDate  string `json:"release_date"`
-		} `json:"cast"`
+		Cast []FilmographyMovie `json:"cast"`
 	}
 
 	body, err := io.ReadAll(resp.Body)
@@ -46,12 +41,8 @@ func getPersonMovieCredits(personID int) ActorMoviesCredits {
 
 		if len(f.ReleaseDate) >= 4 {
 			year = f.ReleaseDate[:4]
+			years[f.ReleaseDate[:4]] = append(years[year], f)
 		}
-		years[f.ReleaseDate[:4]] = append(years[year], FilmographyMovie{
-			Id:           f.Id,
-			EnglishTitle: f.EnglishTitle,
-			PosterPath:   f.PosterPath,
-		})
 	}
 
 	var movies ActorMoviesCredits

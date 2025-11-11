@@ -23,7 +23,8 @@ func Registration(newUser NewUser) (CurrentUser, error) {
 	if err != nil {
 		return CurrentUser{}, errors.New("Cannot insert new user into DB")
 	}
-	_, err = db_conn.Conn.DB.Exec("INSERT INTO users(first_name, last_name, email, username, password_hash) VALUES($1, $2, $3, $4, $5)",
+
+	_, err = db_conn.Conn.DB.Exec("INSERT INTO users(username, email, password_hash) VALUES($1, $2, $3)",
 		newUser.FirstName, newUser.LastName, newUser.Email, newUser.Username, string(hashedPsssword))
 
 	if err != nil {

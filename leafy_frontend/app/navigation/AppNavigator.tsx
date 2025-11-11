@@ -1,11 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import ActorProfileScreen from "../screens/ActorPage/ActorProfileScreen";
-import CreatePasswordScreen from "../screens/Auth/CreatePasswordScreen";
-import EmailVerifyingScreen from "../screens/Auth/EmailVerifyingScreen";
-import ForgotPasswordScreen1 from "../screens/Auth/ForgotPasswordScreen1";
-import LoginScreen from "../screens/Auth/LoginScreen";
-import RegistrationScreen from "../screens/Auth/RegistrationScreen";
 import CollectionScreen from "../screens/CollectionPage/CollectionScreen";
 import Error500Screen from "../screens/error/500";
 import ExploreScreen from "../screens/ExplorePage/ExploreScreen";
@@ -13,23 +8,15 @@ import SearchScreen from "../screens/ExplorePage/SearchScreen";
 import HomePageScreen from "../screens/HomePage/HomePageScreen";
 import FilmCreditsScreen from "../screens/MovieDetailsPage/MovieCreditsScreen";
 import FilmDetailScreen from "../screens/MovieDetailsPage/MovieDetailScreen";
-import OnboardingScreen from "../screens/OnboardingScreen";
 import SettingScreen from "../screens/SettingScreen";
 import CurrentUserProfileScreen from "../screens/UserPage/CurrentUserProfileScreen";
 import UserProfileScreen from "../screens/UserPage/UserProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
-export default function LeafyNavigator() {
-
+export default function AppNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Onboarding" component={OnboardingScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="ForgotPasswordScreen1" component={ForgotPasswordScreen1} options={{ headerShown: false }} />
-      <Stack.Screen name="CreatePasswordScreen" component={CreatePasswordScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="EmailVerifying" component={EmailVerifyingScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Registration" component={RegistrationScreen} options={{ headerShown: false }} />
       <Stack.Screen name="HomePageScreen" component={HomePageScreen} options={{ headerShown: false }} />
       <Stack.Screen name="CollectionScreen" component={CollectionScreen} options={{ headerShown: false }} />
       <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} options={{ headerShown: false }} />
@@ -42,5 +29,5 @@ export default function LeafyNavigator() {
       <Stack.Screen name="FilmCreditsScreen" component={FilmCreditsScreen} options={{ headerShown: false }} />
       <Stack.Screen name="ActorProfileScreen" component={ActorProfileScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
-  )
+  );
 }

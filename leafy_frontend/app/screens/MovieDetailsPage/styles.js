@@ -170,24 +170,27 @@ export const movieDetailScreenStyle = {
     },
   },
   genreCellView: {
-    height: 26,
+    height: 30,
+    width: "100%",
     alignSelf: "left",
   },
   genreCell: {
+    flexDirection: "column",
     height: 26,
-    borderRadius: 8,
-    alignSelf: "flex-start",
+    borderRadius: 6,
+    minWidth: 50,
+    alignItems: "center",
     paddingLeft: 6,
     paddingRight: 6,
-    marginRight: 10,
+    marginRight: 8,
     borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.2)",
+    justifyContent: "center",
   },
   genreCellText: {
-    marginTop: 1,
     fontFamily: "sans-serif-condensed",
     color: "white",
     fontSize: 14,
+    alignSelf: "center",
   },
   actionRow: {
     view: {

@@ -156,7 +156,16 @@ export default function MovieDetailScreen({ route }: any) {
                 movie?.genres.map((genre, index) => {
                   const name: string = genre.name;
                   return (
-                    <Pressable key={index} style={[movieDetailScreenStyle.genreCell, { alignItems: "center", backgroundColor: genresInfo[name]?.color, borderColor: genresInfo[name]?.borderColor }]}>
+                    <Pressable key={index}
+                      style={
+                        [
+                          movieDetailScreenStyle.genreCell,
+                          {
+                            backgroundColor: genresInfo[name]?.color,
+                            borderColor: genresInfo[name]?.borderColor
+                          }
+                        ]
+                      }>
                       <Text style={[movieDetailScreenStyle.genreCellText]}>{name}</Text>
                     </Pressable>
                   )

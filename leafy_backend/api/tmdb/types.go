@@ -275,6 +275,7 @@ type FilmographyMovie struct {
 	PosterPath   string `json:"poster_path"`
 	EnglishTitle string `json:"english_title"`
 	Id           int    `json:"id"`
+	ReleaseDate  string `json:"release_date"`
 }
 type FilmographyItems struct {
 	Year   string             `json:"year"`
@@ -282,7 +283,7 @@ type FilmographyItems struct {
 }
 
 type ActorMoviesCredits struct {
-	Results []FilmographyItems `json:"result"`
+	Results []FilmographyItems `json:"results"`
 }
 
 type ActorDetails struct {

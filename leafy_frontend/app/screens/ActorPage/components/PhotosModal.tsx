@@ -10,7 +10,7 @@ export default function PhotosModal({ images, backdrop }: { images: any[], backd
 
   return (
     <>
-      <View style={{ maxHeight: 500, maxWidth: "100%", marginTop: "5%", backgroundColor: "rgba(255, 255, 255, 0.05)", padding: 6, paddingTop: 0, borderWidth: 0.5, borderColor: "rgba(255, 255, 255, 0.2)", borderRadius: 12 }}>
+      <View style={{ maxHeight: 500, maxWidth: "100%", marginTop: "5%", marginBottom: 80, backgroundColor: "rgba(255, 255, 255, 0.05)", padding: 6, paddingTop: 0, borderWidth: 0.5, borderColor: "rgba(255, 255, 255, 0.2)", borderRadius: 12 }}>
         <Text style={[textStyle.yellow18]}>{`Photos ${images?.length + backdrop?.length}`}</Text>
         <ScrollView horizontal={true}
           showsHorizontalScrollIndicator={false}
