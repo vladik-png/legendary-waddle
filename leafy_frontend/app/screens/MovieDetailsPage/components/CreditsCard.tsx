@@ -8,9 +8,9 @@ export default function ActorCard({ cast }: { cast: Cast }) {
   const navigator = useNavigation();
   return (
     <TouchableOpacity
-      style={{
+      style={[{
         flexDirection: "column",
-        height: 180,
+        height: 175,
         width: 110,
         backgroundColor: "rgba(255, 255, 255, 0.05)",
         borderRadius: 8,
@@ -21,7 +21,7 @@ export default function ActorCard({ cast }: { cast: Cast }) {
         justifyContent: "space-between",
         alignItems: "center",
         padding: 0.5,
-      }}
+      }]}
       onPress={() => { navigator?.push("ActorProfileScreen", { personID: cast.id }) }}>
       <Image source={cast.profile_path ? { uri: "https://image.tmdb.org/t/p/w200" + cast?.profile_path } : require("@/assets/images/noPhoto.png")}
         style={{ height: "70%", width: "100%", borderTopLeftRadius: 6, borderTopRightRadius: 6 }} />

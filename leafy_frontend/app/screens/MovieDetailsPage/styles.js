@@ -252,7 +252,6 @@ export const movieDetailScreenStyle = {
       {
         marginLeft: "2%",
         marginTop: "5%",
-        textDecorationLine: "underline"
       }
     ],
   }

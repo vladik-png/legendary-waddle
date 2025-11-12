@@ -59,7 +59,7 @@ export default function LoginScreen({ navigation }: any) {
           <TouchableOpacity style={[buttonStyle.continueButton, { borderRadius: 8, marginTop: "5%" }]}
             onPress={() => { LoginRequest(email, password, navigation) }}>
             <Text style={[textStyle.white20]}>
-              Sign In
+              Continue
             </Text>
           </TouchableOpacity>
 

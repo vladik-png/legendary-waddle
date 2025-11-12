@@ -45,7 +45,7 @@ export default function ActorProfileScreen({ route }: any) {
     <View style={{ flex: 1 }}>
       <ImageBackground source={require("@/assets/images/background.png")} style={{ flex: 1 }}>
 
-        <ScrollView showsVerticalScrollIndicator={false} style={{ padding: "2%", flex: 1 }} >
+        <ScrollView nestedScrollEnabled={true} showsVerticalScrollIndicator={false} style={{ padding: "2%", flex: 1 }} >
           <LeafyReturnArrowButton style={{ marginTop: "5%", zIndex: 2 }} onPress={() => navigation.goBack()} />
 
           <ImageBackground
@@ -91,7 +91,7 @@ export default function ActorProfileScreen({ route }: any) {
                         <Text style={textStyle.yellow16}>{"Place of birth: "}</Text>
 
                         <Text style={[textStyle.white16, { width: "100%" }]}
-                          numberOfLines={1} ellipsizeMode="tile">  {actor?.place_of_birth || "unknown"} </Text>
+                          numberOfLines={1} ellipsizeMode="tail">  {actor?.place_of_birth || "unknown"} </Text>
                       </View>
 
                       <View style={{ width: "100%", flexDirection: "row" }}>

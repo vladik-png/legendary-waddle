@@ -7,7 +7,7 @@ import { genresInfo } from "@/styles/genreStyle";
 import { textStyle } from "@/styles/textStyles";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Image, ImageBackground, Linking, Pressable, ScrollView, Text, View } from "react-native";
+import { Dimensions, Image, ImageBackground, Linking, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import YoutubePlayer from "react-native-youtube-iframe";
 import ActorCard from "./components/CreditsCard";
@@ -214,27 +214,28 @@ export default function MovieDetailScreen({ route }: any) {
 
           <View style={{ width: "100%", marginTop: "5%" }}>
 
-            <Text style={movieDetailScreenStyle.credits.text}
-              onPress={() => navigation.navigate("FilmCreditsScreen", { credits: movie?.credits, poster: movie?.poster_path })}>Cast</Text>
+            <Text style={movieDetailScreenStyle.credits.text}>Cast</Text>
             <ScrollView horizontal={true} style={movieDetailScreenStyle.credits.view}>
-              {
+              {[
                 movie?.credits?.cast?.slice(0, Math.min(6, movie.credits.cast.length - 1)).map((person, index) => {
                   return (
                     <ActorCard key={index} cast={person} />
                   )
-                })
-              }
+                }),
+                emptyCreditCard(movie?.credits, movie?.poster_path)
+              ]}
             </ScrollView>
 
             <Text style={movieDetailScreenStyle.credits.text}>Crew</Text>
             <ScrollView horizontal={true} style={movieDetailScreenStyle.credits.view}>
-              {
+              {[
                 movie?.credits?.crew?.slice(0, Math.min(6, movie.credits.crew.length - 1))?.map((person: any, index: any) => {
                   return (
                     <ActorCard key={index} cast={person} />
                   )
-                })
-              }
+                }),
+                emptyCreditCard(movie?.credits, movie?.poster_path)
+              ]}
             </ScrollView>
 
           </View>
@@ -246,4 +247,29 @@ export default function MovieDetailScreen({ route }: any) {
       <BottomBar />
     </View >
   );
+}
+
+function emptyCreditCard(credits: any, poster_path: any): void {
+  const navigation = useNavigation();
+  return (<TouchableOpacity
+    onPress={() => navigation.navigate("FilmCreditsScreen", { credits: credits, poster: poster_path })}
+    style={[{
+      flexDirection: "column",
+      height: 175,
+      width: 110,
+      backgroundColor: "rgba(255, 255, 255, 0.05)",
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: "rgba(255, 255, 255, 0.2)",
+      margin: 1.5,
+      marginRight: 5,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 0.5,
+    }]}>
+    <Image source={require("@/assets/images/threeDots.png")}
+      style={{ height: 20, width: 20, borderTopLeftRadius: 6, borderTopRightRadius: 6, alignSelf: "center" }} />
+    <Text style={[textStyle.gray20]}>More</Text>
+  </TouchableOpacity>
+  )
 }
